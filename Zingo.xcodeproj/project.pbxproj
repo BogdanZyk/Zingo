@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A2800002A17C3F10068D3FD /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5A28FFFF2A17C3F10068D3FD /* NukeUI */; };
 		5A28FFD12A17A9040068D3FD /* ZingoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFD02A17A9040068D3FD /* ZingoApp.swift */; };
 		5A28FFD32A17A9040068D3FD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFD22A17A9040068D3FD /* ContentView.swift */; };
 		5A28FFD52A17A9060068D3FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A28FFD42A17A9060068D3FD /* Assets.xcassets */; };
@@ -15,6 +16,9 @@
 		5A28FFF12A17ADFA0068D3FD /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF02A17ADFA0068D3FD /* Router.swift */; };
 		5A28FFF32A17B2BE0068D3FD /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF22A17B2BE0068D3FD /* Color.swift */; };
 		5A28FFF52A17B7A00068D3FD /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF42A17B7A00068D3FD /* View.swift */; };
+		5A28FFF82A17BD660068D3FD /* PrimaryButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF72A17BD660068D3FD /* PrimaryButtonView.swift */; };
+		5A28FFFA2A17C3100068D3FD /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF92A17C3100068D3FD /* ProfileView.swift */; };
+		5A28FFFD2A17C3910068D3FD /* LazyNukeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFFC2A17C3910068D3FD /* LazyNukeImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +31,9 @@
 		5A28FFF02A17ADFA0068D3FD /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		5A28FFF22A17B2BE0068D3FD /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		5A28FFF42A17B7A00068D3FD /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		5A28FFF72A17BD660068D3FD /* PrimaryButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonView.swift; sourceTree = "<group>"; };
+		5A28FFF92A17C3100068D3FD /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		5A28FFFC2A17C3910068D3FD /* LazyNukeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyNukeImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A2800002A17C3F10068D3FD /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +104,8 @@
 		5A28FFE02A17A9220068D3FD /* ViewComponens */ = {
 			isa = PBXGroup;
 			children = (
+				5A28FFFB2A17C3750068D3FD /* NukeImage */,
+				5A28FFF62A17BD4B0068D3FD /* Buttons */,
 			);
 			path = ViewComponens;
 			sourceTree = "<group>";
@@ -172,6 +182,7 @@
 		5A28FFEA2A17ABED0068D3FD /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				5A28FFF92A17C3100068D3FD /* ProfileView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -199,6 +210,22 @@
 			path = Env;
 			sourceTree = "<group>";
 		};
+		5A28FFF62A17BD4B0068D3FD /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				5A28FFF72A17BD660068D3FD /* PrimaryButtonView.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		5A28FFFB2A17C3750068D3FD /* NukeImage */ = {
+			isa = PBXGroup;
+			children = (
+				5A28FFFC2A17C3910068D3FD /* LazyNukeImage.swift */,
+			);
+			path = NukeImage;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -215,6 +242,9 @@
 			dependencies = (
 			);
 			name = Zingo;
+			packageProductDependencies = (
+				5A28FFFF2A17C3F10068D3FD /* NukeUI */,
+			);
 			productName = Zingo;
 			productReference = 5A28FFCD2A17A9040068D3FD /* Zingo.app */;
 			productType = "com.apple.product-type.application";
@@ -243,6 +273,9 @@
 				Base,
 			);
 			mainGroup = 5A28FFC42A17A9040068D3FD;
+			packageReferences = (
+				5A28FFFE2A17C3F10068D3FD /* XCRemoteSwiftPackageReference "NukeUI" */,
+			);
 			productRefGroup = 5A28FFCE2A17A9040068D3FD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -269,12 +302,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A28FFFD2A17C3910068D3FD /* LazyNukeImage.swift in Sources */,
+				5A28FFFA2A17C3100068D3FD /* ProfileView.swift in Sources */,
 				5A28FFF12A17ADFA0068D3FD /* Router.swift in Sources */,
 				5A28FFEE2A17AC570068D3FD /* TabViewContainer.swift in Sources */,
 				5A28FFF52A17B7A00068D3FD /* View.swift in Sources */,
 				5A28FFD32A17A9040068D3FD /* ContentView.swift in Sources */,
 				5A28FFF32A17B2BE0068D3FD /* Color.swift in Sources */,
 				5A28FFD12A17A9040068D3FD /* ZingoApp.swift in Sources */,
+				5A28FFF82A17BD660068D3FD /* PrimaryButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +511,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5A28FFFE2A17C3F10068D3FD /* XCRemoteSwiftPackageReference "NukeUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/NukeUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5A28FFFF2A17C3F10068D3FD /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A28FFFE2A17C3F10068D3FD /* XCRemoteSwiftPackageReference "NukeUI" */;
+			productName = NukeUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5A28FFC52A17A9040068D3FD /* Project object */;
 }

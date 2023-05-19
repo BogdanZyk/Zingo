@@ -18,3 +18,10 @@ extension Color{
     static let accentPurple = Color("purple")
     
 }
+
+
+extension LinearGradient{
+    
+    
+    static let primaryGradient = LinearGradient(colors: [Color.accentPink, .accentPurple], startPoint: .leading, endPoint: .trailing)
+}

@@ -58,7 +58,7 @@ extension TabViewContainer{
                 } label: {
                     Image(tab.image)
                         .padding()
-                        .background(LinearGradient(colors: [Color.accentPink, .accentPurple], startPoint: .leading, endPoint: .trailing), in: Circle())
+                        .background(LinearGradient.primaryGradient, in: Circle())
                 }
             }else{
                 Image(tab.image)
