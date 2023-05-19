@@ -11,6 +11,10 @@
 		5A28FFD32A17A9040068D3FD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFD22A17A9040068D3FD /* ContentView.swift */; };
 		5A28FFD52A17A9060068D3FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A28FFD42A17A9060068D3FD /* Assets.xcassets */; };
 		5A28FFD82A17A9060068D3FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A28FFD72A17A9060068D3FD /* Preview Assets.xcassets */; };
+		5A28FFEE2A17AC570068D3FD /* TabViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFED2A17AC570068D3FD /* TabViewContainer.swift */; };
+		5A28FFF12A17ADFA0068D3FD /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF02A17ADFA0068D3FD /* Router.swift */; };
+		5A28FFF32A17B2BE0068D3FD /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF22A17B2BE0068D3FD /* Color.swift */; };
+		5A28FFF52A17B7A00068D3FD /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF42A17B7A00068D3FD /* View.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +23,10 @@
 		5A28FFD22A17A9040068D3FD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5A28FFD42A17A9060068D3FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A28FFD72A17A9060068D3FD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5A28FFED2A17AC570068D3FD /* TabViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewContainer.swift; sourceTree = "<group>"; };
+		5A28FFF02A17ADFA0068D3FD /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		5A28FFF22A17B2BE0068D3FD /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		5A28FFF42A17B7A00068D3FD /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +59,11 @@
 		5A28FFCF2A17A9040068D3FD /* Zingo */ = {
 			isa = PBXGroup;
 			children = (
-				5A28FFD02A17A9040068D3FD /* ZingoApp.swift */,
-				5A28FFD22A17A9040068D3FD /* ContentView.swift */,
+				5A28FFE22A17AAB10068D3FD /* App */,
+				5A28FFEF2A17ADD80068D3FD /* Env */,
+				5A28FFE42A17AB150068D3FD /* Utils */,
+				5A28FFE32A17AADE0068D3FD /* Model */,
+				5A28FFDE2A17A9130068D3FD /* Core */,
 				5A28FFD42A17A9060068D3FD /* Assets.xcassets */,
 				5A28FFD62A17A9060068D3FD /* Preview Content */,
 			);
@@ -65,6 +76,127 @@
 				5A28FFD72A17A9060068D3FD /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		5A28FFDE2A17A9130068D3FD /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				5A28FFEC2A17AC430068D3FD /* TabViewContainer */,
+				5A28FFE62A17AB420068D3FD /* Authentication */,
+				5A28FFEB2A17AC050068D3FD /* PostEditor */,
+				5A28FFEA2A17ABED0068D3FD /* Profile */,
+				5A28FFE92A17ABDE0068D3FD /* Notifications */,
+				5A28FFE82A17ABD70068D3FD /* Search */,
+				5A28FFE72A17AB5D0068D3FD /* Home */,
+				5A28FFE02A17A9220068D3FD /* ViewComponens */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		5A28FFE02A17A9220068D3FD /* ViewComponens */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewComponens;
+			sourceTree = "<group>";
+		};
+		5A28FFE12A17AA9E0068D3FD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5A28FFF22A17B2BE0068D3FD /* Color.swift */,
+				5A28FFF42A17B7A00068D3FD /* View.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5A28FFE22A17AAB10068D3FD /* App */ = {
+			isa = PBXGroup;
+			children = (
+				5A28FFD02A17A9040068D3FD /* ZingoApp.swift */,
+				5A28FFD22A17A9040068D3FD /* ContentView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		5A28FFE32A17AADE0068D3FD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		5A28FFE42A17AB150068D3FD /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5A28FFE52A17AB190068D3FD /* Services */,
+				5A28FFE12A17AA9E0068D3FD /* Extensions */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		5A28FFE52A17AB190068D3FD /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		5A28FFE62A17AB420068D3FD /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		5A28FFE72A17AB5D0068D3FD /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		5A28FFE82A17ABD70068D3FD /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		5A28FFE92A17ABDE0068D3FD /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		5A28FFEA2A17ABED0068D3FD /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		5A28FFEB2A17AC050068D3FD /* PostEditor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PostEditor;
+			sourceTree = "<group>";
+		};
+		5A28FFEC2A17AC430068D3FD /* TabViewContainer */ = {
+			isa = PBXGroup;
+			children = (
+				5A28FFED2A17AC570068D3FD /* TabViewContainer.swift */,
+			);
+			path = TabViewContainer;
+			sourceTree = "<group>";
+		};
+		5A28FFEF2A17ADD80068D3FD /* Env */ = {
+			isa = PBXGroup;
+			children = (
+				5A28FFF02A17ADFA0068D3FD /* Router.swift */,
+			);
+			path = Env;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +269,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A28FFF12A17ADFA0068D3FD /* Router.swift in Sources */,
+				5A28FFEE2A17AC570068D3FD /* TabViewContainer.swift in Sources */,
+				5A28FFF52A17B7A00068D3FD /* View.swift in Sources */,
 				5A28FFD32A17A9040068D3FD /* ContentView.swift in Sources */,
+				5A28FFF32A17B2BE0068D3FD /* Color.swift in Sources */,
 				5A28FFD12A17A9040068D3FD /* ZingoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
