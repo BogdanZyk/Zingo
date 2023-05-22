@@ -1,80 +1,34 @@
 //
-//  ProfileView.swift
+//  ProfileContentViewComponent.swift
 //  Zingo
 //
-//  Created by Bogdan Zykov on 19.05.2023.
+//  Created by Bogdan Zykov on 22.05.2023.
 //
 
 import SwiftUI
 
-struct ProfileView: View {
-    @Environment(\.dismiss) private var dismiss
+struct ProfileContentViewComponent: View {
+    let user: User
+    var isCurrentUser: Bool
     @Namespace private var animation
-    @State var currentTab: ProfileTab = .posts
-    @StateObject private var viewModel: ProfileViewModel
-    @State private var showConfirmationDialog: Bool = false
-    @State private var pickerType: ImagePickerType = .photoLib
-    @State private var showPicker: Bool = false
-    var userId: String?
+    @State private var currentTab: ProfileTab = .posts
     
-    init(userId: String?){
-        self.userId = userId
-        self._viewModel = StateObject(wrappedValue: ProfileViewModel(userId: userId))
-    }
+    var onTapAvatar: (() -> Void)?
+    var onTapBanner: (() -> Void)?
+    var onTapEdit: (() -> Void)?
+    var onTapFollow: (() -> Void)?
+    let onChangeTab: (ProfileTab) -> Void
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            if let user = viewModel.user{
-                content(user)
-            }else{
-                ProgressView()
-                    .hCenter()
-                    .padding(.top, 50)
-                    .tint(.accentPink)
-            }
-        }
-        .foregroundColor(.white)
-        .background(Color.darkBlack)
-        .navigationBarHidden(true)
-        .overlay(alignment: .topLeading) {
-            backButton
-        }
-        .overlay(alignment: .topTrailing) {
-            profileActionButton
-        }
-        .imagePicker(pickerType: pickerType, show: $showPicker, imagesData: $viewModel.imagesData, selectionLimit: 1)
-        .confirmationDialog("", isPresented: $showConfirmationDialog) {
-            Button("Camera") {
-                pickerType = .camera
-                showPicker.toggle()
-            }
-            Button("Photo") {
-                pickerType = .photoLib
-                showPicker.toggle()
-            }
-        }
-    }
-}
-
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView(userId: "fTSwHTmYHkeYvfsWASMpEDlwGmg2")
-    }
-}
-
-extension ProfileView{
-    
-    
-    private func content(_ user: User) -> some View{
         VStack(spacing: 16) {
             ZStack(alignment: .bottom){
-                bgImage(user.bannerImage)
-                userAvatar(user.profileImageUrl)
+                bgImage
+                userAvatar
             }
             VStack(spacing: 16) {
-                userInfo(user)
+                userInfo
                     .padding(.top, 75)
-                followerSection(user)
+                followerSection
                 
                 underlineTabbarView
                 
@@ -83,16 +37,22 @@ extension ProfileView{
             .padding(.horizontal)
         }
     }
-    
-    
+}
+
+struct ProfileContentViewComponent_Previews: PreviewProvider {
+    static var previews: some View {
+        ScrollView{
+            ProfileContentViewComponent(user: User.mock, isCurrentUser: false, onChangeTab: {_ in})
+        }
+        .background(Color.darkBlack)
+    }
 }
 
 
-extension ProfileView{
-    
-    private func bgImage(_ image: String?) -> some View{
+extension ProfileContentViewComponent{
+    private var bgImage: some View{
         Group{
-            if let image{
+            if let image = user.bannerImage{
                 GeometryReader{ geo -> AnyView in
                     AnyView(
                         LazyNukeImage(strUrl: image, resizingMode: .aspectFill, loadPriority: .high)
@@ -104,9 +64,9 @@ extension ProfileView{
             }else{
                 ZStack(alignment: .top){
                     Color.darkGray
-                    if viewModel.isCurrentUser{
+                    if isCurrentUser{
                         Button {
-                            showConfirmationDialog.toggle()
+                            onTapBanner?()
                         } label: {
                             Text("Add bunner image")
                                 .foregroundColor(.lightGray)
@@ -118,7 +78,7 @@ extension ProfileView{
         }
     }
     
-    private func userAvatar(_ image: String?) -> some View{
+    private var userAvatar: some View{
         ZStack{
             Circle()
                 .fill(Color.darkGray)
@@ -127,16 +87,16 @@ extension ProfileView{
                 Circle()
                     .strokeBorder(LinearGradient.primaryGradient, lineWidth: 2.5)
             }
-            UserAvatarView(image: image)
+            UserAvatarView(image: user.profileImageUrl)
                 .onTapGesture {
-                    showConfirmationDialog.toggle()
+                   onTapAvatar?()
                 }
         }
         .offset(y: 75)
     }
     
     
-    private func userInfo(_ user: User) -> some View{
+    private var userInfo: some View{
         VStack(spacing: 10) {
             Text(user.userName)
                 .font(.title2.bold())
@@ -148,28 +108,36 @@ extension ProfileView{
             if let bio = user.bio{
                 Text(bio)
                     .font(.body.weight(.medium))
-            } else if viewModel.isCurrentUser{
-                Button {
-                    
-                } label: {
-                    Text("Add bio")
-                        .font(.body)
-                        .foregroundColor(.accentPink)
-                }
             }
+//            else if isCurrentUser{
+//                Button {
+//
+//                } label: {
+//                    Text("Add bio")
+//                        .font(.body)
+//                        .foregroundColor(.accentPink)
+//                }
+//            }
         }
         .foregroundColor(.white)
     }
     
     
-    private func followerSection(_ user: User) -> some View{
+    private var followerSection: some View{
         HStack(alignment: .bottom, spacing: 16){
             followerLabel(label: "Followers", value: user.followersCount)
             Spacer()
             followerLabel(label: "Following", value: user.followingsCount)
             Spacer()
-            ButtonView(label: "Edit profile", type: .border, font: .headline.bold()) {
-                
+            
+            if isCurrentUser{
+                ButtonView(label: "Edit profile", type: .border, font: .headline.bold()) {
+                    onTapEdit?()
+                }
+            }else{
+                ButtonView(label: "Follow", type: .primary, font: .title3.bold()) {
+                    
+                }
             }
         }
         .hLeading()
@@ -198,6 +166,7 @@ extension ProfileView{
                     .bold(tab == currentTab)
                     .onTapGesture {
                         currentTab = tab
+                        onChangeTab(tab)
                     }
                     .overlay(alignment: .bottom) {
                         if currentTab == tab{
@@ -232,29 +201,4 @@ extension ProfileView{
             Text("tagged")
         }
     }
-    
-    @ViewBuilder
-    private var backButton: some View{
-        if !viewModel.isCurrentUser{
-            IconButton(icon: .arrowLeft) {
-                dismiss()
-            }
-            .padding(.leading)
-        }
-    }
-    
-    @ViewBuilder
-    private var profileActionButton: some View{
-        if viewModel.isCurrentUser{
-            VStack(spacing: 20){
-                IconButton(icon: .letter) {}
-                IconButton(icon: .bookmark) {}
-            }
-            .padding(.trailing)
-        }
-    }
-}
-
-enum ProfileTab: String, CaseIterable{
-    case posts, stories, liked, tagged
 }

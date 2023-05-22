@@ -21,7 +21,7 @@ struct TabViewContainer: View {
                     .tag(Tab.search)
                 Text("Notification")
                     .tag(Tab.notification)
-                ProfileView(userId: router.userSession?.uid)
+                CurrentUserProfileView(userId: router.userSession?.uid)
                     .tag(Tab.profile)
             }
             tabView
