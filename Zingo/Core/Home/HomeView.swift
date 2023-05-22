@@ -13,8 +13,8 @@ struct HomeView: View {
             headerSection
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVStack(spacing: 20) {
-                    ForEach(1...10, id: \.self) { index in
-                        PostView()
+                    ForEach(Post.mockPosts) { post in
+                        PostView(post: post)
                     }
                 }
                 .padding(.horizontal)

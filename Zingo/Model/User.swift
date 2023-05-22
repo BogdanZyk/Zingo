@@ -10,13 +10,15 @@ import Foundation
 
 struct User: Identifiable, Codable{
     
-    var id: String
+    let id: String
     var userName: String
     var email: String
     var profileImageUrl: String?
     var fullName: String?
     var bio: String?
     var location: String?
+    var followersCount: Int
+    var followingsCount: Int
     
 }
 
@@ -28,5 +30,7 @@ extension User{
                            profileImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_KIEkMvsIZEmzG7Og_h3SJ4T3HsE2rqm3_w&usqp=CAU",
                            fullName: "Alex Tsimikas",
                            bio: "Writer by Profession. Artist by Passion!",
-                           location: "Brooklyn, NY")
+                           location: "Brooklyn, NY",
+                           followersCount: 123,
+                           followingsCount: 24)
 }

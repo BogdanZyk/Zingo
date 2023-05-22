@@ -30,6 +30,8 @@
 		5A4BADA52A1B75420009CD12 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADA42A1B75420009CD12 /* AuthenticationViewModel.swift */; };
 		5A4BADA82A1B78C20009CD12 /* AddEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADA72A1B78C20009CD12 /* AddEmailView.swift */; };
 		5A4BADAA2A1B7A5E0009CD12 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADA92A1B7A5E0009CD12 /* User.swift */; };
+		5A4BADAC2A1B7CBB0009CD12 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADAB2A1B7CBB0009CD12 /* Post.swift */; };
+		5A4BADAE2A1B81340009CD12 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADAD2A1B81340009CD12 /* Date.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +58,8 @@
 		5A4BADA42A1B75420009CD12 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		5A4BADA72A1B78C20009CD12 /* AddEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmailView.swift; sourceTree = "<group>"; };
 		5A4BADA92A1B7A5E0009CD12 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		5A4BADAB2A1B7CBB0009CD12 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		5A4BADAD2A1B81340009CD12 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +143,7 @@
 				5A28FFF22A17B2BE0068D3FD /* Color.swift */,
 				5A28FFF42A17B7A00068D3FD /* View.swift */,
 				5A4BAD962A1B5BE70009CD12 /* Image.swift */,
+				5A4BADAD2A1B81340009CD12 /* Date.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -156,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				5A4BADA92A1B7A5E0009CD12 /* User.swift */,
+				5A4BADAB2A1B7CBB0009CD12 /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -363,12 +369,14 @@
 				5A4BAD932A1B58DE0009CD12 /* ProfileViewModel.swift in Sources */,
 				5A28FFF52A17B7A00068D3FD /* View.swift in Sources */,
 				5A28FFD32A17A9040068D3FD /* ContentView.swift in Sources */,
+				5A4BADAC2A1B7CBB0009CD12 /* Post.swift in Sources */,
 				5A4BADA32A1B745F0009CD12 /* LoginView.swift in Sources */,
 				5A28FFF32A17B2BE0068D3FD /* Color.swift in Sources */,
 				5A4BAD9A2A1B5DA60009CD12 /* Icon.swift in Sources */,
 				5A4BAD952A1B5B260009CD12 /* IconButton.swift in Sources */,
 				5A28FFD12A17A9040068D3FD /* ZingoApp.swift in Sources */,
 				5A4BADA82A1B78C20009CD12 /* AddEmailView.swift in Sources */,
+				5A4BADAE2A1B81340009CD12 /* Date.swift in Sources */,
 				5A4BAD9E2A1B62C50009CD12 /* PostView.swift in Sources */,
 				5A28FFF82A17BD660068D3FD /* PrimaryButtonView.swift in Sources */,
 			);

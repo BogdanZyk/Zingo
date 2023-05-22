@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PostView: View {
+    var post: Post
     var body: some View {
         VStack(spacing: 16){
             VStack(alignment: .leading, spacing: 16){
@@ -28,7 +29,7 @@ struct PostView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Color.darkBlack
-            PostView()
+            PostView(post: Post.mockPosts.last!)
                 .padding(.horizontal)
         }
     }
@@ -39,14 +40,21 @@ extension PostView{
     
     private var userSection: some View{
         HStack{
-            LazyNukeImage(strUrl: "https://i.etsystatic.com/30097568/r/il/c7f1a0/3513889975/il_570xN.3513889975_lfe4.jpg", resizingMode: .aspectFill, loadPriority: .high)
-                .frame(width: 32, height: 32)
-                .clipShape(Circle())
+            Group{
+                if let profileImage = post.owner.image{
+                    LazyNukeImage(strUrl: profileImage, resizingMode: .aspectFill, loadPriority: .high)
+                }else{
+                    Color.secondary
+                }
+            }
+            .frame(width: 32, height: 32)
+            .clipShape(Circle())
+        
             VStack(alignment: .leading, spacing: 2) {
-                Text("Jacob Washington")
+                Text(post.owner.name)
                     .font(.subheadline.bold())
                     .lineLimit(1)
-                Text("20m ago")
+                Text(post.createdAt.timeAgo())
                     .font(.caption)
                     .foregroundColor(.lightGray)
             }
@@ -64,14 +72,24 @@ extension PostView{
     
     
     private var postContent: some View{
-        Text("“If you think you are too small to make a difference, try sleeping with a mosquito.” ~ Dalai Lama")
-            .lineSpacing(5)
+        Group{
+            if let image = post.imageUrl{
+                LazyNukeImage(strUrl: image, resizeHeight: 400, resizingMode: .aspectFill, loadPriority: .high)
+                    .frame(height: 180)
+                    .cornerRadius(16)
+            }
+            if let text = post.caption{
+                Text(text)
+                    .lineLimit(5)
+                    .lineSpacing(5)
+            }
+        }
     }
     
     private var postStats: some View{
         HStack(spacing: 16){
-            buttonIcon(.like(340))
-            buttonIcon(.comment(123))
+            buttonIcon(.like(post.likes))
+            buttonIcon(.comment(post.comments))
             buttonIcon(.share)
             Spacer()
             buttonIcon(.save)
