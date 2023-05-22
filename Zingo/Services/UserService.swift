@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
+import Combine
 
 final class UserService{
     
@@ -55,4 +56,19 @@ final class UserService{
         }
         return try await getUser(for: uid)
     }
+    
+    func addUserListener(for id: String) -> (AnyPublisher<User?, Error>, ListenerRegistration){
+        userDocument(for: id).addSnapshotListener(as: User.self)
+    }
+}
+
+
+struct FBListener{
+    
+    var listener: ListenerRegistration?
+    
+    func cancel(){
+        listener?.remove()
+    }
+    
 }

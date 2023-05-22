@@ -12,7 +12,6 @@ struct TabViewContainer: View {
     init(){
         UITabBar.appearance().isHidden = true
     }
-    
     var body: some View {
         VStack(spacing: 0) {
             TabView(selection: $router.tab) {
@@ -22,7 +21,7 @@ struct TabViewContainer: View {
                     .tag(Tab.search)
                 Text("Notification")
                     .tag(Tab.notification)
-               ProfileView(userId: "")
+                ProfileView(userId: router.userSession?.uid)
                     .tag(Tab.profile)
             }
             tabView

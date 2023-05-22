@@ -46,6 +46,9 @@
 		5A4BADCA2A1B9EEB0009CD12 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADC92A1B9EEB0009CD12 /* String.swift */; };
 		5A4BADCE2A1BA3ED0009CD12 /* CreateUserFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADCD2A1BA3EC0009CD12 /* CreateUserFlowView.swift */; };
 		5A4BADD02A1BAAA00009CD12 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADCF2A1BAAA00009CD12 /* ErrorHandler.swift */; };
+		5A4BADD22A1BB1E70009CD12 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADD12A1BB1E70009CD12 /* Query.swift */; };
+		5A4BADD42A1BB6400009CD12 /* UserAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADD32A1BB6400009CD12 /* UserAvatarView.swift */; };
+		5A4BADD62A1BBBB20009CD12 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADD52A1BBBB20009CD12 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +87,9 @@
 		5A4BADC92A1B9EEB0009CD12 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		5A4BADCD2A1BA3EC0009CD12 /* CreateUserFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserFlowView.swift; sourceTree = "<group>"; };
 		5A4BADCF2A1BAAA00009CD12 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
+		5A4BADD12A1BB1E70009CD12 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
+		5A4BADD32A1BB6400009CD12 /* UserAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatarView.swift; sourceTree = "<group>"; };
+		5A4BADD52A1BBBB20009CD12 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +170,8 @@
 				5A28FFFB2A17C3750068D3FD /* NukeImage */,
 				5A28FFF62A17BD4B0068D3FD /* Buttons */,
 				5A4BADCF2A1BAAA00009CD12 /* ErrorHandler.swift */,
+				5A4BADD32A1BB6400009CD12 /* UserAvatarView.swift */,
+				5A4BADD52A1BBBB20009CD12 /* ImagePicker.swift */,
 			);
 			path = ViewComponens;
 			sourceTree = "<group>";
@@ -176,6 +184,7 @@
 				5A4BAD962A1B5BE70009CD12 /* Image.swift */,
 				5A4BADAD2A1B81340009CD12 /* Date.swift */,
 				5A4BADC92A1B9EEB0009CD12 /* String.swift */,
+				5A4BADD12A1BB1E70009CD12 /* Query.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -412,7 +421,9 @@
 				5A4BADBD2A1B89630009CD12 /* AppDelegate.swift in Sources */,
 				5A28FFFD2A17C3910068D3FD /* LazyNukeImage.swift in Sources */,
 				5A4BAD9C2A1B623A0009CD12 /* HomeView.swift in Sources */,
+				5A4BADD62A1BBBB20009CD12 /* ImagePicker.swift in Sources */,
 				5A4BADD02A1BAAA00009CD12 /* ErrorHandler.swift in Sources */,
+				5A4BADD42A1BB6400009CD12 /* UserAvatarView.swift in Sources */,
 				5A4BADA12A1B6FB80009CD12 /* TextFieldView.swift in Sources */,
 				5A4BAD972A1B5BE70009CD12 /* Image.swift in Sources */,
 				5A28FFFA2A17C3100068D3FD /* ProfileView.swift in Sources */,
@@ -437,6 +448,7 @@
 				5A28FFD12A17A9040068D3FD /* ZingoApp.swift in Sources */,
 				5A4BADCE2A1BA3ED0009CD12 /* CreateUserFlowView.swift in Sources */,
 				5A4BADAE2A1B81340009CD12 /* Date.swift in Sources */,
+				5A4BADD22A1BB1E70009CD12 /* Query.swift in Sources */,
 				5A4BAD9E2A1B62C50009CD12 /* PostView.swift in Sources */,
 				5A4BADC62A1B98B70009CD12 /* CancelBag.swift in Sources */,
 				5A28FFF82A17BD660068D3FD /* PrimaryButtonView.swift in Sources */,
