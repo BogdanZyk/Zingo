@@ -11,7 +11,7 @@ struct ButtonView: View {
     let label: String
     var showLoader: Bool = false
     var type: ButtonType
-    let height: CGFloat = 48
+    var height: CGFloat = 48
     var font: Font = .title3.bold()
     let action: () -> Void
     var body: some View {
