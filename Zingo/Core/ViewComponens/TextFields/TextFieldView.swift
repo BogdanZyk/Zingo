@@ -28,9 +28,10 @@ struct TextFieldView: View {
                 }
             }
         }
+        .font(.headline.weight(.medium))
         .foregroundColor(.white)
         .padding(.leading)
-        .frame(height: 44)
+        .frame(height: 48)
         .background(Color.darkGray)
         .cornerRadius(20)
     }
@@ -40,8 +41,11 @@ struct TextFieldView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.darkBlack
-            TextFieldView(showSecureButton: true, placeholder: "text here", text: .constant(""))
-                .padding()
+            VStack {
+                TextFieldView(showSecureButton: true, placeholder: "text here", text: .constant(""))
+                TextFieldView(showSecureButton: true, placeholder: "text here", text: .constant("test test"))
+            }
+            .padding()
         }
     }
 }
