@@ -8,10 +8,20 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @Environment(\.dismiss) private var dismiss
     @Namespace private var animation
     @State var currentTab: ProfileTab = .posts
+    @StateObject private var viewModel: ProfileViewModel
+    var userId: String
+    
+    init(userId: String){
+        self.userId = userId
+        self._viewModel = StateObject(wrappedValue: ProfileViewModel(userId: userId))
+    }
+    
+    var isCurrentUser: Bool = true
+    
     var body: some View {
-        
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 16) {
                 ZStack(alignment: .bottom){
@@ -32,12 +42,19 @@ struct ProfileView: View {
         }
         .foregroundColor(.white)
         .background(Color.darkBlack)
+        .navigationBarHidden(true)
+        .overlay(alignment: .topLeading) {
+            backButton
+        }
+        .overlay(alignment: .topTrailing) {
+            profileActionButton
+        }
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(userId: "")
     }
 }
 
@@ -90,7 +107,7 @@ extension ProfileView{
     
     
     private var followerSection: some View{
-        HStack(spacing: 16){
+        HStack(alignment: .bottom, spacing: 16){
             followerLabel(label: "Followers", value: 234)
             Spacer()
             followerLabel(label: "Following", value: 234)
@@ -104,7 +121,7 @@ extension ProfileView{
     
     
     private func followerLabel(label: String, value: Int) -> some View{
-        VStack(alignment: .leading, spacing: 6){
+        VStack(alignment: .leading, spacing: 4){
             Text(verbatim: String(value))
                 .font(.headline.bold())
                 .foregroundColor(.white)
@@ -154,6 +171,21 @@ extension ProfileView{
         case .tagged:
             Text("tagged")
         }
+    }
+    
+    private var backButton: some View{
+        IconButton(icon: .arrowLeft) {
+            dismiss()
+        }
+        .padding(.leading)
+    }
+    
+    private var profileActionButton: some View{
+        VStack(spacing: 20){
+            IconButton(icon: .letter) {}
+            IconButton(icon: .bookmark) {}
+        }
+        .padding(.trailing)
     }
 }
 

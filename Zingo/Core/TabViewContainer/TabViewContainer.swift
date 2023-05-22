@@ -22,7 +22,7 @@ struct TabViewContainer: View {
                     .tag(Tab.search)
                 Text("Notification")
                     .tag(Tab.notification)
-                Text("Profile")
+               ProfileView(userId: "")
                     .tag(Tab.profile)
             }
             tabView

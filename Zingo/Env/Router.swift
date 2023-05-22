@@ -75,11 +75,11 @@ enum Tab: Int, CaseIterable{
     
     var image: String{
         switch self {
-        case .home: return "homeIcon"
-        case .search: return "searchIcon"
-        case .create: return "plusIcon"
-        case .notification: return "notificationIcon"
-        case .profile: return "profileIcon"
+        case .home: return Icon.home.rawValue
+        case .search: return Icon.search.rawValue
+        case .create: return Icon.plus.rawValue
+        case .notification: return Icon.notification.rawValue
+        case .profile: return Icon.profile.rawValue
         }
     }
 }
