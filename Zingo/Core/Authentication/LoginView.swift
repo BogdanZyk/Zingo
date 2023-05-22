@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
+    @StateObject private var viewModel = AuthenticationViewModel()
     var body: some View {
         NavigationStack{
             VStack(spacing: 10){
@@ -23,6 +24,8 @@ struct LoginView: View {
             .allFrame()
             .background(Color.darkBlack)
         }
+        .disabled(viewModel.showLoader)
+        .handle(error: $viewModel.error)
     }
 }
 
@@ -47,14 +50,16 @@ extension LoginView{
     private var formView: some View{
         
         Group{
-            TextFieldView(isSecure: false, showSecureButton: false, placeholder: "Enter your email", text: .constant(""), commit: {})
-            TextFieldView(isSecure: true, showSecureButton: true, placeholder: "Enter your password", text: .constant(""), commit: {})
+            TextFieldView(isSecure: false, showSecureButton: false, placeholder: "Enter your email", text: $viewModel.email, commit: {})
+                .textContentType(.emailAddress)
+            TextFieldView(isSecure: true, showSecureButton: true, placeholder: "Enter your password", text: $viewModel.pass, commit: {})
+                .textContentType(.password)
         }
     }
     
     private var submitButton: some View{
-        ButtonView(label: "Log in", showLoader: false, type: .primary, font: .title3) {
-            
+        ButtonView(label: "Log in", showLoader: viewModel.showLoader, type: .primary, font: .title3.bold()) {
+            viewModel.signIn()
         }
         .padding(.vertical, 20)
     }
@@ -71,7 +76,7 @@ extension LoginView{
     
     private var switchLoginButton: some View{
         NavigationLink {
-            AddEmailView()
+            CreateUserStepView(authVM: viewModel, viewType: .email)
         } label: {
             Text("Don't have an account?")
                 .font(.body)

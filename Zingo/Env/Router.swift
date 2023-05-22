@@ -70,7 +70,7 @@ enum SheetDestination {
 
 
 
-@MainActor
+
 class MainRouter: ObservableObject {
 
     @Published var path: [RouterDestination] = []
@@ -94,7 +94,9 @@ class MainRouter: ObservableObject {
     }
     
     private func startSubsUserSession(){
-        authManager.userSession.sink { session in
+        authManager.$userSession
+            .receive(on: DispatchQueue.main)
+            .sink { session in
             self.userSession = session
         }
         .store(in: cancelBag)

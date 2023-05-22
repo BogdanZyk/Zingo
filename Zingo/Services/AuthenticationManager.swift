@@ -14,26 +14,18 @@ import Combine
 final class AuthenticationManager{
     
     
-    private(set) var userSession = PassthroughSubject<FirebaseAuth.User?, Never>()
+    @Published private(set) var userSession: FirebaseAuth.User?
     
     static let share = AuthenticationManager()
     
-    
     private init(){
-        self.userSession.send(Auth.auth().currentUser)
+        self.userSession = Auth.auth().currentUser
     }
-    
-    func getAuthUser() -> AuthDataResult?{
-        guard let user = Auth.auth().currentUser else {
-            return nil
-        }
-        return AuthDataResult(user: user)
-    }
-    
+        
     func signOut() throws{
         do{
             try Auth.auth().signOut()
-            self.userSession.send(nil)
+            self.userSession = nil
         }catch{
             throw error
         }
@@ -44,7 +36,7 @@ final class AuthenticationManager{
         let authDataResult = AuthDataResult(user: result.user)
         let user = User(id: authDataResult.uid, userName: authDataResult.name ?? "", email: authDataResult.email ?? "")
         try await createUser(user)
-        userSession.send(result.user)
+        self.userSession = result.user
         return authDataResult
     }
     
@@ -98,7 +90,7 @@ extension AuthenticationManager{
     @discardableResult
     func signInWithEmail(email: String, pass: String) async throws -> AuthDataResult{
         let result = try await Auth.auth().signIn(withEmail: email, password: pass)
-        self.userSession.send(result.user)
+        self.userSession = result.user
         return .init(user: result.user)
     }
 }

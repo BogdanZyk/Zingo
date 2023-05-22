@@ -13,6 +13,7 @@ struct ButtonView: View {
     var type: ButtonType
     var height: CGFloat = 48
     var font: Font = .title3.bold()
+    var isDisabled = false
     let action: () -> Void
     var body: some View {
         Button {
@@ -40,6 +41,8 @@ struct ButtonView: View {
                 }
             }
         }
+        .opacity(isDisabled ? 0.6 : 1)
+        .disabled(isDisabled)
     }
 }
 
@@ -52,6 +55,7 @@ struct ButtonView_Previews: PreviewProvider {
                 ButtonView(label: "Button", type: .secondary, action: {})
                 ButtonView(label: "Button", type: .border, action: {})
                 ButtonView(label: "Button", showLoader: true, type: .primary,  action: {})
+                ButtonView(label: "Button", type: .primary, isDisabled: true, action: {})
             }
             .padding()
         }
