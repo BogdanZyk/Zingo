@@ -11,4 +11,9 @@ import Foundation
 
 final class AuthenticationViewModel: ObservableObject{
     
+    
+    private let authManager = AuthenticationManager.share
+    
+    
+    
 }

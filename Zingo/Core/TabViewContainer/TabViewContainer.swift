@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TabViewContainer: View {
-    @StateObject var router = RouterPath()
+    @EnvironmentObject var router: MainRouter
     init(){
         UITabBar.appearance().isHidden = true
     }
@@ -33,6 +33,7 @@ struct TabViewContainer: View {
 struct TabViewContainer_Previews: PreviewProvider {
     static var previews: some View {
         TabViewContainer()
+            .environmentObject(MainRouter())
     }
 }
 

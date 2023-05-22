@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var router = MainRouter()
     var body: some View {
-        TabViewContainer()
+        Group{
+            if router.userSession == nil{
+                LoginView()
+            }else{
+                TabViewContainer()
+                    .environmentObject(router)
+            }
+        }
     }
 }
 

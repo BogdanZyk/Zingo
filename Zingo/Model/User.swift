@@ -17,8 +17,8 @@ struct User: Identifiable, Codable{
     var fullName: String?
     var bio: String?
     var location: String?
-    var followersCount: Int
-    var followingsCount: Int
+    var followersCount: Int = 0
+    var followingsCount: Int = 0
     
 }
 

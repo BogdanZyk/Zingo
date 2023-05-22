@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 import SwiftUI
+import FirebaseAuth
 
 enum RouterDestination: Hashable {
   case accountDetail(id: String)
@@ -67,32 +68,21 @@ enum SheetDestination {
 //  }
 }
 
-enum Tab: Int, CaseIterable{
-    
-    case home, search, create, notification, profile
-    
-    
-    
-    var image: String{
-        switch self {
-        case .home: return Icon.home.rawValue
-        case .search: return Icon.search.rawValue
-        case .create: return Icon.plus.rawValue
-        case .notification: return Icon.notification.rawValue
-        case .profile: return Icon.profile.rawValue
-        }
-    }
-}
+
 
 @MainActor
-class RouterPath: ObservableObject {
+class MainRouter: ObservableObject {
 
-    
     @Published var path: [RouterDestination] = []
     @Published var presentedSheet: SheetDestination?
     @Published var tab: Tab = .home
+    @Published var userSession: FirebaseAuth.User?
+    private let cancelBag = CancelBag()
+    let authManager = AuthenticationManager.share
     
-    init() {}
+    init() {
+        startSubsUserSession()
+    }
     
     func navigate(to: RouterDestination) {
         path.append(to)
@@ -102,5 +92,13 @@ class RouterPath: ObservableObject {
     func setTab(_ tab: Tab){
         self.tab = tab
     }
-
+    
+    private func startSubsUserSession(){
+        authManager.userSession.sink { session in
+            self.userSession = session
+        }
+        .store(in: cancelBag)
+    }
 }
+
+
