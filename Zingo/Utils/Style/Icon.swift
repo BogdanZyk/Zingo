@@ -19,6 +19,9 @@ enum Icon: String{
     case plus = "plusIcon"
     case profile = "profileIcon"
     case search = "searchIcon"
+    case like = "like"
+    case bubble = "bubble"
+    case share = "share"
     
     
 }

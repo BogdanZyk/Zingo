@@ -9,12 +9,40 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 0) {
+            headerSection
+            ScrollView(.vertical, showsIndicators: false) {
+                LazyVStack(spacing: 20) {
+                    ForEach(1...10, id: \.self) { index in
+                        PostView()
+                    }
+                }
+                .padding(.horizontal)
+            }
+        }
+        .background(Color.darkBlack)
     }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+    }
+}
+
+
+extension HomeView{
+    private var headerSection: some View{
+        HStack{
+            Text("Good Morning, Alex.")
+                .font(.title2.bold())
+                .lineLimit(1)
+            Spacer()
+            IconButton(icon: .letter) {
+                
+            }
+        }
+        .foregroundColor(.white)
+        .padding([.bottom, .horizontal])
     }
 }
