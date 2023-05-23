@@ -16,7 +16,7 @@ struct TabViewContainer: View {
     var body: some View {
         VStack(spacing: 0) {
             TabView(selection: $router.tab) {
-                HomeView()
+                FeedView()
                     .tag(Tab.home)
                 Text("Search")
                     .tag(Tab.search)

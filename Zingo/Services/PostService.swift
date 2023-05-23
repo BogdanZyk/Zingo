@@ -24,14 +24,14 @@ final class PostService{
     }
     
     
-    private func getPostQuery(for ownerId: String?, limit: Int) -> Query{
+    private func getPostQuery(for ownerId: String?, limit: Int?) -> Query{
         postCollections
             .limitOptionally(to: limit)
             .whereFieldOptionally("owner.id", isEqualTo: ownerId)
             .order(by: Post.CodingKeys.createdAt.rawValue, descending: true)
     }
     
-    func fetchPaginatedPosts(userId: String? = nil, lastDocument: DocumentSnapshot) async throws -> ([Post], lastDoc: DocumentSnapshot?){
+    func fetchPaginatedPosts(userId: String? = nil, lastDocument: DocumentSnapshot?) async throws -> ([Post], lastDoc: DocumentSnapshot?){
         try await getPostQuery(for: userId, limit: 10)
             .startOptionally(afterDocument: lastDocument)
             .getDocumentsWithSnapshot(as: Post.self)
@@ -48,18 +48,6 @@ final class PostService{
         try postCollections.document(postId).setData(from: post, merge: false)
         
     }
-    
-    
-//    let images = try await withThrowingTaskGroup(of: UIImage.self, returning: [UIImage].self) { taskGroup in
-//        let photoURLs = try await listPhotoURLs(inGallery: "Amsterdam Holiday")
-//        for photoURL in photoURLs {
-//            taskGroup.addTask { try await downloadPhoto(url: photoURL) }
-//        }
-//
-//        return try await taskGroup.reduce(into: [UIImage]()) { partialResult, name in
-//            partialResult.append(name)
-//        }
-//    }
     
     
     func saveImages(userId: String, images: [UIImageData]) async throws -> [StoreImage]{
@@ -85,4 +73,12 @@ final class PostService{
     func removePost(for id: String) async throws{
        try await getPostDocumentRef(id).delete()
     }
+    
+    
+    func getTotalCountPosts(userId: String? = nil) async throws -> Int{
+        let snapshot = try await getPostQuery(for: userId, limit: nil)
+            .count.getAggregation(source: .server)
+        return Int(truncating: snapshot.count)
+    }
 }
+

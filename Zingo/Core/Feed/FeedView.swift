@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  FeedView.swift
 //  Zingo
 //
 //  Created by Bogdan Zykov on 22.05.2023.
@@ -7,14 +7,18 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct FeedView: View {
+    @StateObject private var viewModel = FeedViewModel()
     var body: some View {
         VStack(spacing: 0) {
             headerSection
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVStack(spacing: 20) {
-                    ForEach(Post.mockPosts) { post in
-                        PostView(post: post)
+                    ForEach(viewModel.posts) { post in
+                        PostView(post: post, onRemove: viewModel.removePost)
+                        if viewModel.shouldNextPageLoader(post.id){
+                            ProgressView()
+                        }
                     }
                 }
                 .padding(.horizontal)
@@ -24,14 +28,14 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
+struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        FeedView()
     }
 }
 
 
-extension HomeView{
+extension FeedView{
     private var headerSection: some View{
         HStack{
             Text("Good Morning, Alex.")

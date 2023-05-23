@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PostView: View {
     var post: Post
+    var onRemove: ((Post) -> Void)?
     var body: some View {
         VStack(spacing: 16){
             VStack(alignment: .leading, spacing: 16){
@@ -29,7 +30,7 @@ struct PostView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Color.darkBlack
-            PostView(post: Post.mockPosts.last!)
+            PostView(post: Post.mockPosts.last!){_ in}
                 .padding(.horizontal)
         }
     }
@@ -61,7 +62,7 @@ extension PostView{
             Spacer()
             
             Button {
-                
+                onRemove?(post)
             } label: {
                 Image(systemName: "ellipsis")
                     .foregroundColor(.lightGray)
