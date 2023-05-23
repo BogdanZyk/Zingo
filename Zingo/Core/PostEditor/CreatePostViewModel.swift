@@ -30,15 +30,18 @@ class CreatePostViewModel: ObservableObject{
         !(text.orEmpty.isEmpty) || !(imagesData.isEmpty)
     }
 
-    func createPost(){
+    func createPost(onCreate: @escaping () -> Void){
         guard let currentUser else {return}
         showLoader = true
         Task{
             do{
-                try await postService.createPost(owner: .init(user: currentUser), images:imagesData, text: text)
+                try await postService.createPost(owner: .init(user: currentUser),
+                                                 images: imagesData,
+                                                 text: text)
                 await MainActor.run {
                     self.showLoader = false
                     nc.post(name: .successfullyPost)
+                    onCreate()
                 }
             }catch{
                 await MainActor.run {

@@ -16,25 +16,24 @@ struct TabViewContainer: View {
    
     var body: some View {
         VStack(spacing: 0) {
-            TabView(selection: $router.tab) {
-                FeedView(currentUser: userManager.user)
-                    .tag(Tab.home)
-                Text("Search")
-                    .tag(Tab.search)
-                Text("Notification")
-                    .tag(Tab.notification)
-                CurrentUserProfileView(userManager: userManager)
-                    .tag(Tab.profile)
+            NavigationStack(path: $router.path){
+                TabView(selection: $router.tab) {
+                    FeedView(currentUser: userManager.user)
+                        .tag(Tab.home)
+                    Text("Search")
+                        .tag(Tab.search)
+                    Text("Notification")
+                        .tag(Tab.notification)
+                    CurrentUserProfileView(userManager: userManager)
+                        .tag(Tab.profile)
+                }
+                .withAppRouter()
             }
+            
             tabView
         }
-        .fullScreenCover(item: $router.fullScreen) { type in
-            switch type{
-            case .createNewPost:
-                PostEditorView(currentUser: userManager.user)
-            }
-        }
         .notifyPopup(popup: $router.popup)
+        .withFullScreenRouter(fullScreen: $router.fullScreen)
     }
 }
 
@@ -63,7 +62,7 @@ extension TabViewContainer{
         Group{
             if tab == .create{
                 Button {
-                    router.fullScreen = .createNewPost
+                    router.setFullScreen(.createNewPost(userManager.user))
                 } label: {
                     Image(tab.image)
                         .padding()

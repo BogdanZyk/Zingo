@@ -39,6 +39,7 @@ struct PostEditorView: View {
             }
         }
         .handle(error: $viewModel.error)
+        
     }
 }
 
@@ -60,8 +61,7 @@ extension PostEditorView{
             }
             Spacer()
             ButtonView(label: "Publish", showLoader: false, type: .primary, height: 30, font: .body, isDisabled: !viewModel.isValid) {
-                viewModel.createPost()
-                if viewModel.error == nil{
+                viewModel.createPost{
                     dismiss()
                 }
             }

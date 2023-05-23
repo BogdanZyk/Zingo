@@ -75,9 +75,9 @@ extension StorageManager{
         
         var size: CGFloat{
             switch self{
-            case .user: return 200
-            case .post: return 400
-            case .message: return 300
+            case .user: return 100
+            case .post: return 250
+            case .message: return 200
             }
         }
         

@@ -59,6 +59,8 @@
 		5A4BADEE2A1CEE570009CD12 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADED2A1CEE570009CD12 /* FeedViewModel.swift */; };
 		5A4BADF12A1CF6370009CD12 /* CurrentUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADF02A1CF6370009CD12 /* CurrentUserManager.swift */; };
 		5A4BADF32A1CF64A0009CD12 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADF22A1CF64A0009CD12 /* UserViewModel.swift */; };
+		5A4BADF52A1CF97D0009CD12 /* AppRoute+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADF42A1CF97D0009CD12 /* AppRoute+View.swift */; };
+		5A4BADF72A1CFEB60009CD12 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADF62A1CFEB60009CD12 /* UINavigationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +112,8 @@
 		5A4BADED2A1CEE570009CD12 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		5A4BADF02A1CF6370009CD12 /* CurrentUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserManager.swift; sourceTree = "<group>"; };
 		5A4BADF22A1CF64A0009CD12 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		5A4BADF42A1CF97D0009CD12 /* AppRoute+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppRoute+View.swift"; sourceTree = "<group>"; };
+		5A4BADF62A1CFEB60009CD12 /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +211,7 @@
 				5A4BADC92A1B9EEB0009CD12 /* String.swift */,
 				5A4BADD12A1BB1E70009CD12 /* Query.swift */,
 				5A4BADEB2A1CEB190009CD12 /* NotificationCenter.swift */,
+				5A4BADF62A1CFEB60009CD12 /* UINavigationController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 				5A28FFF02A17ADFA0068D3FD /* Router.swift */,
 				5A4BADC32A1B915A0009CD12 /* AppError.swift */,
 				5A4BADC52A1B98B70009CD12 /* CancelBag.swift */,
+				5A4BADF42A1CF97D0009CD12 /* AppRoute+View.swift */,
 			);
 			path = Env;
 			sourceTree = "<group>";
@@ -480,6 +486,7 @@
 				5A28FFF12A17ADFA0068D3FD /* Router.swift in Sources */,
 				5A4BADDF2A1BC54C0009CD12 /* CreatePostViewModel.swift in Sources */,
 				5A4BADA52A1B75420009CD12 /* AuthenticationViewModel.swift in Sources */,
+				5A4BADF72A1CFEB60009CD12 /* UINavigationController.swift in Sources */,
 				5A4BADF12A1CF6370009CD12 /* CurrentUserManager.swift in Sources */,
 				5A28FFEE2A17AC570068D3FD /* TabViewContainer.swift in Sources */,
 				5A4BADAA2A1B7A5E0009CD12 /* User.swift in Sources */,
@@ -489,6 +496,7 @@
 				5A28FFD32A17A9040068D3FD /* ContentView.swift in Sources */,
 				5A4BADC02A1B8B6F0009CD12 /* AuthenticationManager.swift in Sources */,
 				5A4BADEE2A1CEE570009CD12 /* FeedViewModel.swift in Sources */,
+				5A4BADF52A1CF97D0009CD12 /* AppRoute+View.swift in Sources */,
 				5A4BADAC2A1B7CBB0009CD12 /* Post.swift in Sources */,
 				5A4BADC82A1B99630009CD12 /* Tab.swift in Sources */,
 				5A4BADA32A1B745F0009CD12 /* LoginView.swift in Sources */,

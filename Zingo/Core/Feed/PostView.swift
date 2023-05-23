@@ -10,6 +10,8 @@ import SwiftUI
 struct PostView: View {
     var post: Post
     var onRemove: ((Post) -> Void)?
+    var onTapUser: ((String) -> Void)?
+    var onTapPost: ((String) -> Void)?
     var body: some View {
         VStack(spacing: 16){
             VStack(alignment: .leading, spacing: 16){
@@ -30,7 +32,7 @@ struct PostView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Color.darkBlack
-            PostView(post: Post.mockPosts.last!){_ in}
+            PostView(post: Post.mockPosts.last!, onTapPost: {_ in})
                 .padding(.horizontal)
         }
     }
@@ -40,27 +42,32 @@ struct PostView_Previews: PreviewProvider {
 extension PostView{
     
     private var userSection: some View{
-        HStack{
-            Group{
-                if let profileImage = post.owner.image{
-                    LazyNukeImage(strUrl: profileImage, resizingMode: .aspectFill, loadPriority: .high)
-                }else{
-                    Color.secondary
+        HStack {
+            HStack{
+                Group{
+                    if let profileImage = post.owner.image{
+                        LazyNukeImage(strUrl: profileImage, resizingMode: .aspectFill, loadPriority: .high)
+                    }else{
+                        Color.secondary
+                    }
                 }
+                .frame(width: 32, height: 32)
+                .clipShape(Circle())
+                
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(post.owner.name)
+                        .font(.subheadline.bold())
+                        .lineLimit(1)
+                    Text(post.createdAt.timeAgo())
+                        .font(.caption)
+                        .foregroundColor(.lightGray)
+                }
+                Spacer()
             }
-            .frame(width: 32, height: 32)
-            .clipShape(Circle())
-        
-            VStack(alignment: .leading, spacing: 2) {
-                Text(post.owner.name)
-                    .font(.subheadline.bold())
-                    .lineLimit(1)
-                Text(post.createdAt.timeAgo())
-                    .font(.caption)
-                    .foregroundColor(.lightGray)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                onTapUser?(post.owner.id)
             }
-            Spacer()
-            
             Button {
                 onRemove?(post)
             } label: {
@@ -84,6 +91,9 @@ extension PostView{
                     .lineLimit(5)
                     .lineSpacing(5)
             }
+        }
+        .onTapGesture {
+            onTapPost?(post.id)
         }
     }
     

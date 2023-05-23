@@ -45,11 +45,9 @@ extension UserProfile{
     
     @ViewBuilder
     private var backButton: some View{
-        if !viewModel.isCurrentUser{
-            IconButton(icon: .arrowLeft) {
-                dismiss()
-            }
-            .padding(.leading)
+        IconButton(icon: .arrowLeft) {
+            dismiss()
         }
+        .padding(.leading)
     }
 }

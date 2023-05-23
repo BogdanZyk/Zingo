@@ -11,7 +11,8 @@ import SwiftUI
 import FirebaseAuth
 
 enum RouterDestination: Hashable {
-  case accountDetail(id: String)
+    case userProfile(id: String)
+    case postDetails(id: String)
 //  case accountDetailWithAccount(account: Account)
 //  case accountSettingsWithAccount(account: Account, appAccount: AppAccount)
 //  case statusDetail(id: String)
@@ -29,8 +30,9 @@ enum RouterDestination: Hashable {
 //  case tagsList(tags: [Tag])
 }
 
-enum FullScreenDestination: Identifiable, Hashable{
-    case createNewPost
+enum FullScreenDestination: Identifiable{
+    
+    case createNewPost(User?)
     
     var id: Int{
         switch self {
@@ -54,7 +56,7 @@ enum PopupNotify: String, Identifiable{
     }
     var color: Color{
         switch self {
-        case .successfullyPost: return .lightGray
+        case .successfullyPost: return .accentPink
         }
     }
 }
@@ -124,6 +126,10 @@ class MainRouter: ObservableObject {
     
     func setTab(_ tab: Tab){
         self.tab = tab
+    }
+    
+    func setFullScreen(_ type: FullScreenDestination){
+        self.fullScreen = type
     }
     
     private func startSubsUserSession(){
