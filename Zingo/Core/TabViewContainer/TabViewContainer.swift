@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TabViewContainer: View {
+    @StateObject private var userManager = CurrentUserManager()
     @EnvironmentObject var router: MainRouter
     init(){
         UITabBar.appearance().isHidden = true
@@ -16,13 +17,13 @@ struct TabViewContainer: View {
     var body: some View {
         VStack(spacing: 0) {
             TabView(selection: $router.tab) {
-                FeedView()
+                FeedView(currentUser: userManager.user)
                     .tag(Tab.home)
                 Text("Search")
                     .tag(Tab.search)
                 Text("Notification")
                     .tag(Tab.notification)
-                CurrentUserProfileView(userId: router.userSession?.uid)
+                CurrentUserProfileView(userManager: userManager)
                     .tag(Tab.profile)
             }
             tabView
@@ -30,7 +31,7 @@ struct TabViewContainer: View {
         .fullScreenCover(item: $router.fullScreen) { type in
             switch type{
             case .createNewPost:
-                PostEditorView()
+                PostEditorView(currentUser: userManager.user)
             }
         }
         .notifyPopup(popup: $router.popup)

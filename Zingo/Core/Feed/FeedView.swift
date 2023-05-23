@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FeedView: View {
+    var currentUser: User?
     @StateObject private var viewModel = FeedViewModel()
     var body: some View {
         VStack(spacing: 0) {
@@ -30,7 +31,7 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView()
+        FeedView(currentUser: .mock)
     }
 }
 
@@ -38,7 +39,7 @@ struct FeedView_Previews: PreviewProvider {
 extension FeedView{
     private var headerSection: some View{
         HStack{
-            Text("Good Morning, Alex.")
+            Text("Good Morning, \(currentUser?.userName ?? "")")
                 .font(.title2.bold())
                 .lineLimit(1)
             Spacer()

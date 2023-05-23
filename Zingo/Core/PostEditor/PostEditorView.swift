@@ -12,7 +12,14 @@ struct PostEditorView: View {
     @State private var showImageConfirm: Bool = false
     @State private var showPhotoPicker: Bool = false
     @State private var pickerType: ImagePickerType = .photoLib
-    @StateObject private var viewModel = CreatePostViewModel()
+    @StateObject private var viewModel: CreatePostViewModel
+    var currentUser: User?
+    
+    init(currentUser: User?){
+        _viewModel = StateObject(wrappedValue: CreatePostViewModel(currentUser))
+    }
+    
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16){
             header
@@ -32,15 +39,12 @@ struct PostEditorView: View {
             }
         }
         .handle(error: $viewModel.error)
-        .task {
-            await viewModel.getCurrentUser()
-        }
     }
 }
 
 struct PostEditorView_Previews: PreviewProvider {
     static var previews: some View {
-        PostEditorView()
+        PostEditorView(currentUser: nil)
     }
 }
 

@@ -9,10 +9,10 @@ import SwiftUI
 
 struct UserProfile: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel: ProfileViewModel
+    @StateObject private var viewModel: UserViewModel
     
     init(userId: String?){
-        self._viewModel = StateObject(wrappedValue: ProfileViewModel(userId: userId))
+        self._viewModel = StateObject(wrappedValue: UserViewModel(userId: userId))
     }
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {

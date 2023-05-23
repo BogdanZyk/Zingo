@@ -9,21 +9,17 @@ import SwiftUI
 
 struct CurrentUserProfileView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel: ProfileViewModel
+    @ObservedObject var userManager: CurrentUserManager
     @State private var showConfirmationDialog: Bool = false
     @State private var pickerType: ImagePickerType = .photoLib
     @State private var showPicker: Bool = false
     
-    init(userId: String?){
-        self._viewModel = StateObject(wrappedValue: ProfileViewModel(userId: userId))
-    }
-    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            if let user = viewModel.user{
+            if let user = userManager.user{
                 ProfileContentViewComponent(
                     user: user,
-                    isCurrentUser: viewModel.isCurrentUser,
+                    isCurrentUser: true,
                     onTapAvatar: {onSelectedImage(.avatar)},
                     onTapBanner: {onSelectedImage(.banner)},
                     onTapEdit: {},
@@ -41,8 +37,8 @@ struct CurrentUserProfileView: View {
         .overlay(alignment: .topTrailing) {
             profileActionButton
         }
-        .imagePicker(pickerType: pickerType, show: $showPicker, imagesData: $viewModel.imagesData, selectionLimit: 1, onDismiss: viewModel.uploadImage)
-        .confirmationDialog(viewModel.selectedImageType.title, isPresented: $showConfirmationDialog, titleVisibility: .visible) {
+        .imagePicker(pickerType: pickerType, show: $showPicker, imagesData: $userManager.imagesData, selectionLimit: 1, onDismiss: userManager.uploadImage)
+        .confirmationDialog(userManager.selectedImageType.title, isPresented: $showConfirmationDialog, titleVisibility: .visible) {
             Button("Camera") {
                 selectedPicker(.camera)
             }
@@ -55,7 +51,7 @@ struct CurrentUserProfileView: View {
 
 struct CurrentUserProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        CurrentUserProfileView(userId: "fTSwHTmYHkeYvfsWASMpEDlwGmg2")
+        CurrentUserProfileView(userManager: CurrentUserManager())
     }
 }
 
@@ -65,23 +61,21 @@ extension CurrentUserProfileView{
     
     @ViewBuilder
     private var profileActionButton: some View{
-        if viewModel.isCurrentUser{
             VStack(spacing: 20){
                 IconButton(icon: .letter) {}
                 IconButton(icon: .bookmark) {}
             }
             .padding(.trailing)
-        }
     }
     
     private func selectedPicker(_ type: ImagePickerType){
-        viewModel.imagesData = []
+        userManager.imagesData = []
         pickerType = type
         showPicker.toggle()
     }
     
     private func onSelectedImage(_ type: ProfileImageType){
-        viewModel.selectedImageType = type
+        userManager.selectedImageType = type
         showConfirmationDialog.toggle()
     }
 }

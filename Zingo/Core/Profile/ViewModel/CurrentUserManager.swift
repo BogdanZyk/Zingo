@@ -1,42 +1,35 @@
 //
-//  ProfileViewModel.swift
+//  CurrentUserManager.swift
 //  Zingo
 //
-//  Created by Bogdan Zykov on 22.05.2023.
+//  Created by Bogdan Zykov on 23.05.2023.
 //
 
 import Foundation
 
 
-final class ProfileViewModel: ObservableObject{
+final class CurrentUserManager: ObservableObject{
     
+    @Published private(set) var user: User?
     @Published var imagesData: [UIImageData] = []
     @Published var selectedImageType: ProfileImageType = .avatar
-    @Published private(set) var user: User?
-    
     private var userListener = FBListener()
     private let userService = UserService.share
-    private let userId: String?
     private let cancelBag = CancelBag()
     
-    init(userId: String?){
-        self.userId = userId
+    
+    init(){
         startUserListener()
     }
-    
     
     deinit{
         userListener.cancel()
     }
     
-    var isCurrentUser: Bool{
-        user?.id == userService.getFBUserId()
-    }
-    
     func startUserListener(){
-        guard let userId else {return}
+        guard let id = userService.getFBUserId() else {return}
         
-        let (pub, listener) = userService.addUserListener(for: userId)
+        let (pub, listener) = userService.addUserListener(for: id)
         
         self.userListener.listener = listener
         
@@ -54,15 +47,17 @@ final class ProfileViewModel: ObservableObject{
             }
             .store(in: cancelBag)
     }
-        
+    
+    
+    
     func uploadImage(){
-        guard let userId else {return}
+        guard let id = userService.getFBUserId() else {return}
         Task{
             guard let image = imagesData.first?.image else {return}
             do{
-                let storageImage = try await StorageManager.shared.saveImage(image: image, type: .user, userId: userId)
+                let storageImage = try await StorageManager.shared.saveImage(image: image, type: .user, userId: id)
                 await removeImage(selectedImageType)
-                try await userService.setImageUrl(for: selectedImageType, userId: userId, image: storageImage)
+                try await userService.setImageUrl(for: selectedImageType, userId: id, image: storageImage)
             }catch{
                 print(error.localizedDescription)
             }
@@ -82,7 +77,6 @@ final class ProfileViewModel: ObservableObject{
         }
     }
 }
-
 
 
 enum ProfileImageType: Int{
@@ -107,5 +101,3 @@ enum ProfileImageType: Int{
         }
     }
 }
-
-
