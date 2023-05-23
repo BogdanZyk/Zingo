@@ -42,7 +42,7 @@ struct CurrentUserProfileView: View {
             profileActionButton
         }
         .imagePicker(pickerType: pickerType, show: $showPicker, imagesData: $viewModel.imagesData, selectionLimit: 1, onDismiss: viewModel.uploadImage)
-        .confirmationDialog("", isPresented: $showConfirmationDialog) {
+        .confirmationDialog(viewModel.selectedImageType.title, isPresented: $showConfirmationDialog, titleVisibility: .visible) {
             Button("Camera") {
                 selectedPicker(.camera)
             }
@@ -63,11 +63,6 @@ struct CurrentUserProfileView_Previews: PreviewProvider {
 
 extension CurrentUserProfileView{
     
-    
-    private func showConfirm(){
-        showPicker.toggle()
-    }
-        
     @ViewBuilder
     private var profileActionButton: some View{
         if viewModel.isCurrentUser{
@@ -86,8 +81,8 @@ extension CurrentUserProfileView{
     }
     
     private func onSelectedImage(_ type: ProfileImageType){
-        showPicker.toggle()
         viewModel.selectedImageType = type
+        showConfirmationDialog.toggle()
     }
 }
 

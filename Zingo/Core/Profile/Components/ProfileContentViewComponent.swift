@@ -65,15 +65,17 @@ extension ProfileContentViewComponent{
                 ZStack(alignment: .top){
                     Color.darkGray
                     if isCurrentUser{
-                        Button {
-                            onTapBanner?()
-                        } label: {
-                            Text("Add bunner image")
-                                .foregroundColor(.lightGray)
-                        }
-                        .padding(.top, 26)
+                        Text("Add bunner image")
+                            .foregroundColor(.lightGray)
+                            .padding(.top, 26)
                     }
                 }
+            }
+        }
+        
+        .onTapGesture {
+            if isCurrentUser{
+                onTapBanner?()
             }
         }
     }

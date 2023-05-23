@@ -57,30 +57,28 @@ final class ProfileViewModel: ObservableObject{
         
     func uploadImage(){
         guard let userId else {return}
-        
         Task{
             guard let image = imagesData.first?.image else {return}
             do{
                 let storageImage = try await StorageManager.shared.saveImage(image: image, type: .user, userId: userId)
-                
                 await removeImage(selectedImageType)
-                
                 try await userService.setImageUrl(for: selectedImageType, userId: userId, image: storageImage)
             }catch{
                 print(error.localizedDescription)
             }
-            
         }
     }
     
-     func removeImage(_ type: ProfileImageType) async{
-        
-         if let bannerPath = user?.bannerImage?.path, type == .banner {
+    @MainActor
+    func removeImage(_ type: ProfileImageType) async{
+        if let bannerPath = user?.bannerImage?.path, type == .banner {
             try? await StorageManager.shared.deleteImage(path: bannerPath)
+            user?.bannerImage = nil
         }
         
-         if let avatarPath = user?.profileImage?.path, type == .avatar {
+        if let avatarPath = user?.profileImage?.path, type == .avatar {
             try? await StorageManager.shared.deleteImage(path: avatarPath)
+            user?.profileImage = nil
         }
     }
 }
@@ -99,6 +97,13 @@ enum ProfileImageType: Int{
             return [User.CodingKeys.profileImage.rawValue: dataDict]
         case .banner:
             return [User.CodingKeys.bannerImage.rawValue: dataDict]
+        }
+    }
+    
+    var title: String{
+        switch self {
+        case .avatar: return "Adding a profile image"
+        case .banner: return "Adding a banner image"
         }
     }
 }
