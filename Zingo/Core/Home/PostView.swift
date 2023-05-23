@@ -73,7 +73,7 @@ extension PostView{
     
     private var postContent: some View{
         Group{
-            if let image = post.imageUrl{
+            if let image = post.images.first?.fullPath{
                 LazyNukeImage(strUrl: image, resizeHeight: 400, resizingMode: .aspectFill, loadPriority: .high)
                     .frame(height: 180)
                     .cornerRadius(16)

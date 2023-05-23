@@ -14,9 +14,9 @@ struct Post: Identifiable, Codable{
     let id: String
     let owner: Owner
     let caption: String?
-    var likes: Int
-    var comments: Int
-    var imageUrl: String?
+    var likes: Int = 0
+    var comments: Int = 0
+    var images: [StoreImage]
     var createdAt: Date
     
     
@@ -32,7 +32,15 @@ struct Post: Identifiable, Codable{
             self.image = user.profileImage?.fullPath
         }
     }
-    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case owner
+        case caption
+        case likes
+        case comments
+        case images
+        case createdAt
+    }
 }
 
 extension Post{
@@ -42,13 +50,14 @@ extension Post{
              caption: "“If you think you are too small to make a difference, try sleeping with a mosquito.” ~ Dalai Lama",
              likes: 123,
              comments: 34,
+             images: [],
              createdAt: Date.now),
         Post(id: UUID().uuidString,
              owner: Owner(user: User.mock),
              caption: nil,
              likes: 123,
              comments: 34,
-             imageUrl: "https://i.etsystatic.com/30097568/r/il/c7f1a0/3513889975/il_570xN.3513889975_lfe4.jpg",
+             images: [.init(path: "", fullPath: "https://i.etsystatic.com/30097568/r/il/c7f1a0/3513889975/il_570xN.3513889975_lfe4.jpg")],
              createdAt: Date.now)
     ]
 }

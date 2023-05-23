@@ -29,6 +29,16 @@ enum RouterDestination: Hashable {
 //  case tagsList(tags: [Tag])
 }
 
+enum FullScreenDestination: Identifiable, Hashable{
+    case createNewPost
+    
+    var id: Int{
+        switch self {
+        case .createNewPost: return 0
+        }
+    }
+}
+
 enum SheetDestination {
   case newStatusEditor
 //  case editStatusEditor(status: Status)
@@ -75,6 +85,7 @@ class MainRouter: ObservableObject {
 
     @Published var path: [RouterDestination] = []
     @Published var presentedSheet: SheetDestination?
+    @Published var fullScreen: FullScreenDestination?
     @Published var tab: Tab = .home
     @Published var userSession: FirebaseAuth.User?
     private let cancelBag = CancelBag()

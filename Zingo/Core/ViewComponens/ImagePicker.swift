@@ -147,7 +147,7 @@ extension View {
 }
 
 
-struct UIImageData{
+struct UIImageData: Identifiable{
     var id: String = UUID().uuidString
     var fileName: String
     var image: UIImage?

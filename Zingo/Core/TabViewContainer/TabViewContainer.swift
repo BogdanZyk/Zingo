@@ -26,6 +26,12 @@ struct TabViewContainer: View {
             }
             tabView
         }
+        .fullScreenCover(item: $router.fullScreen) { type in
+            switch type{
+            case .createNewPost:
+                PostEditorView()
+            }
+        }
     }
 }
 
@@ -54,7 +60,7 @@ extension TabViewContainer{
         Group{
             if tab == .create{
                 Button {
-                    
+                    router.fullScreen = .createNewPost
                 } label: {
                     Image(tab.image)
                         .padding()
