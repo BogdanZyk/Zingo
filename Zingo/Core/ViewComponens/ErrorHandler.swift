@@ -12,18 +12,15 @@ public struct ErrorHandleModifier: ViewModifier {
 
     public func body(content: Content) -> some View {
         content
-        // Avoid SwiftUI Bug's for alert is not shown.
-            .background(EmptyView().alert(item: .init(get: {
-                error.map(Identity.init)
-            }, set: { identifiableError in
-                error = identifiableError?.error
-            }), content: { identifiableError in
-                Alert(
-                    title: Text("Error"),
-                    message: Text(identifiableError.localizedDescription.prefix(100)),
-                    dismissButton: .default(Text("OK"))
-                )
-            }))
+            .alert(Text("Error"),
+                   isPresented: .init(get: {error != nil}, set: {state in
+                if !state{
+                    error = nil
+                }
+            }),
+                   actions: {Button("OK", role: .cancel, action: {})},
+                   message: {Text(error?.localizedDescription.prefix(100) ?? "")}
+            )
     }
 }
 
@@ -54,3 +51,5 @@ extension Identity: Error, LocalizedError where T: Error {
     var recoverySuggestion: String? { nil }
     var helpAnchor: String? { nil }
 }
+
+

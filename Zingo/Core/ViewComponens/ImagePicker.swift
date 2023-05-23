@@ -134,7 +134,7 @@ struct PHPImagePickerModifier: ViewModifier{
                     }else{
                         CameraPicker(imagesData: $imagesData)
                     }
-                }.preferredColorScheme(.light)
+                }.preferredColorScheme(.dark)
             }
     }
 }

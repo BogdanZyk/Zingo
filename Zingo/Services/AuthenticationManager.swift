@@ -84,6 +84,7 @@ extension AuthenticationManager{
         let result = try await Auth.auth().createUser(withEmail: email, password: pass)
         let authDataResult = AuthDataResult(user: result.user)
         try await createUser(.init(id: authDataResult.uid, userName: name, email: email))
+        self.userSession = result.user
         return authDataResult
     }
     

@@ -58,7 +58,7 @@ extension LoginView{
     }
     
     private var submitButton: some View{
-        ButtonView(label: "Log in", showLoader: viewModel.showLoader, type: .primary, font: .title3.bold(), isDisabled: viewModel.isValidEmail && viewModel.isValidPass) {
+        ButtonView(label: "Log in", showLoader: viewModel.showLoader, type: .primary, font: .title3.bold(), isDisabled: !(viewModel.isValidEmail) || !(viewModel.isValidPass)) {
             viewModel.signIn()
         }
         .padding(.vertical, 20)

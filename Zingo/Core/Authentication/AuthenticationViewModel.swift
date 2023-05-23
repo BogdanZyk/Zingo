@@ -57,7 +57,7 @@ final class AuthenticationViewModel: ObservableObject{
     }
     
     private func handleError(_ error: Error){
-        self.error = error
         self.showLoader = false
+        self.error = error
     }
 }
