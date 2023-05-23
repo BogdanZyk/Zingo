@@ -93,7 +93,7 @@ extension StorageManager{
 }
 
 
-struct StoreImage: Codable{
+struct StoreImage: Identifiable, Codable{
     let path: String
     let fullPath: String
     
@@ -101,5 +101,7 @@ struct StoreImage: Codable{
     func getData() throws -> [String : Any]{
         try Firestore.Encoder().encode(self)
     }
+    
+    var id: String{ path }
 }
 

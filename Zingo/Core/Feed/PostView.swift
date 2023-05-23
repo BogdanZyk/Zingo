@@ -81,10 +81,17 @@ extension PostView{
     
     private var postContent: some View{
         Group{
-            if let image = post.images.first?.fullPath{
-                LazyNukeImage(strUrl: image, resizeHeight: 400, resizingMode: .aspectFill, loadPriority: .high)
-                    .frame(height: 180)
-                    .cornerRadius(16)
+            if !post.images.isEmpty{
+                TabView {
+                    ForEach(post.images) { image in
+                        LazyNukeImage(strUrl: image.fullPath, resizeHeight: 400, resizingMode: .aspectFill, loadPriority: .high)
+                            .cornerRadius(16)
+                            .padding(.horizontal)
+                    }
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .frame(height: 180)
+                .padding(.horizontal, -16)
             }
             if let text = post.caption{
                 Text(text)
