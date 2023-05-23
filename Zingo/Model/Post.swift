@@ -29,7 +29,7 @@ struct Post: Identifiable, Codable{
         init(user: User){
             self.id = user.id
             self.name = user.userName
-            self.image = user.profileImageUrl
+            self.image = user.profileImage?.fullPath
         }
     }
     

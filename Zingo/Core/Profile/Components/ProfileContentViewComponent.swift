@@ -52,7 +52,7 @@ struct ProfileContentViewComponent_Previews: PreviewProvider {
 extension ProfileContentViewComponent{
     private var bgImage: some View{
         Group{
-            if let image = user.bannerImage{
+            if let image = user.bannerImage?.fullPath{
                 GeometryReader{ geo -> AnyView in
                     AnyView(
                         LazyNukeImage(strUrl: image, resizingMode: .aspectFill, loadPriority: .high)
@@ -87,7 +87,7 @@ extension ProfileContentViewComponent{
                 Circle()
                     .strokeBorder(LinearGradient.primaryGradient, lineWidth: 2.5)
             }
-            UserAvatarView(image: user.profileImageUrl)
+            UserAvatarView(image: user.profileImage?.fullPath)
                 .onTapGesture {
                    onTapAvatar?()
                 }

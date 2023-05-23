@@ -51,6 +51,8 @@
 		5A4BADD62A1BBBB20009CD12 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADD52A1BBBB20009CD12 /* ImagePicker.swift */; };
 		5A4BADDB2A1BBE090009CD12 /* ProfileContentViewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADDA2A1BBE090009CD12 /* ProfileContentViewComponent.swift */; };
 		5A4BADDD2A1BC1A00009CD12 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADDC2A1BC1A00009CD12 /* UserProfile.swift */; };
+		5A4BADDF2A1BC54C0009CD12 /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADDE2A1BC54C0009CD12 /* CreatePostViewModel.swift */; };
+		5A4BADE32A1CAAFB0009CD12 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADE22A1CAAFB0009CD12 /* StorageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +96,8 @@
 		5A4BADD52A1BBBB20009CD12 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		5A4BADDA2A1BBE090009CD12 /* ProfileContentViewComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContentViewComponent.swift; sourceTree = "<group>"; };
 		5A4BADDC2A1BC1A00009CD12 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		5A4BADDE2A1BC54C0009CD12 /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
+		5A4BADE22A1CAAFB0009CD12 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,17 +221,9 @@
 			isa = PBXGroup;
 			children = (
 				5A4BAD982A1B5D990009CD12 /* Style */,
-				5A28FFE52A17AB190068D3FD /* Services */,
 				5A28FFE12A17AA9E0068D3FD /* Extensions */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		5A28FFE52A17AB190068D3FD /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		5A28FFE62A17AB420068D3FD /* Authentication */ = {
@@ -278,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				5A4BADAF2A1B86A70009CD12 /* PostEditorView.swift */,
+				5A4BADDE2A1BC54C0009CD12 /* CreatePostViewModel.swift */,
 			);
 			path = PostEditor;
 			sourceTree = "<group>";
@@ -338,6 +335,7 @@
 			children = (
 				5A4BADBF2A1B8B6F0009CD12 /* AuthenticationManager.swift */,
 				5A4BADC12A1B8BE00009CD12 /* UserService.swift */,
+				5A4BADE22A1CAAFB0009CD12 /* StorageManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -441,9 +439,11 @@
 				5A4BADA12A1B6FB80009CD12 /* TextFieldView.swift in Sources */,
 				5A4BAD972A1B5BE70009CD12 /* Image.swift in Sources */,
 				5A4BADDD2A1BC1A00009CD12 /* UserProfile.swift in Sources */,
+				5A4BADE32A1CAAFB0009CD12 /* StorageManager.swift in Sources */,
 				5A28FFFA2A17C3100068D3FD /* CurrentUserProfileView.swift in Sources */,
 				5A4BADC22A1B8BE00009CD12 /* UserService.swift in Sources */,
 				5A28FFF12A17ADFA0068D3FD /* Router.swift in Sources */,
+				5A4BADDF2A1BC54C0009CD12 /* CreatePostViewModel.swift in Sources */,
 				5A4BADA52A1B75420009CD12 /* AuthenticationViewModel.swift in Sources */,
 				5A28FFEE2A17AC570068D3FD /* TabViewContainer.swift in Sources */,
 				5A4BADAA2A1B7A5E0009CD12 /* User.swift in Sources */,

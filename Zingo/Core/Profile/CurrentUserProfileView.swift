@@ -21,7 +21,13 @@ struct CurrentUserProfileView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             if let user = viewModel.user{
-                ProfileContentViewComponent(user: user, isCurrentUser: viewModel.isCurrentUser, onTapAvatar: showConfirm, onTapBanner: showConfirm, onTapEdit: {}, onChangeTab: {_ in })
+                ProfileContentViewComponent(
+                    user: user,
+                    isCurrentUser: viewModel.isCurrentUser,
+                    onTapAvatar: {onSelectedImage(.avatar)},
+                    onTapBanner: {onSelectedImage(.banner)},
+                    onTapEdit: {},
+                    onChangeTab: {_ in })
             }else{
                 ProgressView()
                     .hCenter()
@@ -35,15 +41,13 @@ struct CurrentUserProfileView: View {
         .overlay(alignment: .topTrailing) {
             profileActionButton
         }
-        .imagePicker(pickerType: pickerType, show: $showPicker, imagesData: $viewModel.imagesData, selectionLimit: 1)
+        .imagePicker(pickerType: pickerType, show: $showPicker, imagesData: $viewModel.imagesData, selectionLimit: 1, onDismiss: viewModel.uploadImage)
         .confirmationDialog("", isPresented: $showConfirmationDialog) {
             Button("Camera") {
-                pickerType = .camera
-                showPicker.toggle()
+                selectedPicker(.camera)
             }
             Button("Photo") {
-                pickerType = .photoLib
-                showPicker.toggle()
+                selectedPicker(.photoLib)
             }
         }
     }
@@ -73,6 +77,17 @@ extension CurrentUserProfileView{
             }
             .padding(.trailing)
         }
+    }
+    
+    private func selectedPicker(_ type: ImagePickerType){
+        viewModel.imagesData = []
+        pickerType = type
+        showPicker.toggle()
+    }
+    
+    private func onSelectedImage(_ type: ProfileImageType){
+        showPicker.toggle()
+        viewModel.selectedImageType = type
     }
 }
 

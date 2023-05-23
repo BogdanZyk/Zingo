@@ -63,6 +63,16 @@ final class UserService{
 }
 
 
+extension UserService{
+    
+    
+    func setImageUrl(for type: ProfileImageType, userId: String, image: StoreImage) async throws{
+        try await userDocument(for: userId).updateData(type.getDict(image))
+    }
+
+}
+
+
 struct FBListener{
     
     var listener: ListenerRegistration?

@@ -9,12 +9,27 @@ import SwiftUI
 
 struct PostEditorView: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var showImageConfirm: Bool = false
+    @State private var showPhotoPicker: Bool = false
+    @State private var pickerType: ImagePickerType = .photoLib
+    @StateObject private var viewModel = CreatePostViewModel()
     var body: some View {
         VStack{
             header
         }
         .allFrame()
         .background(Color.darkBlack)
+        .imagePicker(pickerType: pickerType, show: $showPhotoPicker, imagesData: $viewModel.imagesData, selectionLimit: 1)
+        .confirmationDialog("", isPresented: $showImageConfirm) {
+            Button("Camera") {
+                pickerType = .camera
+                showPhotoPicker.toggle()
+            }
+            Button("Photo") {
+                pickerType = .photoLib
+                showPhotoPicker.toggle()
+            }
+        }
     }
 }
 
