@@ -39,6 +39,26 @@ enum FullScreenDestination: Identifiable, Hashable{
     }
 }
 
+
+enum PopupNotify: String, Identifiable{
+    case successfullyPost = "successfullyPost"
+    
+    var id: String{
+        self.rawValue
+    }
+    
+    var title: String{
+        switch self {
+        case .successfullyPost: return "Your post was successfully published!"
+        }
+    }
+    var color: Color{
+        switch self {
+        case .successfullyPost: return .lightGray
+        }
+    }
+}
+
 enum SheetDestination {
   case newStatusEditor
 //  case editStatusEditor(status: Status)
@@ -86,6 +106,7 @@ class MainRouter: ObservableObject {
     @Published var path: [RouterDestination] = []
     @Published var presentedSheet: SheetDestination?
     @Published var fullScreen: FullScreenDestination?
+    @Published var popup: PopupNotify?
     @Published var tab: Tab = .home
     @Published var userSession: FirebaseAuth.User?
     private let cancelBag = CancelBag()
@@ -93,6 +114,7 @@ class MainRouter: ObservableObject {
     
     init() {
         startSubsUserSession()
+        setupNcPublisher()
     }
     
     func navigate(to: RouterDestination) {
@@ -111,6 +133,16 @@ class MainRouter: ObservableObject {
             self.userSession = session
         }
         .store(in: cancelBag)
+    }
+    
+    private func setupNcPublisher(){
+        nc.publisher(for: .successfullyPost)
+            .delay(for: 0.5, scheduler: RunLoop.main)
+            .sink {[weak self] notification in
+                guard let self = self else {return}
+                self.popup = .init(rawValue: notification.name.rawValue)
+            }
+            .store(in: cancelBag)
     }
 }
 

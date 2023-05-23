@@ -12,6 +12,7 @@ struct TabViewContainer: View {
     init(){
         UITabBar.appearance().isHidden = true
     }
+   
     var body: some View {
         VStack(spacing: 0) {
             TabView(selection: $router.tab) {
@@ -32,6 +33,7 @@ struct TabViewContainer: View {
                 PostEditorView()
             }
         }
+        .notifyPopup(popup: $router.popup)
     }
 }
 
@@ -78,3 +80,6 @@ extension TabViewContainer{
         .hCenter()
     }
 }
+
+
+

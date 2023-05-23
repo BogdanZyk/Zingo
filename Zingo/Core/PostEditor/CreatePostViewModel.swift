@@ -38,6 +38,7 @@ class CreatePostViewModel: ObservableObject{
                 try await postService.createPost(owner: .init(user: currentUser), images:imagesData, text: text)
                 await MainActor.run {
                     self.showLoader = false
+                    nc.post(name: .successfullyPost)
                 }
             }catch{
                 await MainActor.run {
