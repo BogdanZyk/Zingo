@@ -32,6 +32,14 @@ struct FeedView: View {
             }
         }
         .background(Color.darkBlack)
+        .navigationDestination(for: RouterDestination.self) { destination in
+            switch destination{
+            case .userProfile(let id):
+                UserProfile(userId: id)
+            case .postDetails(let id):
+                Text(id)
+            }
+        }
     }
 }
 

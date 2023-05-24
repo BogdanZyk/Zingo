@@ -16,20 +16,29 @@ struct TabViewContainer: View {
    
     var body: some View {
         VStack(spacing: 0) {
-            NavigationStack(path: $router.path){
-                TabView(selection: $router.tab) {
-                    FeedView(currentUser: userManager.user)
-                        .tag(Tab.home)
-                    Text("Search")
-                        .tag(Tab.search)
-                    Text("Notification")
-                        .tag(Tab.notification)
-                    CurrentUserProfileView(userManager: userManager)
-                        .tag(Tab.profile)
-                }
-                .withAppRouter()
-            }
             
+            TabView(selection: $router.tab) {
+                
+                NavigationStack(path: $router.pathDestination.feed){
+                    FeedView(currentUser: userManager.user)
+                }
+                .tag(Tab.feed)
+                
+                NavigationStack(path: $router.pathDestination.search){
+                    Text("Search")
+                }
+                .tag(Tab.search)
+    
+                NavigationStack(path: $router.pathDestination.notification){
+                    Text("Notification")
+                }
+                .tag(Tab.notification)
+                
+                NavigationStack(path: $router.pathDestination.profile){
+                    CurrentUserProfileView(userManager: userManager)
+                }
+                .tag(Tab.profile)
+            }
             tabView
         }
         .notifyPopup(popup: $router.popup)

@@ -103,13 +103,13 @@ enum SheetDestination {
 
 
 
-class MainRouter: ObservableObject {
+final class MainRouter: ObservableObject {
 
-    @Published var path: [RouterDestination] = []
+    @Published var pathDestination = PathDestination()
     @Published var presentedSheet: SheetDestination?
     @Published var fullScreen: FullScreenDestination?
     @Published var popup: PopupNotify?
-    @Published var tab: Tab = .home
+    @Published var tab: Tab = .feed
     @Published var userSession: FirebaseAuth.User?
     private let cancelBag = CancelBag()
     let authManager = AuthenticationManager.share
@@ -120,7 +120,17 @@ class MainRouter: ObservableObject {
     }
     
     func navigate(to: RouterDestination) {
-        path.append(to)
+        switch tab {
+        case .feed:
+            pathDestination.feed.append(to)
+        case .search:
+            pathDestination.search.append(to)
+        case .notification:
+            pathDestination.notification.append(to)
+        case .profile:
+            pathDestination.profile.append(to)
+        default: break
+        }
     }
     
     
@@ -149,6 +159,16 @@ class MainRouter: ObservableObject {
                 self.popup = .init(rawValue: notification.name.rawValue)
             }
             .store(in: cancelBag)
+    }
+}
+
+
+extension MainRouter{
+    struct PathDestination{
+        var feed = [RouterDestination]()
+        var search = [RouterDestination]()
+        var notification = [RouterDestination]()
+        var profile = [RouterDestination]()
     }
 }
 
