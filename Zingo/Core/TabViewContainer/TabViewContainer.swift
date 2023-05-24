@@ -15,30 +15,31 @@ struct TabViewContainer: View {
     }
    
     var body: some View {
-        VStack(spacing: 0) {
+        
+        TabView(selection: $router.tab) {
             
-            TabView(selection: $router.tab) {
-                
-                NavigationStack(path: $router.pathDestination.feed){
-                    FeedView(currentUser: userManager.user)
-                }
-                .tag(Tab.feed)
-                
-                NavigationStack(path: $router.pathDestination.search){
-                    Text("Search")
-                }
-                .tag(Tab.search)
-    
-                NavigationStack(path: $router.pathDestination.notification){
-                    Text("Notification")
-                }
-                .tag(Tab.notification)
-                
-                NavigationStack(path: $router.pathDestination.profile){
-                    CurrentUserProfileView(userManager: userManager)
-                }
-                .tag(Tab.profile)
+            NavigationStack(path: $router.pathDestination.feed){
+                FeedView(currentUser: userManager.user)
             }
+            .tag(Tab.feed)
+            
+            NavigationStack(path: $router.pathDestination.search){
+                Text("Search")
+            }
+            .tag(Tab.search)
+            
+            NavigationStack(path: $router.pathDestination.notification){
+                Text("Notification")
+            }
+            .tag(Tab.notification)
+            
+            NavigationStack(path: $router.pathDestination.profile){
+                CurrentUserProfileView(userManager: userManager)
+            }
+            .tag(Tab.profile)
+        }
+        
+        .safeAreaInset(edge: .bottom, alignment: .center, spacing: 0) {
             tabView
         }
         .notifyPopup(popup: $router.popup)
@@ -56,15 +57,18 @@ struct TabViewContainer_Previews: PreviewProvider {
 extension TabViewContainer{
     
     
+    @ViewBuilder
     private var tabView: some View{
-        HStack{
-            ForEach(Tab.allCases, id: \.self){ tab in
-                tabItem(tab)
+        if !router.hiddenTabView{
+            HStack{
+                ForEach(Tab.allCases, id: \.self){ tab in
+                    tabItem(tab)
+                }
             }
+            .padding(.bottom)
+            .padding(.top, 10)
+            .background(Color.black)
         }
-        .padding(.bottom)
-        .padding(.top, 10)
-        .background(Color.black)
     }
     
     private func tabItem(_ tab: Tab) -> some View{

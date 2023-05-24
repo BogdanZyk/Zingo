@@ -67,7 +67,8 @@ extension Post{
              owner: Owner(user: User.mock),
              caption: nil,
              comments: 34,
-             images: [.init(path: "", fullPath: "https://i.etsystatic.com/30097568/r/il/c7f1a0/3513889975/il_570xN.3513889975_lfe4.jpg")],
+             images: [.init(path: "", fullPath: "https://i.etsystatic.com/30097568/r/il/c7f1a0/3513889975/il_570xN.3513889975_lfe4.jpg"),
+                      .init(path: "", fullPath: "https://i.etsystatic.com/30097568/r/il/c7f1a0/3513889975/il_570xN.3513889975_lfe4.jpg")],
              createdAt: Date.now)
     ]
 }

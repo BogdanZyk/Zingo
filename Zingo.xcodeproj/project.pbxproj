@@ -62,6 +62,11 @@
 		5A4BADF52A1CF97D0009CD12 /* AppRoute+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADF42A1CF97D0009CD12 /* AppRoute+View.swift */; };
 		5A4BADF72A1CFEB60009CD12 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADF62A1CFEB60009CD12 /* UINavigationController.swift */; };
 		5A80C4432A1E11FE00C42FC0 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4422A1E11FE00C42FC0 /* PostViewModel.swift */; };
+		5A80C4462A1E1F4D00C42FC0 /* ImageSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4452A1E1F4D00C42FC0 /* ImageSliderView.swift */; };
+		5A80C4492A1E334500C42FC0 /* PostCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4482A1E334500C42FC0 /* PostCommentView.swift */; };
+		5A80C44B2A1E33D900C42FC0 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C44A2A1E33D900C42FC0 /* Comment.swift */; };
+		5A80C44D2A1E463100C42FC0 /* CommentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C44C2A1E463100C42FC0 /* CommentsService.swift */; };
+		5A80C44F2A1E48AC00C42FC0 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C44E2A1E48AC00C42FC0 /* CommentViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,6 +121,11 @@
 		5A4BADF42A1CF97D0009CD12 /* AppRoute+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppRoute+View.swift"; sourceTree = "<group>"; };
 		5A4BADF62A1CFEB60009CD12 /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		5A80C4422A1E11FE00C42FC0 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
+		5A80C4452A1E1F4D00C42FC0 /* ImageSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderView.swift; sourceTree = "<group>"; };
+		5A80C4482A1E334500C42FC0 /* PostCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentView.swift; sourceTree = "<group>"; };
+		5A80C44A2A1E33D900C42FC0 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		5A80C44C2A1E463100C42FC0 /* CommentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsService.swift; sourceTree = "<group>"; };
+		5A80C44E2A1E48AC00C42FC0 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +202,7 @@
 		5A28FFE02A17A9220068D3FD /* ViewComponens */ = {
 			isa = PBXGroup;
 			children = (
+				5A80C4442A1E1F3400C42FC0 /* ImageSlider */,
 				5A4BADE82A1CE7710009CD12 /* Popap */,
 				5A4BAD9F2A1B6FA60009CD12 /* TextFields */,
 				5A28FFFB2A17C3750068D3FD /* NukeImage */,
@@ -234,6 +245,7 @@
 				5A4BADA92A1B7A5E0009CD12 /* User.swift */,
 				5A4BADAB2A1B7CBB0009CD12 /* Post.swift */,
 				5A4BADC72A1B99630009CD12 /* Tab.swift */,
+				5A80C44A2A1E33D900C42FC0 /* Comment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -361,6 +373,7 @@
 				5A4BADC12A1B8BE00009CD12 /* UserService.swift */,
 				5A4BADE22A1CAAFB0009CD12 /* StorageManager.swift */,
 				5A4BADE62A1CDA820009CD12 /* PostService.swift */,
+				5A80C44C2A1E463100C42FC0 /* CommentsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -393,10 +406,28 @@
 		5A80C4412A1E0E3D00C42FC0 /* PostView */ = {
 			isa = PBXGroup;
 			children = (
+				5A80C4472A1E333300C42FC0 /* CommentView */,
 				5A4BAD9D2A1B62C50009CD12 /* PostView.swift */,
 				5A80C4422A1E11FE00C42FC0 /* PostViewModel.swift */,
 			);
 			path = PostView;
+			sourceTree = "<group>";
+		};
+		5A80C4442A1E1F3400C42FC0 /* ImageSlider */ = {
+			isa = PBXGroup;
+			children = (
+				5A80C4452A1E1F4D00C42FC0 /* ImageSliderView.swift */,
+			);
+			path = ImageSlider;
+			sourceTree = "<group>";
+		};
+		5A80C4472A1E333300C42FC0 /* CommentView */ = {
+			isa = PBXGroup;
+			children = (
+				5A80C4482A1E334500C42FC0 /* PostCommentView.swift */,
+				5A80C44E2A1E48AC00C42FC0 /* CommentViewModel.swift */,
+			);
+			path = CommentView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -497,7 +528,10 @@
 				5A28FFF12A17ADFA0068D3FD /* Router.swift in Sources */,
 				5A4BADDF2A1BC54C0009CD12 /* CreatePostViewModel.swift in Sources */,
 				5A4BADA52A1B75420009CD12 /* AuthenticationViewModel.swift in Sources */,
+				5A80C44F2A1E48AC00C42FC0 /* CommentViewModel.swift in Sources */,
 				5A4BADF72A1CFEB60009CD12 /* UINavigationController.swift in Sources */,
+				5A80C4492A1E334500C42FC0 /* PostCommentView.swift in Sources */,
+				5A80C44B2A1E33D900C42FC0 /* Comment.swift in Sources */,
 				5A4BADF12A1CF6370009CD12 /* CurrentUserManager.swift in Sources */,
 				5A28FFEE2A17AC570068D3FD /* TabViewContainer.swift in Sources */,
 				5A4BADAA2A1B7A5E0009CD12 /* User.swift in Sources */,
@@ -514,6 +548,7 @@
 				5A4BADA32A1B745F0009CD12 /* LoginView.swift in Sources */,
 				5A28FFF32A17B2BE0068D3FD /* Color.swift in Sources */,
 				5A4BADB02A1B86A70009CD12 /* PostEditorView.swift in Sources */,
+				5A80C4462A1E1F4D00C42FC0 /* ImageSliderView.swift in Sources */,
 				5A4BAD9A2A1B5DA60009CD12 /* Icon.swift in Sources */,
 				5A4BADC42A1B915A0009CD12 /* AppError.swift in Sources */,
 				5A4BADEA2A1CE77B0009CD12 /* PopupView.swift in Sources */,
@@ -526,6 +561,7 @@
 				5A4BADD22A1BB1E70009CD12 /* Query.swift in Sources */,
 				5A4BAD9E2A1B62C50009CD12 /* PostView.swift in Sources */,
 				5A4BADC62A1B98B70009CD12 /* CancelBag.swift in Sources */,
+				5A80C44D2A1E463100C42FC0 /* CommentsService.swift in Sources */,
 				5A4BADF32A1CF64A0009CD12 /* UserViewModel.swift in Sources */,
 				5A28FFF82A17BD660068D3FD /* PrimaryButtonView.swift in Sources */,
 			);

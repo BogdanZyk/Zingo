@@ -110,6 +110,7 @@ final class MainRouter: ObservableObject {
     @Published var fullScreen: FullScreenDestination?
     @Published var popup: PopupNotify?
     @Published var tab: Tab = .feed
+    @Published var hiddenTabView: Bool = false
     @Published var userSession: FirebaseAuth.User?
     private let cancelBag = CancelBag()
     let authManager = AuthenticationManager.share

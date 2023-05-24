@@ -21,7 +21,6 @@ struct FeedView: View {
                     LazyVStack(spacing: 20) {
                         ForEach($viewModel.posts) { post in
                             postCell(post)
-                            
                             if viewModel.shouldNextPageLoader(post.id){
                                 ProgressView()
                             }

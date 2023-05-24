@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct PostView: View {
+    @State private var selectionImage = 0
+    @State private var showComments: Bool = false
     @Binding var post: Post
     @StateObject var viewModel: PostViewModel
+    
     var currentUserId: String?
     var onRemove: ((String) -> Void)?
     var onTapUser: ((String) -> Void)?
@@ -34,6 +37,9 @@ struct PostView: View {
             }
             .foregroundColor(.white)
             divider
+        }
+        .navigationDestination(isPresented: $showComments) {
+            PostCommentView(post: $post)
         }
     }
 }
@@ -92,19 +98,12 @@ extension PostView{
     private var postContent: some View{
         Group{
             if !post.images.isEmpty{
-                TabView {
-                    ForEach(post.images) { image in
-                        LazyNukeImage(strUrl: image.fullPath, resizeHeight: 400, resizingMode: .aspectFill, loadPriority: .high)
-                            .cornerRadius(16)
-                            .padding(.horizontal)
-                            .overlay {
-                                likeAnimation
-                            }
+                
+                imageCarousel(images: post.images)
+                    .padding(.horizontal, -16)
+                    .overlay {
+                        likeAnimation
                     }
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                .frame(height: 180)
-                .padding(.horizontal, -16)
             }
             if let text = post.caption{
                 Text(text)
@@ -114,7 +113,7 @@ extension PostView{
         }
         .onTapGesture(count: 2) {
             Task{
-               await viewModel.likeUnLikePost(post: $post)
+                await viewModel.likeUnLikePost(post: $post)
             }
         }
     }
@@ -123,9 +122,11 @@ extension PostView{
         HStack(spacing: 16){
             buttonIcon(.like(post.likeCount))
             buttonIcon(.comment(post.comments))
-            buttonIcon(.share)
             Spacer()
             buttonIcon(.save)
+        }
+        .overlay(alignment: .center) {
+            pageControlView(images: post.images)
         }
     }
      
@@ -138,9 +139,7 @@ extension PostView{
                    await viewModel.likeUnLikePost(post: $post)
                 }
             case .comment:
-                break
-            case .share:
-                break
+                showComments.toggle()
             case .save:
                 break
             }
@@ -154,8 +153,6 @@ extension PostView{
                         Text(verbatim: String(value))
                     case .comment(let value):
                         Text(verbatim: String(value))
-                    case .share:
-                        EmptyView()
                     case .save:
                         EmptyView()
                     }
@@ -168,13 +165,12 @@ extension PostView{
     
     enum PostStats{
         
-        case like(Int), comment(Int), share, save
+        case like(Int), comment(Int), save
         
         var image: String{
             switch self{
             case .like: return Icon.like.rawValue
             case .comment: return Icon.bubble.rawValue
-            case .share: return Icon.share.rawValue
             case .save: return Icon.bookmark.rawValue
             }
         }
@@ -183,7 +179,6 @@ extension PostView{
             switch self{
             case .like: return 0
             case .comment: return 1
-            case .share: return 2
             case .save: return 3
             }
         }
@@ -213,5 +208,28 @@ extension PostView{
             .fill(Color.darkGray)
             .frame(height: 1)
             .padding(.horizontal, -16)
+    }
+    
+    
+    private func imageCarousel(images: [StoreImage]) -> some View{
+        TabView(selection: $selectionImage) {
+            ForEach(images.indices, id: \.self) { index in
+                LazyNukeImage(strUrl: images[index].fullPath, resizeHeight: 400, resizingMode: .aspectFill, loadPriority: .high)
+                    .tag(index)
+            }
+        }
+        .tabViewStyle(.page(indexDisplayMode: .never))
+        .frame(height: 200)
+
+    }
+    
+    private func pageControlView(images: [StoreImage]) -> some View{
+        HStack(spacing: 5){
+            ForEach(images.indices, id: \.self) { index in
+                Circle()
+                    .fill(selectionImage == index ? Color.accentPink : .lightGray)
+                    .frame(width: 6, height: 6)
+            }
+        }
     }
 }

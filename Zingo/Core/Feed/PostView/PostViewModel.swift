@@ -8,17 +8,18 @@
 import Foundation
 import SwiftUI
 
+
 class PostViewModel: ObservableObject{
     
     
     private let postService = PostService.shared
     private var currentUserId: String?
     @Published var showLikeAnimation: Bool = false
+
     
     init(currentUserId: String?){
         self.currentUserId = currentUserId
     }
-    
     
     @MainActor
     func likeUnLikePost(post: Binding<Post>) async{

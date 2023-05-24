@@ -19,7 +19,7 @@ final class PostService{
     private let postCollections = Firestore.firestore().collection("posts")
     
     
-    private func getPostDocumentRef(_ postId: String) -> DocumentReference{
+    func getPostDocumentRef(_ postId: String) -> DocumentReference{
         postCollections.document(postId)
     }
     
@@ -93,6 +93,13 @@ final class PostService{
         
         let dict: [String: Any] = [
             Post.CodingKeys.likedUserIds.rawValue: FieldValue.arrayRemove([userId])
+        ]
+        try await getPostDocumentRef(postId).updateData(dict)
+    }
+    
+    func incrementCommentCounter(postId: String) async throws{
+        let dict: [String: Any] = [
+            Post.CodingKeys.comments.rawValue: FieldValue.increment(1.0)
         ]
         try await getPostDocumentRef(postId).updateData(dict)
     }
