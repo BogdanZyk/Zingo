@@ -61,6 +61,7 @@
 		5A4BADF32A1CF64A0009CD12 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADF22A1CF64A0009CD12 /* UserViewModel.swift */; };
 		5A4BADF52A1CF97D0009CD12 /* AppRoute+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADF42A1CF97D0009CD12 /* AppRoute+View.swift */; };
 		5A4BADF72A1CFEB60009CD12 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BADF62A1CFEB60009CD12 /* UINavigationController.swift */; };
+		5A80C4432A1E11FE00C42FC0 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4422A1E11FE00C42FC0 /* PostViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +115,7 @@
 		5A4BADF22A1CF64A0009CD12 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		5A4BADF42A1CF97D0009CD12 /* AppRoute+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppRoute+View.swift"; sourceTree = "<group>"; };
 		5A4BADF62A1CFEB60009CD12 /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
+		5A80C4422A1E11FE00C42FC0 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,8 +260,8 @@
 		5A28FFE72A17AB5D0068D3FD /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				5A80C4412A1E0E3D00C42FC0 /* PostView */,
 				5A4BAD9B2A1B623A0009CD12 /* FeedView.swift */,
-				5A4BAD9D2A1B62C50009CD12 /* PostView.swift */,
 				5A4BADED2A1CEE570009CD12 /* FeedViewModel.swift */,
 			);
 			path = Feed;
@@ -388,6 +390,15 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		5A80C4412A1E0E3D00C42FC0 /* PostView */ = {
+			isa = PBXGroup;
+			children = (
+				5A4BAD9D2A1B62C50009CD12 /* PostView.swift */,
+				5A80C4422A1E11FE00C42FC0 /* PostViewModel.swift */,
+			);
+			path = PostView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -497,6 +508,7 @@
 				5A4BADC02A1B8B6F0009CD12 /* AuthenticationManager.swift in Sources */,
 				5A4BADEE2A1CEE570009CD12 /* FeedViewModel.swift in Sources */,
 				5A4BADF52A1CF97D0009CD12 /* AppRoute+View.swift in Sources */,
+				5A80C4432A1E11FE00C42FC0 /* PostViewModel.swift in Sources */,
 				5A4BADAC2A1B7CBB0009CD12 /* Post.swift in Sources */,
 				5A4BADC82A1B99630009CD12 /* Tab.swift in Sources */,
 				5A4BADA32A1B745F0009CD12 /* LoginView.swift in Sources */,

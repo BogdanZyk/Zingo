@@ -28,8 +28,8 @@ final class UserViewModel: ObservableObject{
         userListener.cancel()
     }
     
-    var isCurrentUser: Bool{
-        user?.id == userService.getFBUserId()
+    var currentUserId: String?{
+        userService.getFBUserId()
     }
     
     func startUserListener(){

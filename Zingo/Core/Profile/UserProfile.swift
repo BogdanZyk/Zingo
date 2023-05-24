@@ -17,7 +17,11 @@ struct UserProfile: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             if let user = viewModel.user{
-                ProfileContentViewComponent(user: user, isCurrentUser: viewModel.isCurrentUser, onTapFollow: {}, onChangeTab: {_ in })
+                ProfileContentViewComponent(
+                    user: user,
+                    currentUserId: viewModel.currentUserId,
+                    onTapFollow: {},
+                    onChangeTab: {_ in })
             }else{
                 ProgressView()
                     .hCenter()

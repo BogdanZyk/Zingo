@@ -19,7 +19,7 @@ struct FeedView: View {
             }else{
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack(spacing: 20) {
-                        ForEach(viewModel.posts) { post in
+                        ForEach($viewModel.posts) { post in
                             postCell(post)
                             
                             if viewModel.shouldNextPageLoader(post.id){
@@ -67,12 +67,12 @@ extension FeedView{
     }
     
     
-    private func postCell(_ post: Post) -> some View{
+    private func postCell(_ post: Binding<Post>) -> some View{
         PostView(
+            currentUserId: currentUser?.id,
             post: post,
             onRemove: viewModel.removePost,
-            onTapUser: onTapOwner,
-            onTapPost: onTapPost
+            onTapUser: onTapOwner
         )
     }
     

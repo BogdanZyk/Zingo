@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileContentViewComponent: View {
     let user: User
-    var isCurrentUser: Bool
+    var currentUserId: String?
     @Namespace private var animation
     @State private var currentTab: ProfileTab = .posts
     
@@ -18,6 +18,11 @@ struct ProfileContentViewComponent: View {
     var onTapEdit: (() -> Void)?
     var onTapFollow: (() -> Void)?
     let onChangeTab: (ProfileTab) -> Void
+    
+    
+    var isCurrentUser: Bool{
+        user.id == currentUserId
+    }
     
     var body: some View {
         VStack(spacing: 16) {
@@ -42,7 +47,7 @@ struct ProfileContentViewComponent: View {
 struct ProfileContentViewComponent_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView{
-            ProfileContentViewComponent(user: User.mock, isCurrentUser: false, onChangeTab: {_ in})
+            ProfileContentViewComponent(user: User.mock, onChangeTab: {_ in})
         }
         .background(Color.darkBlack)
     }
@@ -190,11 +195,12 @@ extension ProfileContentViewComponent{
         switch currentTab{
             
         case .posts:
-            LazyVStack(spacing: 16) {
-                ForEach(Post.mockPosts) { post in
-                    PostView(post: post)
-                }
-            }
+            Text("Posts")
+//            LazyVStack(spacing: 16) {
+//                ForEach(Post.mockPosts) { post in
+//                    PostView(currentUserId: post: post)
+//                }
+//            }
         case .stories:
             Text("stories")
         case .liked:

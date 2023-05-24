@@ -80,5 +80,21 @@ final class PostService{
             .count.getAggregation(source: .server)
         return Int(truncating: snapshot.count)
     }
+    
+    func likePost(userId: String, postId: String) async throws{
+        
+        let dict: [String: Any] = [
+            Post.CodingKeys.likedUserIds.rawValue: FieldValue.arrayUnion([userId])
+        ]
+        try await getPostDocumentRef(postId).updateData(dict)
+    }
+    
+    func unLikePost(userId: String, postId: String) async throws{
+        
+        let dict: [String: Any] = [
+            Post.CodingKeys.likedUserIds.rawValue: FieldValue.arrayRemove([userId])
+        ]
+        try await getPostDocumentRef(postId).updateData(dict)
+    }
 }
 

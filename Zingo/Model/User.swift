@@ -22,7 +22,6 @@ struct User: Identifiable, Codable{
     var followingsCount: Int = 0
     
     
-    
     enum CodingKeys: String, CodingKey {
         case id
         case userName

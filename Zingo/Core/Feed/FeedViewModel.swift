@@ -43,11 +43,11 @@ class FeedViewModel: ObservableObject{
         fetchPosts()
     }
     
-    func removePost(_ post: Post){
+    func removePost(_ postId: String){
         Task{
-            try await postService.removePost(for: post.id)
+            try await postService.removePost(for: postId)
             await MainActor.run {
-                posts.removeAll(where:{$0.id == post.id})
+                posts.removeAll(where:{$0.id == postId})
                 totalCountPosts -= 1
             }
         }

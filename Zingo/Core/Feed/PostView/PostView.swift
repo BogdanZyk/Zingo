@@ -8,10 +8,23 @@
 import SwiftUI
 
 struct PostView: View {
-    var post: Post
-    var onRemove: ((Post) -> Void)?
+    @Binding var post: Post
+    @StateObject var viewModel: PostViewModel
+    var currentUserId: String?
+    var onRemove: ((String) -> Void)?
     var onTapUser: ((String) -> Void)?
-    var onTapPost: ((String) -> Void)?
+    
+    init(currentUserId: String?,
+         post: Binding<Post>,
+         onRemove: ((String) -> Void)?,
+         onTapUser: ((String) -> Void)?){
+        
+        self.currentUserId = currentUserId
+        _post = post
+        _viewModel = StateObject(wrappedValue: PostViewModel(currentUserId: currentUserId))
+        self.onRemove = onRemove
+        self.onTapUser = onTapUser
+    }
     var body: some View {
         VStack(spacing: 16){
             VStack(alignment: .leading, spacing: 16){
@@ -20,10 +33,7 @@ struct PostView: View {
                 postStats
             }
             .foregroundColor(.white)
-            Rectangle()
-                .fill(Color.darkGray)
-                .frame(height: 1)
-                .padding(.horizontal, -16)
+            divider
         }
     }
 }
@@ -32,7 +42,7 @@ struct PostView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Color.darkBlack
-            PostView(post: Post.mockPosts.last!, onTapPost: {_ in})
+            PostView(currentUserId: "", post: .constant(Post.mockPosts.last!), onRemove: {_ in}, onTapUser: {_ in})
                 .padding(.horizontal)
         }
     }
@@ -69,7 +79,7 @@ extension PostView{
                 onTapUser?(post.owner.id)
             }
             Button {
-                onRemove?(post)
+                onRemove?(post.id)
             } label: {
                 Image(systemName: "ellipsis")
                     .foregroundColor(.lightGray)
@@ -87,6 +97,9 @@ extension PostView{
                         LazyNukeImage(strUrl: image.fullPath, resizeHeight: 400, resizingMode: .aspectFill, loadPriority: .high)
                             .cornerRadius(16)
                             .padding(.horizontal)
+                            .overlay {
+                                likeAnimation
+                            }
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
@@ -99,14 +112,16 @@ extension PostView{
                     .lineSpacing(5)
             }
         }
-        .onTapGesture {
-            onTapPost?(post.id)
+        .onTapGesture(count: 2) {
+            Task{
+               await viewModel.likeUnLikePost(post: $post)
+            }
         }
     }
     
     private var postStats: some View{
         HStack(spacing: 16){
-            buttonIcon(.like(post.likes))
+            buttonIcon(.like(post.likeCount))
             buttonIcon(.comment(post.comments))
             buttonIcon(.share)
             Spacer()
@@ -119,7 +134,9 @@ extension PostView{
         Button {
             switch stats {
             case .like:
-                break
+                Task{
+                   await viewModel.likeUnLikePost(post: $post)
+                }
             case .comment:
                 break
             case .share:
@@ -130,7 +147,7 @@ extension PostView{
         } label: {
             HStack(spacing: 5){
                 Image(stats.image)
-                
+                    .renderingMode(.template)
                 Group{
                     switch stats {
                     case .like(let value):
@@ -145,6 +162,7 @@ extension PostView{
                 }
                 .font(.caption.weight(.medium))
             }
+            .foregroundColor(stats.id == 0 && post.didLike(currentUserId) ? .accentPink : .white)
         }
     }
     
@@ -160,5 +178,40 @@ extension PostView{
             case .save: return Icon.bookmark.rawValue
             }
         }
+        
+        var id: Int{
+            switch self{
+            case .like: return 0
+            case .comment: return 1
+            case .share: return 2
+            case .save: return 3
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var likeAnimation: some View{
+        if viewModel.showLikeAnimation{
+            Image(Icon.like.rawValue)
+                .renderingMode(.template)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 60, height: 60)
+                .foregroundColor(.accentPink)
+                .onAppear{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                        withAnimation(.interactiveSpring()){
+                            viewModel.showLikeAnimation = false
+                        }
+                    }
+                }
+        }
+    }
+    
+    private var divider: some View{
+        Rectangle()
+            .fill(Color.darkGray)
+            .frame(height: 1)
+            .padding(.horizontal, -16)
     }
 }

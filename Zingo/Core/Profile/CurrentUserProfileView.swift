@@ -19,7 +19,7 @@ struct CurrentUserProfileView: View {
             if let user = userManager.user{
                 ProfileContentViewComponent(
                     user: user,
-                    isCurrentUser: true,
+                    currentUserId: userManager.user?.id,
                     onTapAvatar: {onSelectedImage(.avatar)},
                     onTapBanner: {onSelectedImage(.banner)},
                     onTapEdit: {},
