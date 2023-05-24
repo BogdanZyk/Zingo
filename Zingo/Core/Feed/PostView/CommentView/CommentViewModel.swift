@@ -15,6 +15,7 @@ class CommentViewModel: ObservableObject {
     @Published private(set) var currentUser: User?
     @Published private(set) var comments = [Comment]()
     @Published private(set) var updateCounter: Int = 0
+    @Published private(set) var lastCommentId: String?
     @Published var commentText: String? = ""
     private let userService = UserService.share
     private let commentService = CommentsService.share
@@ -60,8 +61,9 @@ class CommentViewModel: ObservableObject {
         guard let currentUser else { return }
         let comment = Comment(id: UUID().uuidString, postId: postId, owner: .init(user: currentUser), text: commentText)
         do{
-            try await commentService.createComment(for: postId, comment: comment)
             commentText = ""
+            try await commentService.createComment(for: postId, comment: comment)
+            lastCommentId = comment.id
         }catch{
             print(error.localizedDescription)
         }

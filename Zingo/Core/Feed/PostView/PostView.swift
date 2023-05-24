@@ -224,11 +224,15 @@ extension PostView{
     }
     
     private func pageControlView(images: [StoreImage]) -> some View{
-        HStack(spacing: 5){
-            ForEach(images.indices, id: \.self) { index in
-                Circle()
-                    .fill(selectionImage == index ? Color.accentPink : .lightGray)
-                    .frame(width: 6, height: 6)
+        Group{
+            if images.count > 1{
+                HStack(spacing: 5){
+                    ForEach(images.indices, id: \.self) { index in
+                        Circle()
+                            .fill(selectionImage == index ? Color.accentPink : .lightGray)
+                            .frame(width: 6, height: 6)
+                    }
+                }
             }
         }
     }

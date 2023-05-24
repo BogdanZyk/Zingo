@@ -19,14 +19,23 @@ struct PostCommentView: View {
     }
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack(alignment: .leading, spacing: 16) {
-                ForEach(viewModel.comments) { comment in
-                    commentCell(comment)
+        ScrollViewReader { proxy in
+            ScrollView(.vertical, showsIndicators: false) {
+                LazyVStack(alignment: .leading, spacing: 16) {
+                    ForEach(viewModel.comments) { comment in
+                        commentCell(comment)
+                            .id(comment.id)
+                    }
+                }
+                .padding()
+            }
+            .onChange(of: viewModel.lastCommentId) { newValue in
+                withAnimation {
+                    proxy.scrollTo(newValue)
                 }
             }
-            .padding()
         }
+        .scrollDismissesKeyboard(.immediately)
         .background(Color.darkBlack)
         .navigationBarBackButtonHidden(true)
         .safeAreaInset(edge: .bottom, alignment: .center, spacing: 0) {
