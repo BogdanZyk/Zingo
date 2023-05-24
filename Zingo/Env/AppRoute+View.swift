@@ -14,8 +14,6 @@ extension View {
             switch destination{
             case .userProfile(let id):
                 UserProfile(userId: id)
-            case .postDetails(let id):
-                Text(id)
             }
         }
     }

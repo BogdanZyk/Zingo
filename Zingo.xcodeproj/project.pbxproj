@@ -67,6 +67,7 @@
 		5A80C44B2A1E33D900C42FC0 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C44A2A1E33D900C42FC0 /* Comment.swift */; };
 		5A80C44D2A1E463100C42FC0 /* CommentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C44C2A1E463100C42FC0 /* CommentsService.swift */; };
 		5A80C44F2A1E48AC00C42FC0 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C44E2A1E48AC00C42FC0 /* CommentViewModel.swift */; };
+		5A80C4522A1E557B00C42FC0 /* PullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4512A1E557B00C42FC0 /* PullToRefreshView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,6 +127,7 @@
 		5A80C44A2A1E33D900C42FC0 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		5A80C44C2A1E463100C42FC0 /* CommentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsService.swift; sourceTree = "<group>"; };
 		5A80C44E2A1E48AC00C42FC0 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		5A80C4512A1E557B00C42FC0 /* PullToRefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefreshView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 		5A28FFE02A17A9220068D3FD /* ViewComponens */ = {
 			isa = PBXGroup;
 			children = (
+				5A80C4502A1E555E00C42FC0 /* PullToRefresh */,
 				5A80C4442A1E1F3400C42FC0 /* ImageSlider */,
 				5A4BADE82A1CE7710009CD12 /* Popap */,
 				5A4BAD9F2A1B6FA60009CD12 /* TextFields */,
@@ -430,6 +433,14 @@
 			path = CommentView;
 			sourceTree = "<group>";
 		};
+		5A80C4502A1E555E00C42FC0 /* PullToRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				5A80C4512A1E557B00C42FC0 /* PullToRefreshView.swift */,
+			);
+			path = PullToRefresh;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -544,6 +555,7 @@
 				5A4BADF52A1CF97D0009CD12 /* AppRoute+View.swift in Sources */,
 				5A80C4432A1E11FE00C42FC0 /* PostViewModel.swift in Sources */,
 				5A4BADAC2A1B7CBB0009CD12 /* Post.swift in Sources */,
+				5A80C4522A1E557B00C42FC0 /* PullToRefreshView.swift in Sources */,
 				5A4BADC82A1B99630009CD12 /* Tab.swift in Sources */,
 				5A4BADA32A1B745F0009CD12 /* LoginView.swift in Sources */,
 				5A28FFF32A17B2BE0068D3FD /* Color.swift in Sources */,

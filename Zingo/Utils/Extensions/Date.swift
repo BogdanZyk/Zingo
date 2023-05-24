@@ -45,4 +45,14 @@ extension Date{
             return "\(quotient) \(unit)\(quotient == 1 ? "" : "s") ago"
         }
     }
+    
+    func getGreetings() -> String {
+        let hour = Calendar.current.component(.hour, from: self)
+        switch hour {
+        case 6..<12: return "Good morning"
+        case 12..<18: return "Good afternoon"
+        default: return "Good evening"
+        }
+    }
+
 }

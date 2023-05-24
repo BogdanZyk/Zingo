@@ -12,7 +12,6 @@ import FirebaseAuth
 
 enum RouterDestination: Hashable {
     case userProfile(id: String)
-    case postDetails(id: String)
 //  case accountDetailWithAccount(account: Account)
 //  case accountSettingsWithAccount(account: Account, appAccount: AppAccount)
 //  case statusDetail(id: String)

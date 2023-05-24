@@ -12,31 +12,30 @@ struct FeedView: View {
     @EnvironmentObject var router: MainRouter
     @StateObject private var viewModel = FeedViewModel()
     var body: some View {
-        VStack(spacing: 0) {
-            headerSection
+        ScrollView(.vertical, showsIndicators: false) {
             if viewModel.posts.isEmpty{
                 loaderView
             }else{
-                ScrollView(.vertical, showsIndicators: false) {
-                    LazyVStack(spacing: 20) {
-                        ForEach($viewModel.posts) { post in
-                            postCell(post)
-                            if viewModel.shouldNextPageLoader(post.id){
-                                ProgressView()
-                            }
+                pullToRefreshView
+                LazyVStack(spacing: 20) {
+                    ForEach($viewModel.posts) { post in
+                        postCell(post)
+                        if viewModel.shouldNextPageLoader(post.id){
+                            ProgressView()
                         }
                     }
-                    .padding(.horizontal)
                 }
+                .padding(.horizontal)
             }
         }
         .background(Color.darkBlack)
+        .safeAreaInset(edge: .top, alignment: .center, spacing: 0) {
+            headerSection
+        }
         .navigationDestination(for: RouterDestination.self) { destination in
             switch destination{
             case .userProfile(let id):
                 UserProfile(userId: id)
-            case .postDetails(let id):
-                Text(id)
             }
         }
     }
@@ -53,7 +52,7 @@ struct FeedView_Previews: PreviewProvider {
 extension FeedView{
     private var headerSection: some View{
         HStack{
-            Text("Good Morning, \(currentUser?.userName ?? "")")
+            Text("\(Date().getGreetings()), \(currentUser?.userName ?? "")!")
                 .font(.title2.bold())
                 .lineLimit(1)
             Spacer()
@@ -63,6 +62,7 @@ extension FeedView{
         }
         .foregroundColor(.white)
         .padding([.bottom, .horizontal])
+        .background(Color.darkBlack)
     }
     
     
@@ -76,19 +76,23 @@ extension FeedView{
     }
     
     private var loaderView: some View{
-        Group{
+        VStack{
             ProgressView()
                 .tint(.accentPink)
                 .padding(.top, 30)
             Spacer()
         }
+        .allFrame()
     }
     
     private func onTapOwner(_ id: String){
         router.navigate(to: .userProfile(id: id))
     }
     
-    private func onTapPost(_ id: String){
-        router.navigate(to: .postDetails(id: id))
+    private var pullToRefreshView: some View{
+        PullToRefreshView(bg: Color.darkBlack){
+            viewModel.refetch()
+            //            Haptics.shared.play(.light)
+        }
     }
 }
