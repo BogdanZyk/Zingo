@@ -55,4 +55,9 @@ extension Date{
         }
     }
 
+    static var hoursAndMinuteFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm"
+        return formatter
+    }()
 }

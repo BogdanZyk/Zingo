@@ -36,6 +36,8 @@ struct FeedView: View {
             switch destination{
             case .userProfile(let id):
                 UserProfile(userId: id)
+            case .chats:
+                ChatView()
             }
         }
     }
@@ -57,7 +59,7 @@ extension FeedView{
                 .lineLimit(1)
             Spacer()
             IconButton(icon: .letter) {
-                
+                router.navigate(to: .chats)
             }
         }
         .foregroundColor(.white)

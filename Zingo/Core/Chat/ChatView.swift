@@ -13,13 +13,18 @@ struct ChatView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(alignment: .leading, spacing: 16) {
-                ForEach([Conversation.mock]) { chat in
-                    chatCell(chat)
+                ForEach(viewModel.conversations) { chat in
+                    NavigationLink {
+                        DialogView(participant: chat.conversationUser, chatId: chat.id)
+                    } label: {
+                        chatCell(chat)
+                    }
                 }
             }
             .padding()
         }
         .background(Color.darkBlack)
+        .navigationBarBackButtonHidden(true)
         .safeAreaInset(edge: .top) {
             headerView
         }
@@ -45,7 +50,7 @@ extension ChatView{
                         Text(chat.conversationUser.name)
                             .font(.system(size: 14, weight: .medium))
                         Spacer()
-                        Text(chat.chat.createdAt.timeAgo())
+                        Text(chat.chat.lastMessage?.createdAt.timeAgo() ?? "")
                             .font(.footnote)
                             .foregroundColor(.lightGray)
                     }
@@ -59,6 +64,16 @@ extension ChatView{
                 .fill(Color.lightWhite.opacity(0.5))
                 .frame(height: 0.5)
                 .padding(.horizontal, -16)
+        }
+        .contentShape(Rectangle())
+        .contextMenu{
+            Button(role: .destructive) {
+                Task{
+                    await viewModel.removeChat(chat.id)
+                }
+            } label: {
+                Label("Remove", systemImage: "trash")
+            }
         }
     }
     

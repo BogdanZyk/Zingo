@@ -9,14 +9,14 @@ import SwiftUI
 
 
 extension View {
-    func withAppRouter() -> some View {
-        navigationDestination(for: RouterDestination.self) { destination in
-            switch destination{
-            case .userProfile(let id):
-                UserProfile(userId: id)
-            }
-        }
-    }
+//    func withAppRouter() -> some View {
+//        navigationDestination(for: RouterDestination.self) { destination in
+//            switch destination{
+//            case .userProfile(let id):
+//                UserProfile(userId: id)
+//            }
+//        }
+//    }
     
     
     func withFullScreenRouter(fullScreen: Binding<FullScreenDestination?>) -> some View{

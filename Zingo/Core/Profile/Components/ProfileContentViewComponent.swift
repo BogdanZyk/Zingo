@@ -17,6 +17,7 @@ struct ProfileContentViewComponent: View {
     var onTapBanner: (() -> Void)?
     var onTapEdit: (() -> Void)?
     var onTapFollow: (() -> Void)?
+    var onTapMessage: (() -> Void)?
     let onChangeTab: (ProfileTab) -> Void
     
     
@@ -105,8 +106,15 @@ extension ProfileContentViewComponent{
     
     private var userInfo: some View{
         VStack(spacing: 10) {
-            Text(user.userName)
-                .font(.title2.bold())
+            HStack {
+                Text(user.userName)
+                    .font(.title2.bold())
+                if !isCurrentUser{
+                    IconButton(icon: .letter) {
+                        onTapMessage?()
+                    }
+                }
+            }
             if let location = user.location{
                 Text(location)
                     .font(.body)

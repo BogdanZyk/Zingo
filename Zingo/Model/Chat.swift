@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Conversation: Identifiable{
     var id: String{ chat.id }
-    let chat: Chat
+    var chat: Chat
     let conversationUser: ShortUser
 }
 
@@ -40,28 +40,4 @@ extension Chat{
 }
 
 
-//enum RecipientType: String, Codable, Equatable {
-//    case sent
-//    case received
-//}
-//
-//extension RecipientType {
-//
-//    var backgroundColor: Color {
-//        switch self {
-//        case .sent:
-//            return .green
-//        case .received:
-//            return Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
-//        }
-//    }
-//
-//    var textColor: Color {
-//        switch self {
-//        case .sent:
-//            return .white
-//        case .received:
-//            return .black
-//        }
-//    }
-//}
+

@@ -10,7 +10,7 @@ import SwiftUI
 struct UserProfile: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: UserViewModel
-    
+    @State private var showDialogView: Bool = false
     init(userId: String?){
         self._viewModel = StateObject(wrappedValue: UserViewModel(userId: userId))
     }
@@ -21,6 +21,7 @@ struct UserProfile: View {
                     user: user,
                     currentUserId: viewModel.currentUserId,
                     onTapFollow: {},
+                    onTapMessage: onTapMessage,
                     onChangeTab: {_ in })
             }else{
                 ProgressView()
@@ -35,12 +36,18 @@ struct UserProfile: View {
         .overlay(alignment: .topLeading) {
             backButton
         }
+        .navigationDestination(isPresented: $showDialogView) {
+            if let id = viewModel.user?.id{
+                DialogView(participantId: id)
+            }
+        }
     }
 }
 
 struct UserProfile_Previews: PreviewProvider {
     static var previews: some View {
         UserProfile(userId: "fTSwHTmYHkeYvfsWASMpEDlwGmg2")
+            .environmentObject(MainRouter())
     }
 }
 
@@ -53,5 +60,10 @@ extension UserProfile{
             dismiss()
         }
         .padding(.leading)
+    }
+    
+    private func onTapMessage(){
+        guard let id = viewModel.user?.id else {return}
+        showDialogView.toggle()
     }
 }

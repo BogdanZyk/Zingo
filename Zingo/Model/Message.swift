@@ -23,6 +23,10 @@ struct Message: Identifiable, Codable{
         case recipientId
         case createdAt
     }
+    
+    func getRecipientType(currentUserId: String?) -> RecipientType{
+        senderId == currentUserId ? .sent : .received
+    }
 }
 
 extension Message{

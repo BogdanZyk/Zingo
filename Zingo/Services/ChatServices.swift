@@ -23,9 +23,11 @@ final class ChatServices{
         chatsCollections.document(id)
     }
     
-    func createChat(for participantIds: [String]) async throws{
+    @discardableResult
+    func createChat(for participantIds: [String]) async throws -> Chat{
         let chat = Chat(id: UUID().uuidString, participants: participantIds)
-        try chatsCollections.document(chat.id).setData(from: chat, merge: false)
+        try chatsCollections.document(chat.id).setData(from: chat, merge: true)
+        return chat
     }
     
     func updateLastChatMessage(for id: String, shortMessage: ShortMessage) async throws{
@@ -54,8 +56,15 @@ final class ChatServices{
             .getDocuments(as: Chat.self)
     }
     
+    func getChat(participantId: String, currentUserId: String) async throws -> Chat?{
+        try await chatsCollections
+            .limitOptionally(to: 1)
+            .whereField(Chat.CodingKeys.participants.rawValue, arrayContainsAny: [participantId, currentUserId])
+            .getDocuments(as: Chat.self).first
+    }
+    
     func addChatListener(userId: String) ->(AnyPublisher<([Chat], [DocumentChangeType]), Error>, ListenerRegistration){
-        chatQuery(userId: userId, limit: 1)
+        chatQuery(userId: userId, limit: nil)
             .addSnapshotListenerWithChangeType(as: Chat.self)
     }
 }

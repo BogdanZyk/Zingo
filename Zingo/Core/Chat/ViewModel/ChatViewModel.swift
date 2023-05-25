@@ -18,9 +18,14 @@ class ChatViewModel: ObservableObject{
     
     
     init(){
-        
+        fetchChats()
+        startChatsListener()
     }
     
+    deinit{
+        listener.cancel()
+        cancelBag.cancel()
+    }
     
     func fetchChats(){
         guard let currentUserId = userService.getFBUserId() else {return}
@@ -64,39 +69,32 @@ class ChatViewModel: ObservableObject{
         pub
             .sink { completion in
                 switch completion{
-                    
                 case .finished:
                     break
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
-            } receiveValue: { (chat, changedType) in
+            } receiveValue: { [weak self] (chat, changedType) in
+                            
+                guard let self = self else { return }
                 
-                guard let chat = chat.first, let type = changedType.last else {
-                    //remove
-                    return
+                chat.forEach { chat in
+                    self.modifiedChat(chat)
                 }
-                
-                switch type{
-                    
-                case .added:
-                    print("added")
-                case .modified:
-                    print("modified")
-                case .removed:
-                    print("removed")
-                }
-         
-//                if self.conversations.contains(where: {$0.id == chat.id}){
-//
-//                }else{
-//                    self.addNewConversations(chat: chat)
-//                }
             }
             .store(in: cancelBag)
     }
     
-    private func addNewConversations(chat: Chat){
+    @MainActor
+    func removeChat(_ id: String) async{
+        do{
+          try await chatService.deleteChat(for: id)
+        }catch{
+            print(error.localizedDescription)
+        }
+    }
+    
+    private func addNewConversationsIfNeeded(_ chat: Chat){
         guard let currentUserId = userService.getFBUserId() else {return}
         if conversations.contains(where: {$0.id == chat.id}){
             Task{
@@ -107,4 +105,10 @@ class ChatViewModel: ObservableObject{
             }
         }
     }
+    
+    private func modifiedChat(_ chat: Chat){
+        guard let index = conversations.firstIndex(where: {$0.id == chat.id}) else {return}
+        conversations[index].chat = chat
+    }
+    
 }
