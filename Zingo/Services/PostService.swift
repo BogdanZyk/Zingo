@@ -38,7 +38,7 @@ final class PostService{
     }
     
     
-    func createPost(owner: Post.Owner, images: [UIImageData], text: String?) async throws{
+    func createPost(owner: ShortUser, images: [UIImageData], text: String?) async throws{
         
         let storeImages = try await saveImages(userId: owner.id, images: images)
         

@@ -68,6 +68,10 @@
 		5A80C44D2A1E463100C42FC0 /* CommentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C44C2A1E463100C42FC0 /* CommentsService.swift */; };
 		5A80C44F2A1E48AC00C42FC0 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C44E2A1E48AC00C42FC0 /* CommentViewModel.swift */; };
 		5A80C4522A1E557B00C42FC0 /* PullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4512A1E557B00C42FC0 /* PullToRefreshView.swift */; };
+		5A80C4582A1E5DE500C42FC0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4572A1E5DE500C42FC0 /* ChatView.swift */; };
+		5A80C45A2A1E5FE400C42FC0 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4592A1E5FE400C42FC0 /* Chat.swift */; };
+		5A80C45C2A1E6A2B00C42FC0 /* ChatServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C45B2A1E6A2B00C42FC0 /* ChatServices.swift */; };
+		5A80C45F2A1F509D00C42FC0 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C45E2A1F509D00C42FC0 /* MessageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -128,6 +132,10 @@
 		5A80C44C2A1E463100C42FC0 /* CommentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsService.swift; sourceTree = "<group>"; };
 		5A80C44E2A1E48AC00C42FC0 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		5A80C4512A1E557B00C42FC0 /* PullToRefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefreshView.swift; sourceTree = "<group>"; };
+		5A80C4572A1E5DE500C42FC0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		5A80C4592A1E5FE400C42FC0 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		5A80C45B2A1E6A2B00C42FC0 /* ChatServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatServices.swift; sourceTree = "<group>"; };
+		5A80C45E2A1F509D00C42FC0 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +197,7 @@
 		5A28FFDE2A17A9130068D3FD /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				5A80C4532A1E5D8F00C42FC0 /* Chat */,
 				5A28FFEC2A17AC430068D3FD /* TabViewContainer */,
 				5A28FFE62A17AB420068D3FD /* Authentication */,
 				5A28FFEB2A17AC050068D3FD /* PostEditor */,
@@ -249,6 +258,7 @@
 				5A4BADAB2A1B7CBB0009CD12 /* Post.swift */,
 				5A4BADC72A1B99630009CD12 /* Tab.swift */,
 				5A80C44A2A1E33D900C42FC0 /* Comment.swift */,
+				5A80C4592A1E5FE400C42FC0 /* Chat.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -372,11 +382,13 @@
 		5A4BADBE2A1B8B520009CD12 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5A80C45B2A1E6A2B00C42FC0 /* ChatServices.swift */,
 				5A4BADBF2A1B8B6F0009CD12 /* AuthenticationManager.swift */,
 				5A4BADC12A1B8BE00009CD12 /* UserService.swift */,
 				5A4BADE22A1CAAFB0009CD12 /* StorageManager.swift */,
 				5A4BADE62A1CDA820009CD12 /* PostService.swift */,
 				5A80C44C2A1E463100C42FC0 /* CommentsService.swift */,
+				5A80C45E2A1F509D00C42FC0 /* MessageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -439,6 +451,30 @@
 				5A80C4512A1E557B00C42FC0 /* PullToRefreshView.swift */,
 			);
 			path = PullToRefresh;
+			sourceTree = "<group>";
+		};
+		5A80C4532A1E5D8F00C42FC0 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				5A80C4552A1E5D9900C42FC0 /* Dialog */,
+				5A80C4542A1E5D9500C42FC0 /* ViewModel */,
+				5A80C4572A1E5DE500C42FC0 /* ChatView.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		5A80C4542A1E5D9500C42FC0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5A80C4552A1E5D9900C42FC0 /* Dialog */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Dialog;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -527,6 +563,7 @@
 				5A4BADBD2A1B89630009CD12 /* AppDelegate.swift in Sources */,
 				5A28FFFD2A17C3910068D3FD /* LazyNukeImage.swift in Sources */,
 				5A4BAD9C2A1B623A0009CD12 /* FeedView.swift in Sources */,
+				5A80C4582A1E5DE500C42FC0 /* ChatView.swift in Sources */,
 				5A4BADD62A1BBBB20009CD12 /* ImagePicker.swift in Sources */,
 				5A4BADD02A1BAAA00009CD12 /* ErrorHandler.swift in Sources */,
 				5A4BADD42A1BB6400009CD12 /* UserAvatarView.swift in Sources */,
@@ -550,16 +587,19 @@
 				5A28FFF52A17B7A00068D3FD /* View.swift in Sources */,
 				5A4BADDB2A1BBE090009CD12 /* ProfileContentViewComponent.swift in Sources */,
 				5A28FFD32A17A9040068D3FD /* ContentView.swift in Sources */,
+				5A80C45A2A1E5FE400C42FC0 /* Chat.swift in Sources */,
 				5A4BADC02A1B8B6F0009CD12 /* AuthenticationManager.swift in Sources */,
 				5A4BADEE2A1CEE570009CD12 /* FeedViewModel.swift in Sources */,
 				5A4BADF52A1CF97D0009CD12 /* AppRoute+View.swift in Sources */,
 				5A80C4432A1E11FE00C42FC0 /* PostViewModel.swift in Sources */,
+				5A80C45C2A1E6A2B00C42FC0 /* ChatServices.swift in Sources */,
 				5A4BADAC2A1B7CBB0009CD12 /* Post.swift in Sources */,
 				5A80C4522A1E557B00C42FC0 /* PullToRefreshView.swift in Sources */,
 				5A4BADC82A1B99630009CD12 /* Tab.swift in Sources */,
 				5A4BADA32A1B745F0009CD12 /* LoginView.swift in Sources */,
 				5A28FFF32A17B2BE0068D3FD /* Color.swift in Sources */,
 				5A4BADB02A1B86A70009CD12 /* PostEditorView.swift in Sources */,
+				5A80C45F2A1F509D00C42FC0 /* MessageService.swift in Sources */,
 				5A80C4462A1E1F4D00C42FC0 /* ImageSliderView.swift in Sources */,
 				5A4BAD9A2A1B5DA60009CD12 /* Icon.swift in Sources */,
 				5A4BADC42A1B915A0009CD12 /* AppError.swift in Sources */,
