@@ -14,11 +14,15 @@ struct Conversation: Identifiable{
     let conversationUser: ShortUser
 }
 
+extension Conversation{
+    static let mock: Conversation = .init(chat: .mock, conversationUser: .init(user: .mock))
+}
+
 struct Chat: Identifiable, Codable{
     let id: String
     var lastMessage: ShortMessage?
     var unreadCount: Int = 0
-    var participants: [String] = []
+    var participants: [String]
     var createdAt: Date = Date()
     
     enum CodingKeys: String, CodingKey {
@@ -30,37 +34,9 @@ struct Chat: Identifiable, Codable{
     }
 }
 
-struct ShortMessage: Identifiable, Codable{
-    let id: String
-    var text: String
-    var senderId: String
-    var createdAt: Date = Date()
-    
-    
-    init(message: Message){
-        self.id = message.id
-        self.text = message.text
-        self.senderId = message.senderId
-        self.createdAt = message.createdAt
-    }
-}
 
-struct Message: Identifiable, Codable{
-    let id: String
-    let chatId: String
-    var text: String
-    var senderId: String
-    var recipientId: String
-    var createdAt: Date = Date()
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case chatId
-        case text
-        case senderId
-        case recipientId
-        case createdAt
-    }
+extension Chat{
+    static let mock: Chat = .init(id: UUID().uuidString, lastMessage: .init(message: .mocks.first!), participants: ["1", "2"])
 }
 
 

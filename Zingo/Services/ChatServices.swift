@@ -42,10 +42,20 @@ final class ChatServices{
         try await getChatDocument(for: id).delete()
     }
     
-    func getUserChats(userId: String) async throws -> [Chat]{
-        try await chatsCollections
+    func chatQuery(userId: String, limit: Int? = nil) -> Query{
+        chatsCollections
+            .limitOptionally(to: limit)
             .whereField(Chat.CodingKeys.participants.rawValue, arrayContains: userId)
             .order(by: Chat.CodingKeys.createdAt.rawValue)
+    }
+    
+    func getUserChats(userId: String) async throws -> [Chat]{
+        try await chatQuery(userId: userId)
             .getDocuments(as: Chat.self)
+    }
+    
+    func addChatListener(userId: String) ->(AnyPublisher<([Chat], [DocumentChangeType]), Error>, ListenerRegistration){
+        chatQuery(userId: userId, limit: 1)
+            .addSnapshotListenerWithChangeType(as: Chat.self)
     }
 }

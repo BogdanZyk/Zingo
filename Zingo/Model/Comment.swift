@@ -10,7 +10,7 @@ import Foundation
 struct Comment: Identifiable, Codable{
     var id: String
     let postId: String
-    let owner: Post.Owner
+    let owner: ShortUser
     var text: String?
     var likedUserIds: [String] = []
     var createdAt: Date = Date()

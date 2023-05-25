@@ -72,6 +72,8 @@
 		5A80C45A2A1E5FE400C42FC0 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4592A1E5FE400C42FC0 /* Chat.swift */; };
 		5A80C45C2A1E6A2B00C42FC0 /* ChatServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C45B2A1E6A2B00C42FC0 /* ChatServices.swift */; };
 		5A80C45F2A1F509D00C42FC0 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C45E2A1F509D00C42FC0 /* MessageService.swift */; };
+		5A80C4612A1F572A00C42FC0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4602A1F572A00C42FC0 /* Message.swift */; };
+		5A80C4632A1F5D5600C42FC0 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4622A1F5D5600C42FC0 /* ChatViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,6 +138,8 @@
 		5A80C4592A1E5FE400C42FC0 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		5A80C45B2A1E6A2B00C42FC0 /* ChatServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatServices.swift; sourceTree = "<group>"; };
 		5A80C45E2A1F509D00C42FC0 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
+		5A80C4602A1F572A00C42FC0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		5A80C4622A1F5D5600C42FC0 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +263,7 @@
 				5A4BADC72A1B99630009CD12 /* Tab.swift */,
 				5A80C44A2A1E33D900C42FC0 /* Comment.swift */,
 				5A80C4592A1E5FE400C42FC0 /* Chat.swift */,
+				5A80C4602A1F572A00C42FC0 /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -466,6 +471,7 @@
 		5A80C4542A1E5D9500C42FC0 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				5A80C4622A1F5D5600C42FC0 /* ChatViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -571,6 +577,7 @@
 				5A4BAD972A1B5BE70009CD12 /* Image.swift in Sources */,
 				5A4BADDD2A1BC1A00009CD12 /* UserProfile.swift in Sources */,
 				5A4BADE32A1CAAFB0009CD12 /* StorageManager.swift in Sources */,
+				5A80C4632A1F5D5600C42FC0 /* ChatViewModel.swift in Sources */,
 				5A28FFFA2A17C3100068D3FD /* CurrentUserProfileView.swift in Sources */,
 				5A4BADC22A1B8BE00009CD12 /* UserService.swift in Sources */,
 				5A28FFF12A17ADFA0068D3FD /* Router.swift in Sources */,
@@ -592,6 +599,7 @@
 				5A4BADEE2A1CEE570009CD12 /* FeedViewModel.swift in Sources */,
 				5A4BADF52A1CF97D0009CD12 /* AppRoute+View.swift in Sources */,
 				5A80C4432A1E11FE00C42FC0 /* PostViewModel.swift in Sources */,
+				5A80C4612A1F572A00C42FC0 /* Message.swift in Sources */,
 				5A80C45C2A1E6A2B00C42FC0 /* ChatServices.swift in Sources */,
 				5A4BADAC2A1B7CBB0009CD12 /* Post.swift in Sources */,
 				5A80C4522A1E557B00C42FC0 /* PullToRefreshView.swift in Sources */,
