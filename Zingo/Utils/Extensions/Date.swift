@@ -60,4 +60,37 @@ extension Date{
         formatter.dateFormat = "hh:mm"
         return formatter
     }()
+    
+    
+    func extractDateComponents() -> DateComponents {
+        let calendar = Calendar.current
+        
+        let components = calendar.dateComponents([.year, .month, .day], from: self)
+        
+        return components
+    }
+    
+    func isSameDay(as date: Date) -> Bool {
+        let components1 = extractDateComponents()
+        let components2 = date.extractDateComponents()
+        
+        return (components1.year == components2.year) &&
+                (components1.month == components2.month) &&
+                (components1.day == components2.day)
+    }
+    
+    func toFormatDate() -> String {
+        let today = Calendar.current.startOfDay(for: Date())
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)!
+        let dateString: String
+        
+        if self >= today {
+            dateString = "today"
+        } else if self >= yesterday {
+            dateString = "yesterday"
+        } else {
+            dateString = self.toStrDate(format: "MMM d")
+        }
+        return dateString
+    }
 }

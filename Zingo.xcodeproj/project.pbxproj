@@ -77,6 +77,7 @@
 		5A80C4652A1F6B6000C42FC0 /* DialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4642A1F6B6000C42FC0 /* DialogView.swift */; };
 		5A80C4672A1F6B7700C42FC0 /* DialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4662A1F6B7700C42FC0 /* DialogViewModel.swift */; };
 		5A80C4692A1FA9FD00C42FC0 /* MessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4682A1FA9FD00C42FC0 /* MessageBubbleView.swift */; };
+		5A80C46C2A20A3FC00C42FC0 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 5A80C46B2A20A3FC00C42FC0 /* Algorithms */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,6 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A80C46C2A20A3FC00C42FC0 /* Algorithms in Frameworks */,
 				5A2800002A17C3F10068D3FD /* NukeUI in Frameworks */,
 				5A4BADB52A1B893C0009CD12 /* FirebaseAuth in Frameworks */,
 				5A4BADB72A1B893C0009CD12 /* FirebaseFirestore in Frameworks */,
@@ -514,6 +516,7 @@
 				5A4BADB62A1B893C0009CD12 /* FirebaseFirestore */,
 				5A4BADB82A1B893C0009CD12 /* FirebaseFirestoreSwift */,
 				5A4BADBA2A1B893C0009CD12 /* FirebaseStorage */,
+				5A80C46B2A20A3FC00C42FC0 /* Algorithms */,
 			);
 			productName = Zingo;
 			productReference = 5A28FFCD2A17A9040068D3FD /* Zingo.app */;
@@ -546,6 +549,7 @@
 			packageReferences = (
 				5A28FFFE2A17C3F10068D3FD /* XCRemoteSwiftPackageReference "NukeUI" */,
 				5A4BADB32A1B893C0009CD12 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				5A80C46A2A20A3FC00C42FC0 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = 5A28FFCE2A17A9040068D3FD /* Products */;
 			projectDirPath = "";
@@ -860,6 +864,14 @@
 				minimumVersion = 10.0.0;
 			};
 		};
+		5A80C46A2A20A3FC00C42FC0 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -887,6 +899,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5A4BADB32A1B893C0009CD12 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		5A80C46B2A20A3FC00C42FC0 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A80C46A2A20A3FC00C42FC0 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class DialogViewModel: ObservableObject{
     
@@ -65,8 +66,17 @@ class DialogViewModel: ObservableObject{
 }
 
 extension DialogViewModel{
-    func shouldNextPageLoader(_ messageId: String) -> Bool{
+    private func shouldNextPageLoader(_ messageId: String) -> Bool{
         (messages.last?.id == messageId) && totalCountMessage > messages.count
+    }
+    
+    func loadNextPage(_ messageId: String){
+        guard let chatId else { return }
+        if shouldNextPageLoader(messageId){
+            withAnimation {
+                fetchMessages(chatId)
+            }
+        }
     }
 }
 
@@ -105,7 +115,7 @@ extension DialogViewModel{
             let (messages, lastDoc) = try await messageService.fetchPaginatedMessage(for: chatId, lastDocument: lastDoc.lastDocument)
             await MainActor.run {
                 self.lastDoc.lastDocument = lastDoc
-                self.messages = messages
+                self.messages.append(contentsOf: messages)
             }
         }
     }

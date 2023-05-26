@@ -57,10 +57,10 @@ final class ChatServices{
     }
     
     func getChat(participantId: String, currentUserId: String) async throws -> Chat?{
-        try await chatsCollections
-            .limitOptionally(to: 1)
+        let participants = [participantId, currentUserId]
+        return try await chatsCollections
             .whereField(Chat.CodingKeys.participants.rawValue, arrayContainsAny: [participantId, currentUserId])
-            .getDocuments(as: Chat.self).first
+            .getDocuments(as: Chat.self).first(where: {$0.participants.contains(participants)})
     }
     
     func addChatListener(userId: String) ->(AnyPublisher<([Chat], [DocumentChangeType]), Error>, ListenerRegistration){

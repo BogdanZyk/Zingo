@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import Algorithms
 
 struct DialogView: View {
     @EnvironmentObject var mainRouter: MainRouter
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: DialogViewModel
-    
+    @State private var hiddenDownButton: Bool = false
     
     init(participant: ShortUser, chatId: String){
         _viewModel = StateObject(wrappedValue: DialogViewModel(participant: participant, chatId: chatId))
@@ -24,20 +25,15 @@ struct DialogView: View {
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView(.vertical, showsIndicators: false) {
-                LazyVStack(spacing: 6){
-                    ForEach(viewModel.messages) { message in
-                        MessageBubbleView(
-                            message: message,
-                            recipientType: message.getRecipientType(currentUserId: viewModel.currentUserId))
-                        .id(message.id)
-                            .flippedUpsideDown()
-                    }
-                }
-                .padding([.horizontal, .top])
+                messagesSection
+                .padding(10)
             }
             .flippedUpsideDown()
             .background(Color.darkBlack)
             .navigationBarBackButtonHidden(true)
+            .overlay(alignment: .bottomTrailing) {
+                downButton(proxy)
+            }
             .safeAreaInset(edge: .top) {
                 headerView
             }
@@ -93,24 +89,97 @@ extension DialogView{
             Rectangle()
                 .fill(Color.lightGray)
                 .frame(height: 1)
+                .padding(.horizontal, -16)
         }
+        .padding(.horizontal)
         .background(Color.darkBlack)
-        .padding([.horizontal])
+    }
+    
+    
+    
+    private var messagesSection: some View{
+        LazyVStack(spacing: 6, pinnedViews: .sectionFooters){
+            let chunkedMessage = viewModel.messages.chunked(by: {$0.createdAt.isSameDay(as: $1.createdAt)})
+            ForEach(chunkedMessage.indices, id: \.self){index in
+                Section {
+                    ForEach(chunkedMessage[index].uniqued(on: {$0.id})) { message in
+                        MessageBubbleView(
+                            message: message,
+                            recipientType: message.getRecipientType(currentUserId: viewModel.currentUserId))
+                        .id(message.id)
+                        .flippedUpsideDown()
+                        .onAppear{
+                            viewModel.loadNextPage(message.id)
+                            hiddenOrUnhiddenDownButton(message.id, hidden: true)
+                        }
+                        .onDisappear{
+                            hiddenOrUnhiddenDownButton(message.id, hidden: false)
+                        }
+                    }
+                } footer: {
+                    Text(chunkedMessage[index].first?.createdAt.toFormatDate().capitalized ?? "")
+                        .font(.footnote.weight(.medium))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(Material.ultraThinMaterial, in: Capsule())
+                        .padding(.vertical, 5)
+                        .flippedUpsideDown()
+                        .padding(.bottom, 10)
+                }
+            }
+        }
     }
     
     private var bottomBar: some View{
         HStack(spacing: 12){
-            GrowingTextInputView(text: $viewModel.text, isRemoveBtn: false, placeholder: "Type your message here...", isFocused: false, minHeight: 45)
+            GrowingTextInputView(text: $viewModel.text, isRemoveBtn: false, placeholder: "Type your message here...", isFocused: false, minHeight: 44)
                 .overlay(RoundedRectangle(cornerRadius: 25).strokeBorder(Color.lightWhite, lineWidth: 1))
-            ButtonView(label: "Send", type: .primary, height: 45, font: .body.bold(), isDisabled: viewModel.text.orEmpty.isEmpty) {
-                Task{
-                  await viewModel.sendMessage()
-                }
-            }
-            .frame(width: 70)
+            sendButton
         }
         .padding([.horizontal, .top])
         .padding(.bottom, 5)
         .background(Color.black)
     }
+    
+    private var sendButton: some View{
+        Button {
+            Task{
+                await viewModel.sendMessage()
+            }
+        } label: {
+            Image(systemName: "paperplane.circle.fill")
+                .resizable()
+                .scaledToFill()
+                .frame(width: 44, height: 44)
+                .foregroundColor(viewModel.text.orEmpty.isEmpty ? .lightGray : .accentPink)
+        }
+    }
+    
+    @ViewBuilder
+    private func downButton(_ proxy: ScrollViewProxy) -> some View{
+        if !hiddenDownButton{
+            Button {
+                guard let id = viewModel.messages.first?.id else { return }
+                withAnimation {
+                    proxy.scrollTo(id)
+                }
+            } label: {
+                Image(systemName: "chevron.down")
+                    .padding(10)
+                    .background(Color.darkGray.opacity(0.7), in: Circle())
+                    .foregroundColor(.white)
+                    .padding(.bottom, 10)
+                    .padding(.trailing, 5)
+            }
+        }
+    }
+    
+    private func hiddenOrUnhiddenDownButton(_ messageId: String, hidden: Bool){
+        if messageId == viewModel.messages.first?.id{
+            hiddenDownButton = hidden
+        }
+    }
+    
+    
 }
