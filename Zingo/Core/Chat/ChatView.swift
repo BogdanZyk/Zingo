@@ -8,20 +8,27 @@
 import SwiftUI
 
 struct ChatView: View {
+    @EnvironmentObject var router: MainRouter
     @StateObject private var viewModel = ChatViewModel()
     @Environment(\.dismiss) private var dismiss
+    @State private var selectedConversation: Conversation?
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack(alignment: .leading, spacing: 16) {
-                ForEach(viewModel.conversations) { chat in
-                    NavigationLink {
-                        DialogView(participant: chat.conversationUser, chatId: chat.id)
+            LazyVStack(alignment: .leading, spacing: 0) {
+                ForEach(viewModel.conversations) { conversation in
+                    Button {
+                        router.navigate(to: .dialog(conversation))
                     } label: {
-                        chatCell(chat)
+                        chatCell(conversation)
+                            .swipeAction{
+                                Task{
+                                    await viewModel.removeChat(conversation.id)
+                                }
+                            }
                     }
+                    .buttonStyle(CellButton())
                 }
             }
-            .padding()
         }
         .background(Color.darkBlack)
         .navigationBarBackButtonHidden(true)
@@ -34,13 +41,13 @@ struct ChatView: View {
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
         ChatView()
+            .environmentObject(MainRouter())
     }
 }
 
 
 extension ChatView{
-    
-    
+        
     private func chatCell(_ chat: Conversation) -> some View{
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 16){
@@ -54,16 +61,19 @@ extension ChatView{
                             .font(.footnote)
                             .foregroundColor(.lightGray)
                     }
-                    Text(chat.chat.lastMessage?.text ?? "")
-                        .font(.body.weight(.light))
+                    HStack {
+                        Text(chat.chat.lastMessage?.text ?? "")
+                            .font(.body.weight(.light))
+                            .lineLimit(1)
+                        Spacer()
+                        if chat.chat.lastMessage?.didUnViewed(viewModel.currentUserId) ?? false{
+                            Circle()
+                                .fill(Color.accentColor)
+                                .frame(width: 10, height: 10)
+                        }
+                    }
                 }
                 .lineLimit(1)
-                
-                if chat.chat.lastMessage?.didUnViewed(viewModel.currentUserId) ?? false{
-                    Circle()
-                        .fill(Color.accentColor)
-                        .frame(width: 10, height: 10)
-                }
             }
             .foregroundColor(.white)
             Rectangle()
@@ -71,16 +81,7 @@ extension ChatView{
                 .frame(height: 0.5)
                 .padding(.horizontal, -16)
         }
-        .contentShape(Rectangle())
-        .contextMenu{
-            Button(role: .destructive) {
-                Task{
-                    await viewModel.removeChat(chat.id)
-                }
-            } label: {
-                Label("Remove", systemImage: "trash")
-            }
-        }
+        .padding([.top, .horizontal])
     }
     
     private var headerView: some View{
@@ -98,4 +99,16 @@ extension ChatView{
             }
     }
     
+}
+
+
+struct CellButton: ButtonStyle{
+    func makeBody(configuration: Configuration) -> some View {
+        ZStack{
+            configuration.label
+            if configuration.isPressed{
+                Color.lightGray.opacity(0.1)
+            }
+        }
+    }
 }

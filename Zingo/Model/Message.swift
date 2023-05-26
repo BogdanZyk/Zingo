@@ -39,7 +39,7 @@ extension Message{
 }
 
 
-struct ShortMessage: Identifiable, Codable{
+struct ShortMessage: Identifiable, Codable, Hashable{
     let id: String
     var text: String
     var senderId: String

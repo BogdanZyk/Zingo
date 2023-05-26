@@ -31,7 +31,7 @@ struct Post: Identifiable, Codable{
     }
 }
 
-struct ShortUser: Codable{
+struct ShortUser: Codable, Hashable{
     let id: String
     let name: String
     let image: String?

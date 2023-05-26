@@ -13,6 +13,7 @@ import FirebaseAuth
 enum RouterDestination: Hashable {
     case userProfile(id: String)
     case chats
+    case dialog(Conversation)
 //  case accountDetailWithAccount(account: Account)
 //  case accountSettingsWithAccount(account: Account, appAccount: AppAccount)
 //  case statusDetail(id: String)

@@ -78,6 +78,7 @@
 		5A80C4672A1F6B7700C42FC0 /* DialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4662A1F6B7700C42FC0 /* DialogViewModel.swift */; };
 		5A80C4692A1FA9FD00C42FC0 /* MessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4682A1FA9FD00C42FC0 /* MessageBubbleView.swift */; };
 		5A80C46C2A20A3FC00C42FC0 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 5A80C46B2A20A3FC00C42FC0 /* Algorithms */; };
+		5A80C46F2A20FE5600C42FC0 /* SwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C46E2A20FE5600C42FC0 /* SwipeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,6 +148,7 @@
 		5A80C4642A1F6B6000C42FC0 /* DialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogView.swift; sourceTree = "<group>"; };
 		5A80C4662A1F6B7700C42FC0 /* DialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogViewModel.swift; sourceTree = "<group>"; };
 		5A80C4682A1FA9FD00C42FC0 /* MessageBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleView.swift; sourceTree = "<group>"; };
+		5A80C46E2A20FE5600C42FC0 /* SwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +227,7 @@
 		5A28FFE02A17A9220068D3FD /* ViewComponens */ = {
 			isa = PBXGroup;
 			children = (
+				5A80C46D2A20FE3700C42FC0 /* SwipeView */,
 				5A80C4502A1E555E00C42FC0 /* PullToRefresh */,
 				5A80C4442A1E1F3400C42FC0 /* ImageSlider */,
 				5A4BADE82A1CE7710009CD12 /* Popap */,
@@ -494,6 +497,14 @@
 			path = Dialog;
 			sourceTree = "<group>";
 		};
+		5A80C46D2A20FE3700C42FC0 /* SwipeView */ = {
+			isa = PBXGroup;
+			children = (
+				5A80C46E2A20FE5600C42FC0 /* SwipeView.swift */,
+			);
+			path = SwipeView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -602,6 +613,7 @@
 				5A80C4492A1E334500C42FC0 /* PostCommentView.swift in Sources */,
 				5A80C44B2A1E33D900C42FC0 /* Comment.swift in Sources */,
 				5A80C4652A1F6B6000C42FC0 /* DialogView.swift in Sources */,
+				5A80C46F2A20FE5600C42FC0 /* SwipeView.swift in Sources */,
 				5A4BADF12A1CF6370009CD12 /* CurrentUserManager.swift in Sources */,
 				5A28FFEE2A17AC570068D3FD /* TabViewContainer.swift in Sources */,
 				5A4BADAA2A1B7A5E0009CD12 /* User.swift in Sources */,

@@ -90,7 +90,8 @@ class ChatViewModel: ObservableObject{
     @MainActor
     func removeChat(_ id: String) async{
         do{
-          try await chatService.deleteChat(for: id)
+            conversations.removeAll(where: {$0.id == id})
+            try await chatService.deleteChat(for: id)
         }catch{
             print(error.localizedDescription)
         }

@@ -39,6 +39,8 @@ struct FeedView: View {
                 UserProfile(userId: id)
             case .chats:
                 ChatView()
+            case .dialog(let conversation):
+                DialogView(participant: conversation.conversationUser, chatId: conversation.id)
             }
         }
     }

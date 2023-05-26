@@ -9,13 +9,22 @@ import SwiftUI
 
 
 struct Conversation: Identifiable{
+    
     var id: String{ chat.id }
     var chat: Chat
     let conversationUser: ShortUser
+    
+}
+
+extension Conversation: Hashable{
+    static func == (lhs: Conversation, rhs: Conversation) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 extension Conversation{
-    static let mock: Conversation = .init(chat: .mock, conversationUser: .init(user: .mock))
+    static let mocks: [Conversation] = [.init(chat: .mocks.first!, conversationUser: .init(user: .mock)),
+                                        .init(chat: .mocks.last!, conversationUser: .init(user: .mock))]
 }
 
 struct Chat: Identifiable, Codable{
@@ -32,9 +41,19 @@ struct Chat: Identifiable, Codable{
     }
 }
 
+extension Chat: Hashable{
+    static func == (lhs: Chat, rhs: Chat) -> Bool {
+        lhs.id == rhs.id
+    }
+}
 
 extension Chat{
-    static let mock: Chat = .init(id: UUID().uuidString, lastMessage: .init(message: .mocks.first!), participants: ["1", "2"])
+    
+    static let mocks: [Chat] = [
+        .init(id: UUID().uuidString, lastMessage: .init(message: .mocks.first!), participants: ["1", "2"]),
+        .init(id: UUID().uuidString, lastMessage: .init(message: .mocks.first!), participants: ["1", "2"])
+    ]
+      
 }
 
 
