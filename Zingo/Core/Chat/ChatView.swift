@@ -58,6 +58,12 @@ extension ChatView{
                         .font(.body.weight(.light))
                 }
                 .lineLimit(1)
+                
+                if chat.chat.lastMessage?.didUnViewed(viewModel.currentUserId) ?? false{
+                    Circle()
+                        .fill(Color.accentColor)
+                        .frame(width: 10, height: 10)
+                }
             }
             .foregroundColor(.white)
             Rectangle()

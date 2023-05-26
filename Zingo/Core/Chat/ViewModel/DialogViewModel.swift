@@ -96,15 +96,36 @@ extension DialogViewModel{
             case .failure(let error):
                 print(error.localizedDescription)
             }
-        } receiveValue: { (messages, changed) in
-            guard let message = messages.first else {return}
-            if !self.messages.contains(where: {$0.id == message.id}){
-                self.messages.insert(message, at: 0)
-                self.totalCountMessage += 1
-                self.lastMessageId = message.id
+        } receiveValue: {[weak self] (messages, changed) in
+            guard let self = self,
+                  let message = messages.last,
+                  let changedType = changed.last  else {return}
+            
+            switch changedType{
+            case .added:
+                self.addNewMessage(message)
+            case .modified:
+                self.modifiedMessage(message)
+                
+            default: break
             }
         }
         .store(in: cancelBag)
+    }
+    
+    
+    private func addNewMessage(_ message: Message){
+        if !self.messages.contains(where: {$0.id == message.id}){
+            self.messages.insert(message, at: 0)
+            self.totalCountMessage += 1
+            self.lastMessageId = message.id
+        }
+    }
+    
+    private func modifiedMessage(_ message: Message){
+        guard let index = messages.firstIndex(where: {$0.id == message.id}),
+              (messages.count - 1) >= index else {return}
+        self.messages[index] = message
     }
 }
 
@@ -133,6 +154,16 @@ extension DialogViewModel{
     private func getChatId(participantId: String) async -> String?{
         guard let currentUserId else { return nil }
         return try? await chatService.getChat(participantId: participantId, currentUserId: currentUserId)?.id
+    }
+    
+    func viewMessage(_ message: Message){
+        guard let chatId, let currentUserId, message.senderId != currentUserId else { return }
+        Task{
+            if !(message.viewed ?? false){
+                print("view messaeg", message.text)
+                try await messageService.viewMessage(chatId: chatId, messageId:message.id)
+            }
+        }
     }
 }
 

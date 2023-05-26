@@ -21,14 +21,12 @@ extension Conversation{
 struct Chat: Identifiable, Codable{
     let id: String
     var lastMessage: ShortMessage?
-    var unreadCount: Int = 0
     var participants: [String]
     var createdAt: Date = Date()
     
     enum CodingKeys: String, CodingKey {
         case id
         case lastMessage
-        case unreadCount
         case participants
         case createdAt
     }

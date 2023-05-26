@@ -40,6 +40,13 @@ final class ChatServices{
         try await getChatDocument(for: id).updateData(dict)
     }
     
+    func viewLastChatMessage(for id: String)  async throws{
+        let dict: [String: Any] = [
+           "lastMessage.view" : true
+        ]
+        try await getChatDocument(for: id).updateData(dict)
+    }
+    
     func deleteChat(for id: String) async throws{
         try await getChatDocument(for: id).delete()
     }

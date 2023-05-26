@@ -13,6 +13,7 @@ struct Message: Identifiable, Codable{
     var text: String
     var senderId: String
     var recipientId: String
+    var viewed: Bool? = false
     var createdAt: Date = Date()
     
     enum CodingKeys: String, CodingKey {
@@ -22,6 +23,7 @@ struct Message: Identifiable, Codable{
         case senderId
         case recipientId
         case createdAt
+        case viewed
     }
     
     func getRecipientType(currentUserId: String?) -> RecipientType{
@@ -42,6 +44,7 @@ struct ShortMessage: Identifiable, Codable{
     var text: String
     var senderId: String
     var createdAt: Date = Date()
+    var view: Bool? = false
     
     
     init(message: Message){
@@ -49,5 +52,9 @@ struct ShortMessage: Identifiable, Codable{
         self.text = message.text
         self.senderId = message.senderId
         self.createdAt = message.createdAt
+    }
+    
+    func didUnViewed(_ currentUserId: String?) -> Bool{
+        currentUserId != senderId && !(view ?? true)
     }
 }

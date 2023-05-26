@@ -110,6 +110,7 @@ extension DialogView{
                         .id(message.id)
                         .flippedUpsideDown()
                         .onAppear{
+                            viewModel.viewMessage(message)
                             viewModel.loadNextPage(message.id)
                             hiddenOrUnhiddenDownButton(message.id, hidden: true)
                         }

@@ -11,6 +11,7 @@ import Foundation
 class ChatViewModel: ObservableObject{
     
     @Published private(set) var conversations = [Conversation]()
+    @Published private(set) var currentUserId: String?
     private let chatService = ChatServices.shared
     private let userService = UserService.share
     private var listener = FBListener()
@@ -18,6 +19,7 @@ class ChatViewModel: ObservableObject{
     
     
     init(){
+        currentUserId = userService.getFBUserId()
         fetchChats()
         startChatsListener()
     }
@@ -28,7 +30,7 @@ class ChatViewModel: ObservableObject{
     }
     
     func fetchChats(){
-        guard let currentUserId = userService.getFBUserId() else {return}
+        guard let currentUserId else {return}
         Task(priority: .userInitiated){
             do{
                 let chats = try await chatService.getUserChats(userId: currentUserId)
@@ -60,7 +62,7 @@ class ChatViewModel: ObservableObject{
     }
     
     func startChatsListener(){
-        guard let currentUserId = userService.getFBUserId() else {return}
+        guard let currentUserId else {return}
         let (pub, listener) = chatService.addChatListener(userId: currentUserId)
         
         
@@ -95,7 +97,7 @@ class ChatViewModel: ObservableObject{
     }
     
     private func addNewConversationsIfNeeded(_ chat: Chat){
-        guard let currentUserId = userService.getFBUserId() else {return}
+        guard let currentUserId else {return}
         if conversations.contains(where: {$0.id == chat.id}){
             Task{
                 let newConversation = try await createConversations(for: currentUserId, chats: [chat])

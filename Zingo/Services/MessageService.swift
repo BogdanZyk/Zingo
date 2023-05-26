@@ -50,4 +50,10 @@ final class MessageService{
         messageQuery(chatId: chatId, limit: 1)
             .addSnapshotListenerWithChangeType(as: Message.self)
     }
+    
+    func viewMessage(chatId: String, messageId: String) async throws{
+        let dict: [String: Any] = [Message.CodingKeys.viewed.rawValue: true]
+        try await getMessageCollectionRef(chatId: chatId).document(messageId).updateData(dict)
+        try await chatService.viewLastChatMessage(for: chatId)
+    }
 }
