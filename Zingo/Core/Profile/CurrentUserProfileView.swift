@@ -32,6 +32,7 @@ struct CurrentUserProfileView: View {
             }
         }
         .foregroundColor(.white)
+        .bottomTabPadding()
         .background(Color.darkBlack)
         .navigationBarHidden(true)
         .overlay(alignment: .topTrailing) {

@@ -31,6 +31,7 @@ struct DialogView: View {
             .flippedUpsideDown()
             .background(Color.darkBlack)
             .navigationBarBackButtonHidden(true)
+            .scrollDismissesKeyboard(.interactively)
             .overlay(alignment: .bottomTrailing) {
                 downButton(proxy)
             }
@@ -133,7 +134,7 @@ extension DialogView{
     
     private var bottomBar: some View{
         HStack(spacing: 12){
-            GrowingTextInputView(text: $viewModel.text, isRemoveBtn: false, placeholder: "Type your message here...", isFocused: false, minHeight: 44)
+            GrowingTextInputView(text: $viewModel.text, isRemoveBtn: false, placeholder: "Type your message here...", isFocused: false, minHeight: 40)
                 .overlay(RoundedRectangle(cornerRadius: 25).strokeBorder(Color.lightWhite, lineWidth: 1))
             sendButton
         }
@@ -150,8 +151,8 @@ extension DialogView{
         } label: {
             Image(systemName: "paperplane.circle.fill")
                 .resizable()
-                .scaledToFill()
-                .frame(width: 44, height: 44)
+                .scaledToFit()
+                .frame(width: 44, height: 40)
                 .foregroundColor(viewModel.text.orEmpty.isEmpty ? .lightGray : .accentPink)
         }
     }

@@ -28,6 +28,7 @@ struct FeedView: View {
                 .padding(.horizontal)
             }
         }
+        .bottomTabPadding()
         .background(Color.darkBlack)
         .safeAreaInset(edge: .top, alignment: .center, spacing: 0) {
             headerSection

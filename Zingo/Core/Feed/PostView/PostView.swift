@@ -34,6 +34,7 @@ struct PostView: View {
                 userSection
                 postContent
                 postStats
+                textSection
             }
             .foregroundColor(.white)
             divider
@@ -48,7 +49,7 @@ struct PostView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Color.darkBlack
-            PostView(currentUserId: "", post: .constant(Post.mockPosts.last!), onRemove: {_ in}, onTapUser: {_ in})
+            PostView(currentUserId: "", post: .constant(Post.mockPosts.first!), onRemove: {_ in}, onTapUser: {_ in})
                 .padding(.horizontal)
         }
     }
@@ -105,16 +106,21 @@ extension PostView{
                         likeAnimation
                     }
             }
-            if let text = post.caption{
-                Text(text)
-                    .lineLimit(5)
-                    .lineSpacing(5)
-            }
         }
         .onTapGesture(count: 2) {
             Task{
                 await viewModel.likeUnLikePost(post: $post)
             }
+        }
+    }
+    
+    
+    @ViewBuilder
+    private var textSection: some View{
+        if let text = post.caption{
+            Text(text)
+                .lineLimit(5)
+                .lineSpacing(5)
         }
     }
     
@@ -147,6 +153,9 @@ extension PostView{
             HStack(spacing: 5){
                 Image(stats.image)
                     .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20)
                 Group{
                     switch stats {
                     case .like(let value):
@@ -190,9 +199,9 @@ extension PostView{
             Image(Icon.like.rawValue)
                 .renderingMode(.template)
                 .resizable()
-                .scaledToFill()
-                .frame(width: 60, height: 60)
-                .foregroundColor(.accentPink)
+                .scaledToFit()
+                .frame(width: 75)
+                .foregroundColor(.white)
                 .onAppear{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                         withAnimation(.interactiveSpring()){
@@ -219,8 +228,7 @@ extension PostView{
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
-        .frame(height: 200)
-
+        .frame(height: getRect().height / 2.5)
     }
     
     private func pageControlView(images: [StoreImage]) -> some View{

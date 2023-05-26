@@ -38,7 +38,6 @@ struct TabViewContainer: View {
             }
             .tag(Tab.profile)
         }
-        
         .safeAreaInset(edge: .bottom, alignment: .center, spacing: 0) {
             tabView
         }

@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct GrowingTextInputView: View {
-    init(text: Binding<String?>, isRemoveBtn: Bool = true, placeholder: String?, isFocused : Bool = false, minHeight: CGFloat = 35) {
+    init(text: Binding<String?>, isRemoveBtn: Bool = true, placeholder: String?, isFocused : Bool = false, minHeight: CGFloat = 35, font: UIFont = .systemFont(ofSize: 16)) {
         self._text = text
         self.isRemoveBtn = isRemoveBtn
         self.placeholder = placeholder
         self.isFocused = isFocused
         self.minHeight = minHeight
+        self.font = font
         
     }
     
@@ -21,6 +22,7 @@ struct GrowingTextInputView: View {
     @State var focused: Bool = false
     @State var contentHeight: CGFloat = 0
     
+    let font: UIFont
     let isRemoveBtn: Bool
     let placeholder: String?
     let minHeight: CGFloat
@@ -41,7 +43,7 @@ struct GrowingTextInputView: View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) {
             ZStack(alignment: .topLeading){
                 placeholderView
-                TextViewWrapper(text: $text, focused: $focused, contentHeight: $contentHeight)
+                TextViewWrapper(text: $text, focused: $focused, contentHeight: $contentHeight, font: font)
                     .padding(.trailing, isRemoveBtn ? 25 : 10)
                     .padding(.leading, 10)
                     .padding(.top, 2)
@@ -62,7 +64,7 @@ struct GrowingTextInputView: View {
     
     private var placeholderView: some View {
         Text(placeholder ?? "")
-            .font(.system(size: 18))
+            .font(Font(font))
             .foregroundColor(.white)
             .opacity(showPlaceholder ? 0.5 : 0)
             .padding(.leading, 13)
@@ -97,20 +99,22 @@ struct GrowingTextInputView_Previews: PreviewProvider {
 
 struct TextViewWrapper: UIViewRepresentable {
     
-    init(text: Binding<String?>, focused: Binding<Bool>, contentHeight: Binding<CGFloat>) {
+    init(text: Binding<String?>, focused: Binding<Bool>, contentHeight: Binding<CGFloat>, font: UIFont = .systemFont(ofSize: 18)) {
         self._text = text
         self._focused = focused
         self._contentHeight = contentHeight
+        self.font = font
     }
     
     @Binding var text: String?
     @Binding var focused: Bool
     @Binding var contentHeight: CGFloat
+    var font: UIFont
     
     // MARK: - UIViewRepresentable
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
-        textView.font = .systemFont(ofSize: 18)
+        textView.font = font
         textView.textColor = .white
         textView.backgroundColor = .clear
         textView.autocorrectionType = .default
