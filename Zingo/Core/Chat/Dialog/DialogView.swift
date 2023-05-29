@@ -73,13 +73,18 @@ extension DialogView{
                     mainRouter.hiddenTabView = false
                     dismiss()
                 }
-                VStack(spacing: 5){
-                    UserAvatarView(image: viewModel.participant?.image, size: .init(width: 35, height: 35))
-                    Text(viewModel.participant?.name ?? "-")
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(.white)
-                }.hCenter()
-                
+                if let id = viewModel.participant?.id{
+                    NavigationLink {
+                        UserProfile(userId: id, fromDialog: true)
+                    } label: {
+                        VStack(spacing: 5){
+                            UserAvatarView(image: viewModel.participant?.image, size: .init(width: 35, height: 35))
+                            Text(viewModel.participant?.name ?? "-")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(.white)
+                        }.hCenter()
+                    }
+                }
                 Button {
                     
                 } label: {

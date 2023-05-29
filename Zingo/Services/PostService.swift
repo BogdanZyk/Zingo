@@ -37,7 +37,6 @@ final class PostService{
             .getDocumentsWithSnapshot(as: Post.self)
     }
     
-    
     func createPost(owner: ShortUser, images: [UIImageData], text: String?) async throws{
         
         let storeImages = try await saveImages(userId: owner.id, images: images)

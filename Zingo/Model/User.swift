@@ -38,7 +38,7 @@ struct User: Identifiable, Codable{
 }
 
 extension User{
-    static let mock = User(id: UUID().uuidString,
+    static let mock = User(id: "fTSwHTmYHkeYvfsWASMpEDlwGmg2",
                            userName: "Tester",
                            email: "test@test.cpm",
                            profileImage: .init(path: "", fullPath: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_KIEkMvsIZEmzG7Og_h3SJ4T3HsE2rqm3_w&usqp=CAU"),

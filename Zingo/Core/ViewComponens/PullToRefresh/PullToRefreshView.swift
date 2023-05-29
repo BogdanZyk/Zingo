@@ -7,10 +7,11 @@
 
 import SwiftUI
 
-struct PullToRefreshView: View{
+struct PullToRefreshView: View
+{
     private static let minRefreshTimeInterval = TimeInterval(0.2)
-    private static let triggerHeight = CGFloat(60)
-    private static let indicatorHeight = CGFloat(60)
+    private static let triggerHeight = CGFloat(100)
+    private static let indicatorHeight = CGFloat(100)
     private static let fullHeight = triggerHeight + indicatorHeight
     
     let backgroundColor: Color
@@ -21,7 +22,7 @@ struct PullToRefreshView: View{
     @State private var isRefreshIndicatorVisible = false
     @State private var refreshStartTime: Date? = nil
     
-    init(bg: Color = .white, fg: Color = .black, isEnabled: Bool = true, onRefresh: @escaping () -> Void)
+    init(bg: Color = .white, fg: Color = .accentColor, isEnabled: Bool = true, onRefresh: @escaping () -> Void)
     {
         self.backgroundColor = bg
         self.foregroundColor = fg
@@ -64,7 +65,7 @@ struct PullToRefreshView: View{
             .frame(height: Self.triggerHeight)
             
             indicator
-//                .frame(height: Self.indicatorHeight)
+                .frame(height: Self.indicatorHeight)
         }
         .background(backgroundColor)
         .ignoresSafeArea(edges: .all)
@@ -75,8 +76,7 @@ struct PullToRefreshView: View{
     private var indicator: some View
     {
         ProgressView()
-            .tint(Color.accentColor)
-            //.opacity(isRefreshIndicatorVisible ? 1 : 0)
-           // .animation(.easeIn(duration: 0.1), value: isRefreshIndicatorVisible)
+            .progressViewStyle(CircularProgressViewStyle(tint: foregroundColor))
+            .opacity(isRefreshIndicatorVisible ? 1 : 0)
     }
 }

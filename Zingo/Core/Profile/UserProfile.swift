@@ -11,8 +11,10 @@ struct UserProfile: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: UserViewModel
     @State private var showDialogView: Bool = false
-    init(userId: String?){
+    var fromDialog: Bool = false
+    init(userId: String?, fromDialog: Bool = false){
         self._viewModel = StateObject(wrappedValue: UserViewModel(userId: userId))
+        self.fromDialog = fromDialog
     }
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -21,8 +23,7 @@ struct UserProfile: View {
                     user: user,
                     currentUserId: viewModel.currentUserId,
                     onTapFollow: {},
-                    onTapMessage: onTapMessage,
-                    onChangeTab: {_ in })
+                    onTapMessage: onTapMessage)
             }else{
                 ProgressView()
                     .hCenter()
@@ -31,6 +32,7 @@ struct UserProfile: View {
             }
         }
         .foregroundColor(.white)
+        .bottomTabPadding()
         .background(Color.darkBlack)
         .navigationBarHidden(true)
         .overlay(alignment: .topLeading) {
@@ -39,6 +41,15 @@ struct UserProfile: View {
         .navigationDestination(isPresented: $showDialogView) {
             if let id = viewModel.user?.id{
                 DialogView(participantId: id)
+            }
+        }
+        .navigationDestination(for: RouterDestination.self) { destination in
+            switch destination{
+            case .userProfile(let id):
+                UserProfile(userId: id)
+            case .chats: EmptyView()
+            case .dialog(let conversation):
+                DialogView(participant: conversation.conversationUser, chatId: conversation.id)
             }
         }
     }
@@ -52,8 +63,6 @@ struct UserProfile_Previews: PreviewProvider {
 }
 
 extension UserProfile{
-    
-    
     @ViewBuilder
     private var backButton: some View{
         IconButton(icon: .arrowLeft) {
@@ -63,6 +72,9 @@ extension UserProfile{
     }
     
     private func onTapMessage(){
+        if fromDialog{
+            dismiss()
+        }
         guard let id = viewModel.user?.id else {return}
         showDialogView.toggle()
     }

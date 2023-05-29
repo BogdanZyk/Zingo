@@ -8,18 +8,35 @@
 import SwiftUI
 
 struct ProfileContentViewComponent: View {
+    @State var currentTab: ProfileTab = .posts
+    @EnvironmentObject var router: MainRouter
+    @StateObject private var viewModel: ProfileContentViewModel
     let user: User
     var currentUserId: String?
-    @Namespace private var animation
-    @State private var currentTab: ProfileTab = .posts
     
     var onTapAvatar: (() -> Void)?
     var onTapBanner: (() -> Void)?
     var onTapEdit: (() -> Void)?
     var onTapFollow: (() -> Void)?
     var onTapMessage: (() -> Void)?
-    let onChangeTab: (ProfileTab) -> Void
     
+    init(user: User,
+         currentUserId: String? = nil,
+         onTapAvatar: (() -> Void)? = nil,
+         onTapBanner: (() -> Void)? = nil,
+         onTapEdit: (() -> Void)? = nil,
+         onTapFollow: (() -> Void)? = nil,
+         onTapMessage: (() -> Void)? = nil) {
+        
+        self._viewModel = StateObject(wrappedValue: ProfileContentViewModel(userId: user.id))
+        self.user = user
+        self.currentUserId = currentUserId
+        self.onTapAvatar = onTapAvatar
+        self.onTapBanner = onTapBanner
+        self.onTapEdit = onTapEdit
+        self.onTapFollow = onTapFollow
+        self.onTapMessage = onTapMessage
+    }
     
     var isCurrentUser: Bool{
         user.id == currentUserId
@@ -36,7 +53,7 @@ struct ProfileContentViewComponent: View {
                     .padding(.top, 75)
                 followerSection
                 
-                underlineTabbarView
+                underlineTabView
                 
                 tabViewSection
             }
@@ -48,9 +65,10 @@ struct ProfileContentViewComponent: View {
 struct ProfileContentViewComponent_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView{
-            ProfileContentViewComponent(user: User.mock, onChangeTab: {_ in})
+            ProfileContentViewComponent(user: User.mock)
         }
         .background(Color.darkBlack)
+        .environmentObject(MainRouter())
     }
 }
 
@@ -172,7 +190,35 @@ extension ProfileContentViewComponent{
     }
     
     
-    private var underlineTabbarView: some View{
+    private var underlineTabView: some View{
+        ProfileContentTabView(currentTab: $currentTab)
+    }
+    
+    @ViewBuilder
+    private var tabViewSection: some View{
+        switch currentTab{
+            
+        case .posts:
+            userPostsList
+        case .stories:
+            Text("stories")
+        case .liked:
+            Text("liked")
+        case .tagged:
+            Text("tagged")
+        }
+    }
+
+    private var userPostsList: some View{
+        PostsListView(router: router, posts: $viewModel.userPosts, shouldNextPageLoader: viewModel.shouldNextPageLoader, currentUserId: currentUserId ?? "", fetchNextPage: viewModel.fetchPosts)
+    }
+}
+
+
+struct ProfileContentTabView: View{
+    @Namespace private var animation
+    @Binding var currentTab: ProfileTab
+    var body: some View{
         HStack{
             ForEach(ProfileTab.allCases, id: \.self) { tab in
                 Text(tab.rawValue.capitalized)
@@ -181,7 +227,6 @@ extension ProfileContentViewComponent{
                     .bold(tab == currentTab)
                     .onTapGesture {
                         currentTab = tab
-                        onChangeTab(tab)
                     }
                     .overlay(alignment: .bottom) {
                         if currentTab == tab{
@@ -196,25 +241,5 @@ extension ProfileContentViewComponent{
         .foregroundColor(.white)
         .padding(.vertical)
         .animation(.easeInOut(duration: 0.2), value: currentTab)
-    }
-    
-    @ViewBuilder
-    private var tabViewSection: some View{
-        switch currentTab{
-            
-        case .posts:
-            Text("Posts")
-//            LazyVStack(spacing: 16) {
-//                ForEach(Post.mockPosts) { post in
-//                    PostView(currentUserId: post: post)
-//                }
-//            }
-        case .stories:
-            Text("stories")
-        case .liked:
-            Text("liked")
-        case .tagged:
-            Text("tagged")
-        }
     }
 }

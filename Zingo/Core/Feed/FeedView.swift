@@ -17,14 +17,7 @@ struct FeedView: View {
                 loaderView
             }else{
                 pullToRefreshView
-                LazyVStack(spacing: 20) {
-                    ForEach($viewModel.posts) { post in
-                        postCell(post)
-                        if viewModel.shouldNextPageLoader(post.id){
-                            ProgressView()
-                        }
-                    }
-                }
+                postsListView
                 .padding(.horizontal)
             }
         }
@@ -71,13 +64,11 @@ extension FeedView{
     }
     
     
-    private func postCell(_ post: Binding<Post>) -> some View{
-        PostView(
-            currentUserId: currentUser?.id,
-            post: post,
-            onRemove: viewModel.removePost,
-            onTapUser: onTapOwner
-        )
+    private var postsListView: some View{
+        PostsListView(router: router, posts: $viewModel.posts,
+                      shouldNextPageLoader: viewModel.shouldNextPageLoader,
+                      currentUserId: currentUser?.id ?? "",
+                      fetchNextPage: viewModel.fetchPosts)
     }
     
     private var loaderView: some View{
@@ -88,15 +79,14 @@ extension FeedView{
             Spacer()
         }
         .allFrame()
-    }
-    
-    private func onTapOwner(_ id: String){
-        router.navigate(to: .userProfile(id: id))
+        .onAppear{
+            viewModel.refetch()
+        }
     }
     
     private var pullToRefreshView: some View{
         PullToRefreshView(bg: Color.darkBlack){
-            viewModel.refetch()
+           viewModel.refetch()
             //            Haptics.shared.play(.light)
         }
     }

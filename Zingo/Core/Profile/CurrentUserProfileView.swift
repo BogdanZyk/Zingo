@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CurrentUserProfileView: View {
-    @Environment(\.dismiss) private var dismiss
     @ObservedObject var userManager: CurrentUserManager
     @State private var showConfirmationDialog: Bool = false
     @State private var pickerType: ImagePickerType = .photoLib
@@ -17,13 +16,13 @@ struct CurrentUserProfileView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             if let user = userManager.user{
+            
                 ProfileContentViewComponent(
                     user: user,
                     currentUserId: userManager.user?.id,
                     onTapAvatar: {onSelectedImage(.avatar)},
                     onTapBanner: {onSelectedImage(.banner)},
-                    onTapEdit: {},
-                    onChangeTab: {_ in })
+                    onTapEdit: {})
             }else{
                 ProgressView()
                     .hCenter()
@@ -45,6 +44,13 @@ struct CurrentUserProfileView: View {
             }
             Button("Photo") {
                 selectedPicker(.photoLib)
+            }
+        }
+        .navigationDestination(for: RouterDestination.self) { destination in
+            switch destination{
+            case .userProfile(let id):
+                UserProfile(userId: id)
+            default: EmptyView()
             }
         }
     }

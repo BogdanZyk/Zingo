@@ -20,18 +20,17 @@ class FeedViewModel: ObservableObject{
     }
     
     init(){
-        fetchCountPosts()
-        fetchPosts()
         setupNcPublisher()
     }
     
     
     func fetchPosts(){
+        print("fetchPosts now")
         Task{
             let (posts, lastDoc) = try await postService.fetchPaginatedPosts(lastDocument: lastDoc.lastDocument)
             await MainActor.run {
                 self.lastDoc.lastDocument = lastDoc
-                self.posts = posts
+                self.posts.append(contentsOf: posts)
             }
         }
     }
