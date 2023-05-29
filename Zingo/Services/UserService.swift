@@ -77,6 +77,28 @@ final class UserService{
     func addUserListener(for id: String) -> (AnyPublisher<User?, Error>, ListenerRegistration){
         userDocument(for: id).addSnapshotListener(as: User.self)
     }
+    
+    func followUser(whomId: String, userId: String) async throws{
+        let dict = [User.CodingKeys.followers.rawValue: FieldValue.arrayUnion([userId])]
+        try await userDocument(for: whomId).updateData(dict)
+        try await addFollower(whomId: userId, userId: whomId)
+    }
+
+    func unFollowUser(whomId: String, userId: String) async throws{
+        let dict = [User.CodingKeys.followers.rawValue: FieldValue.arrayRemove([userId])]
+        try await userDocument(for: whomId).updateData(dict)
+        try await removeFollower(whomId: userId, userId: whomId)
+    }
+    
+    private func addFollower(whomId: String, userId: String) async throws{
+        let dict = [User.CodingKeys.followings.rawValue: FieldValue.arrayUnion([userId])]
+        try await userDocument(for: whomId).updateData(dict)
+    }
+    
+    private func removeFollower(whomId: String, userId: String) async throws{
+        let dict = [User.CodingKeys.followings.rawValue: FieldValue.arrayRemove([userId])]
+        try await userDocument(for: whomId).updateData(dict)
+    }
 }
 
 

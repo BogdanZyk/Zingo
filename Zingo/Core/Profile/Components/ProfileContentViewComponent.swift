@@ -17,15 +17,20 @@ struct ProfileContentViewComponent: View {
     var onTapAvatar: (() -> Void)?
     var onTapBanner: (() -> Void)?
     var onTapEdit: (() -> Void)?
-    var onTapFollow: (() -> Void)?
+    var onTapFollow: ((Bool) -> Void)?
     var onTapMessage: (() -> Void)?
+    
+    private var isFollow: Bool{
+        guard let currentUserId else {return false}
+        return user.isFollow(for: currentUserId)
+    }
     
     init(user: User,
          currentUserId: String? = nil,
          onTapAvatar: (() -> Void)? = nil,
          onTapBanner: (() -> Void)? = nil,
          onTapEdit: (() -> Void)? = nil,
-         onTapFollow: (() -> Void)? = nil,
+         onTapFollow: ((Bool) -> Void)? = nil,
          onTapMessage: (() -> Void)? = nil) {
         
         self._viewModel = StateObject(wrappedValue: ProfileContentViewModel(userId: user.id))
@@ -168,8 +173,8 @@ extension ProfileContentViewComponent{
                     onTapEdit?()
                 }
             }else{
-                ButtonView(label: "Follow", type: .primary, font: .title3.bold()) {
-                    
+                ButtonView(label: isFollow ? "Unfollow" : "Follow", type: isFollow ? .border : .primary, font: .title3.bold()) {
+                    onTapFollow?(isFollow)
                 }
             }
         }

@@ -53,4 +53,22 @@ final class UserViewModel: ObservableObject{
             }
             .store(in: cancelBag)
     }
+    
+    
+    
+
+    func followOrUnFollow(isFollower: Bool){
+        guard let currentUserId, let whomId = user?.id else {return}
+        Task{
+            do{
+                if isFollower{
+                    try await userService.unFollowUser(whomId: whomId, userId: currentUserId)
+                }else{
+                    try await userService.followUser(whomId: whomId, userId: currentUserId)
+                }
+            }catch{
+                print(error.localizedDescription)
+            }
+        }
+    }
 }

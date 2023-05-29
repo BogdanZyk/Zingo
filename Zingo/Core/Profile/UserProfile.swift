@@ -22,7 +22,7 @@ struct UserProfile: View {
                 ProfileContentViewComponent(
                     user: user,
                     currentUserId: viewModel.currentUserId,
-                    onTapFollow: {},
+                    onTapFollow: viewModel.followOrUnFollow,
                     onTapMessage: onTapMessage)
             }else{
                 ProgressView()
