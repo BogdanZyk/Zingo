@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct UserProfile: View {
-    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var router: MainRouter
     @StateObject private var viewModel: UserViewModel
-    @State private var showDialogView: Bool = false
     var fromDialog: Bool = false
     init(userId: String?, fromDialog: Bool = false){
         self._viewModel = StateObject(wrappedValue: UserViewModel(userId: userId))
@@ -38,18 +37,13 @@ struct UserProfile: View {
         .overlay(alignment: .topLeading) {
             backButton
         }
-        .navigationDestination(isPresented: $showDialogView) {
-            if let id = viewModel.user?.id{
-                DialogView(participantId: id)
-            }
-        }
         .navigationDestination(for: RouterDestination.self) { destination in
             switch destination{
             case .userProfile(let id):
                 UserProfile(userId: id)
-            case .chats: EmptyView()
-            case .dialog(let conversation):
-                DialogView(participant: conversation.conversationUser, chatId: conversation.id)
+            case .chats, .dialog: EmptyView()
+            case .dialogForId(let id):
+                DialogView(participantId: id)
             }
         }
     }
@@ -66,15 +60,17 @@ extension UserProfile{
     @ViewBuilder
     private var backButton: some View{
         IconButton(icon: .arrowLeft) {
-            dismiss()
+            router.popLast()
         }
         .padding(.leading)
     }
     
     private func onTapMessage(){
         if fromDialog{
-            dismiss()
+            router.popLast()
         }
-        showDialogView.toggle()
+        if let id = viewModel.user?.id{
+            router.navigate(to: .dialogForId(id))
+        }
     }
 }

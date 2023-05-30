@@ -14,12 +14,14 @@ enum RouterDestination: Hashable {
     case userProfile(id: String)
     case chats
     case dialog(Conversation)
+    case dialogForId(String)
 }
 
 enum FullScreenDestination: Identifiable{
     
     case createNewPost(User?)
     case editProfile(CurrentUserManager)
+    
     
     var id: Int{
         switch self {
@@ -87,6 +89,19 @@ final class MainRouter: ObservableObject {
         }
     }
     
+    func popLast(){
+        switch tab {
+        case .feed:
+            pathDestination.feed.removeLast()
+        case .search:
+            pathDestination.search.removeLast()
+        case .notification:
+            pathDestination.notification.removeLast()
+        case .profile:
+            pathDestination.profile.removeLast()
+        default: break
+        }
+    }
     
     func setTab(_ tab: Tab){
         self.tab = tab
