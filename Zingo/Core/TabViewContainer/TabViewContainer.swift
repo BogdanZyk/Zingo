@@ -64,8 +64,7 @@ extension TabViewContainer{
                     tabItem(tab)
                 }
             }
-            .padding(.bottom)
-            .padding(.top, 10)
+            .padding([.bottom, .top], 10)
             .background(Color.black)
         }
     }
@@ -77,7 +76,7 @@ extension TabViewContainer{
                     router.setFullScreen(.createNewPost(userManager.user))
                 } label: {
                     Image(tab.image)
-                        .padding()
+                        .padding(12)
                         .background(LinearGradient.primaryGradient, in: Circle())
                 }
             }else{

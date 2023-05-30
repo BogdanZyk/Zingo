@@ -84,7 +84,7 @@ extension View{
 
     func bottomTabPadding() -> some View{
         self
-            .padding(.bottom, 75)
+            .padding(.bottom, 60)
     }
 }
 
