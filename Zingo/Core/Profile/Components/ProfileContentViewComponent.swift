@@ -31,7 +31,7 @@ struct ProfileContentViewComponent: View {
          onTapBanner: (() -> Void)? = nil,
          onTapEdit: (() -> Void)? = nil,
          onTapFollow: ((Bool) -> Void)? = nil,
-         onTapMessage: (() -> Void)? = nil) {
+         onTapMessage: (() -> Void)? = nil){
         
         self._viewModel = StateObject(wrappedValue: ProfileContentViewModel(userId: user.id))
         self.user = user
@@ -94,7 +94,7 @@ extension ProfileContentViewComponent{
                 ZStack(alignment: .top){
                     Color.darkGray
                     if isCurrentUser{
-                        Text("Add bunner image")
+                        Text("Add banner image")
                             .foregroundColor(.lightGray)
                             .padding(.top, 26)
                     }

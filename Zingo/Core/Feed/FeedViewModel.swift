@@ -29,8 +29,13 @@ class FeedViewModel: ObservableObject{
         Task{
             let (posts, lastDoc) = try await postService.fetchPaginatedPosts(lastDocument: lastDoc.lastDocument)
             await MainActor.run {
+                
+                if self.lastDoc.lastDocument == nil{
+                    self.posts = posts
+                }else{
+                    self.posts.append(contentsOf: posts)
+                }
                 self.lastDoc.lastDocument = lastDoc
-                self.posts.append(contentsOf: posts)
             }
         }
     }

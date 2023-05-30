@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CurrentUserProfileView: View {
+    @EnvironmentObject private var router: MainRouter
     @ObservedObject var userManager: CurrentUserManager
     @State private var showConfirmationDialog: Bool = false
     @State private var pickerType: ImagePickerType = .photoLib
@@ -16,13 +17,12 @@ struct CurrentUserProfileView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             if let user = userManager.user{
-            
                 ProfileContentViewComponent(
                     user: user,
                     currentUserId: userManager.user?.id,
                     onTapAvatar: {onSelectedImage(.avatar)},
                     onTapBanner: {onSelectedImage(.banner)},
-                    onTapEdit: {})
+                    onTapEdit: onTapEdit)
             }else{
                 ProgressView()
                     .hCenter()
@@ -59,6 +59,7 @@ struct CurrentUserProfileView: View {
 struct CurrentUserProfileView_Previews: PreviewProvider {
     static var previews: some View {
         CurrentUserProfileView(userManager: CurrentUserManager())
+            .environmentObject(MainRouter())
     }
 }
 
@@ -84,6 +85,10 @@ extension CurrentUserProfileView{
     private func onSelectedImage(_ type: ProfileImageType){
         userManager.selectedImageType = type
         showConfirmationDialog.toggle()
+    }
+    
+    private func onTapEdit(){
+        router.setFullScreen(.editProfile(userManager))
     }
 }
 

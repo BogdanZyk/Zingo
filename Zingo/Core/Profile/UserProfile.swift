@@ -75,7 +75,6 @@ extension UserProfile{
         if fromDialog{
             dismiss()
         }
-        guard let id = viewModel.user?.id else {return}
         showDialogView.toggle()
     }
 }

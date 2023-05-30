@@ -50,17 +50,21 @@ final class CurrentUserManager: ObservableObject{
     
     
     
-    func uploadImage(){
+    func uploadImage() async{
         guard let id = userService.getFBUserId() else {return}
+        guard let image = imagesData.first?.image else {return}
+        do{
+            let storageImage = try await StorageManager.shared.saveImage(image: image, type: .user, userId: id)
+            await removeImage(selectedImageType)
+            try await userService.setImageUrl(for: selectedImageType, userId: id, image: storageImage)
+        }catch{
+            print(error.localizedDescription)
+        }
+    }
+    
+    func uploadImage(){
         Task{
-            guard let image = imagesData.first?.image else {return}
-            do{
-                let storageImage = try await StorageManager.shared.saveImage(image: image, type: .user, userId: id)
-                await removeImage(selectedImageType)
-                try await userService.setImageUrl(for: selectedImageType, userId: id, image: storageImage)
-            }catch{
-                print(error.localizedDescription)
-            }
+            await uploadImage()
         }
     }
     

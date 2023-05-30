@@ -42,6 +42,10 @@ final class UserService{
         }
     }
     
+    func updateUserInfo(_ info: User.UserInfo) async throws{
+        try await userDocument(for: info.id).updateData(info.getDict())
+    }
+    
     func removeUser(for id: String) async throws{
         try await userDocument(for: id).delete()
     }

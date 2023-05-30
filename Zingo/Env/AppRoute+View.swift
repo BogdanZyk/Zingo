@@ -24,6 +24,8 @@ extension View {
             switch type{
             case .createNewPost(let user):
                 PostEditorView(currentUser: user)
+            case .editProfile(let manager):
+                EditProfileView(userManager: manager)
             }
         }
     }

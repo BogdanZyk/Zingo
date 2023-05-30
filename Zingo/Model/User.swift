@@ -20,6 +20,7 @@ struct User: Identifiable, Codable{
     var location: String?
     var followers: [String] = []
     var followings: [String] = []
+    var gender: Gender? = .over
     
     
     enum CodingKeys: String, CodingKey {
@@ -33,6 +34,7 @@ struct User: Identifiable, Codable{
         case location
         case followers
         case followings
+        case gender
     }
     
     var followersCount: Int{
@@ -59,4 +61,36 @@ extension User{
                            fullName: "Alex Tsimikas",
                            bio: "Writer by Profession. Artist by Passion!",
                            location: "Brooklyn, NY")
+}
+
+
+extension User{
+    
+    enum Gender: String, CaseIterable, Codable{
+        case male, female, over
+    }
+    
+    struct UserInfo{
+        let id: String
+        var userName: String
+        var fullName: String
+        var bio: String
+        var gender: Gender
+        var location: String
+        
+        func getDict() -> [String: Any]{
+            [
+                User.CodingKeys.userName.rawValue: userName,
+                User.CodingKeys.fullName.rawValue: fullName,
+                User.CodingKeys.bio.rawValue: bio,
+                User.CodingKeys.gender.rawValue: gender.rawValue,
+                User.CodingKeys.location.rawValue: location,
+            ]
+        }
+    }
+    
+    
+    func getInfo() -> UserInfo{
+        .init(id: id, userName: userName, fullName: fullName ?? "", bio: bio ?? "", gender: gender ?? .over, location: location ?? "")
+    }
 }
