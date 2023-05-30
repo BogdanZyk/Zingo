@@ -40,13 +40,13 @@ struct GrowingTextInputView: View {
     var body: some View {
         
         
-        ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) {
+        ZStack(alignment: .topTrailing) {
             ZStack(alignment: .topLeading){
                 placeholderView
                 TextViewWrapper(text: $text, focused: $focused, contentHeight: $contentHeight, font: font)
                     .padding(.trailing, isRemoveBtn ? 25 : 10)
                     .padding(.leading, 10)
-                    .padding(.top, 2)
+                    .padding(.top, 6)
             }
             if isRemoveBtn && !showPlaceholder{
                 Button {
@@ -67,8 +67,7 @@ struct GrowingTextInputView: View {
             .font(Font(font))
             .foregroundColor(.white)
             .opacity(showPlaceholder ? 0.5 : 0)
-            .padding(.leading, 13)
-            .padding(.top, 10)
+            .padding()
             .animation(nil, value: placeholder)
     }
     
@@ -84,13 +83,12 @@ struct GrowingTextInputView_Previews: PreviewProvider {
   @State static var text: String?
 
   static var previews: some View {
-    GrowingTextInputView(
-        text: .constant("tre"),
-        isRemoveBtn: true,
-      placeholder: "Placeholder"
-    )
-          .padding()
-          .previewLayout(.sizeThatFits)
+      ZStack{
+          Color.darkBlack
+          GrowingTextInputView(text: .constant(""), isRemoveBtn: false, placeholder: "Add your comment", isFocused: false, minHeight: 90)
+              .overlay(RoundedRectangle(cornerRadius: 25).strokeBorder(Color.lightWhite, lineWidth: 1))
+              .padding()
+      }
   }
 }
 
@@ -163,8 +161,4 @@ struct TextViewWrapper: UIViewRepresentable {
 
 
 
-extension Optional where Wrapped == String {
-  var orEmpty: String {
-    self ?? ""
-  }
-}
+

@@ -54,9 +54,16 @@ final class CurrentUserManager: ObservableObject{
         guard let id = userService.getFBUserId() else {return}
         guard let image = imagesData.first?.image else {return}
         do{
-            let storageImage = try await StorageManager.shared.saveImage(image: image, type: .user, userId: id)
+            let storageImage = try await StorageManager.shared.saveImage(image: image,
+                                                                         type: selectedImageType == .avatar ? .user : .banner,
+                                                                         userId: id)
             await removeImage(selectedImageType)
             try await userService.setImageUrl(for: selectedImageType, userId: id, image: storageImage)
+            
+            await MainActor.run{
+                self.imagesData = []
+            }
+            
         }catch{
             print(error.localizedDescription)
         }

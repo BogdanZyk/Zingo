@@ -59,7 +59,7 @@ class CommentViewModel: ObservableObject {
     
     func sendComment() async{
         guard let currentUser else { return }
-        let comment = Comment(id: UUID().uuidString, postId: postId, owner: .init(user: currentUser), text: commentText)
+        let comment = Comment(id: UUID().uuidString, postId: postId, owner: .init(user: currentUser), text: commentText?.noSpaceStr())
         do{
             commentText = ""
             try await commentService.createComment(for: postId, comment: comment)

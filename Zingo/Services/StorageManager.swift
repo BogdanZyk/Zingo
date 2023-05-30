@@ -62,12 +62,12 @@ final class StorageManager{
 extension StorageManager{
     
     enum ImageType: Int{
-        case user, post, message
+        case user, banner, post, message
         
         func getRef(uid: String) -> StorageReference{
             let storage = StorageManager.shared.storage
             switch self{
-            case .user: return storage.child("users").child(uid)
+            case .user, .banner: return storage.child("users").child(uid)
             case .post: return storage.child("posts").child(uid)
             case .message: return storage.child("messages").child(uid)
             }
@@ -76,7 +76,8 @@ extension StorageManager{
         var size: CGFloat{
             switch self{
             case .user: return 100
-            case .post: return 250
+            case .banner: return 350
+            case .post: return 500
             case .message: return 200
             }
         }
@@ -84,6 +85,7 @@ extension StorageManager{
         var quality: CGFloat{
             switch self{
             case .user: return 0.8
+            case .banner: return 0.95
             case .post: return 0.9
             case .message: return 0.7
             }

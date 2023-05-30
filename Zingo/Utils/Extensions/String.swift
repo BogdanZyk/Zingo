@@ -15,4 +15,18 @@ extension String{
        return emailTest.evaluate(with: self)
     }
     
+    var isEmptyStrWithSpace: Bool{
+        self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+    
+    func noSpaceStr() -> String{
+        self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+}
+
+
+extension Optional where Wrapped == String {
+  var orEmpty: String {
+    self ?? ""
+  }
 }

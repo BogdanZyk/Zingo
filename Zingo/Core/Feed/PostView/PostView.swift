@@ -213,9 +213,7 @@ extension PostView{
     }
     
     private var divider: some View{
-        Rectangle()
-            .fill(Color.darkGray)
-            .frame(height: 1)
+        CustomDivider()
             .padding(.horizontal, -16)
     }
     
@@ -243,5 +241,15 @@ extension PostView{
                 }
             }
         }
+    }
+}
+
+
+struct CustomDivider: View{
+    
+    var body: some View{
+        Rectangle()
+            .fill(Color.darkGray)
+            .frame(height: 1)
     }
 }

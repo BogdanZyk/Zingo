@@ -104,6 +104,8 @@ extension PostCommentView{
             Label {
                 Image(Icon.like.rawValue)
                     .renderingMode(.template)
+                    .resizable()
+                    .frame(width: 12, height: 12)
             } icon: {
                 if comment.likeCount > 0{
                     Text(verbatim: String(comment.likeCount))
@@ -120,11 +122,11 @@ extension PostCommentView{
         }
     }
     private var bottomTab: some View{
-        HStack(spacing: 12){
+        HStack(alignment: .bottom, spacing: 12){
             UserAvatarView(image: viewModel.currentUser?.profileImage?.fullPath, size: .init(width: 45, height: 45))
             GrowingTextInputView(text: $viewModel.commentText, isRemoveBtn: false, placeholder: "Add your comment", isFocused: false, minHeight: 45)
                 .overlay(RoundedRectangle(cornerRadius: 25).strokeBorder(Color.lightWhite, lineWidth: 1))
-            ButtonView(label: "Send", type: .primary, height: 45, font: .body.bold(), isDisabled: viewModel.commentText.orEmpty.isEmpty) {
+            ButtonView(label: "Send", type: .primary, height: 45, font: .body.bold(), isDisabled: viewModel.commentText.orEmpty.isEmptyStrWithSpace) {
                 Task{
                     await viewModel.sendComment()
                 }

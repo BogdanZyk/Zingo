@@ -43,7 +43,7 @@ extension EditProfileView{
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button("Save") {
-                        viewModel.setInfoFromType(type, text: text, gender: selectedGender)
+                        viewModel.setInfoFromType(type, text: text.noSpaceStr(), gender: selectedGender)
                         dismiss()
                     }
                     .disabled(isGenderType ? false : text.isEmpty)

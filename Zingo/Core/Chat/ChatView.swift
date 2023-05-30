@@ -76,9 +76,7 @@ extension ChatView{
                 .lineLimit(1)
             }
             .foregroundColor(.white)
-            Rectangle()
-                .fill(Color.lightWhite.opacity(0.5))
-                .frame(height: 0.5)
+            CustomDivider()
                 .padding(.horizontal, -16)
         }
         .padding([.top, .horizontal])

@@ -92,9 +92,7 @@ extension DialogView{
                         .foregroundColor(.lightGray)
                 }
             }
-            Rectangle()
-                .fill(Color.lightGray)
-                .frame(height: 1)
+            CustomDivider()
                 .padding(.horizontal, -16)
         }
         .padding(.horizontal)

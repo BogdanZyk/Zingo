@@ -37,7 +37,7 @@ class CreatePostViewModel: ObservableObject{
             do{
                 try await postService.createPost(owner: .init(user: currentUser),
                                                  images: imagesData,
-                                                 text: text)
+                                                 text: text?.noSpaceStr())
                 await MainActor.run {
                     self.showLoader = false
                     nc.post(name: .successfullyPost)
