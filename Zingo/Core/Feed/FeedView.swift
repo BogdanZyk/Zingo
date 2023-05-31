@@ -17,6 +17,7 @@ struct FeedView: View {
                 loaderView
             }else{
                 pullToRefreshView
+                storiesSectionView
                 postsListView
                 .padding(.horizontal)
             }
@@ -90,6 +91,15 @@ extension FeedView{
         PullToRefreshView(bg: Color.darkBlack){
            viewModel.refetch()
             //            Haptics.shared.play(.light)
+        }
+    }
+    
+    private var storiesSectionView: some View{
+        Group {
+            StoriesListView(currentUser: currentUser)
+            CustomDivider()
+                .padding(.horizontal, -16)
+                .padding(.bottom)
         }
     }
 }

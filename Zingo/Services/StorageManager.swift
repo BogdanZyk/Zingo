@@ -57,6 +57,29 @@ final class StorageManager{
         print(getPathForImage(path))
         try await getPathForImage(path).delete()
     }
+    
+    func saveImages(userId: String, images: [UIImageData]) async throws -> [StoreImage]{
+        guard !images.isEmpty else { return [] }
+        
+        return try await withThrowingTaskGroup(of: StoreImage.self, returning: [StoreImage].self) { [weak self] taskGroup in
+            
+            guard let self = self else {
+                throw AppError.custom(errorDescription: "Not image")
+            }
+            
+            for image in images{
+                taskGroup.addTask {
+                    guard let uiImage = image.image else {
+                        throw AppError.custom(errorDescription: "Not image")
+                    }
+                    return try await self.saveImage(image: uiImage, type: .post, userId: userId)
+                }
+            }
+            return try await taskGroup.reduce(into: [StoreImage]()) { partialResult, name in
+                partialResult.append(name)
+            }
+        }
+    }
 }
 
 extension StorageManager{
@@ -107,3 +130,9 @@ struct StoreImage: Identifiable, Codable{
     var id: String{ path }
 }
 
+extension StoreImage{
+    
+    static let mocks: [StoreImage] = [.init(path: "", fullPath: "https://i.etsystatic.com/30097568/r/il/c7f1a0/3513889975/il_570xN.3513889975_lfe4.jpg"),
+                                      .init(path: "", fullPath: "https://i.etsystatic.com/30097568/r/il/c7f1a0/3513889975/il_570xN.3513889975_lfe4.jpg")]
+    
+}

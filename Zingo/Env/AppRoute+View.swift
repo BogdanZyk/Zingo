@@ -26,6 +26,8 @@ extension View {
                 PostEditorView(currentUser: user)
             case .editProfile(let manager):
                 EditProfileView(userManager: manager)
+            case .createStory(let user):
+                StoryEditorView(currentUser: user)
             }
         }
     }

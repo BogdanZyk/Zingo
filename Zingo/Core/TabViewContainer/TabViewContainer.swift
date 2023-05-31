@@ -43,6 +43,9 @@ struct TabViewContainer: View {
         }
         .notifyPopup(popup: $router.popup)
         .withFullScreenRouter(fullScreen: $router.fullScreen)
+        .overlay {
+            storyView
+        }
     }
 }
 
@@ -89,6 +92,14 @@ extension TabViewContainer{
             }
         }
         .hCenter()
+    }
+    
+    @ViewBuilder
+    var storyView: some View{
+        if router.storyRouter.show{
+            StoryView(close: $router.storyRouter.show, stories: router.storyRouter.stories)
+                .transition(.move(edge: .bottom))
+        }
     }
 }
 

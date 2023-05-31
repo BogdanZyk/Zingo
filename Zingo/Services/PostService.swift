@@ -39,34 +39,13 @@ final class PostService{
     
     func createPost(owner: ShortUser, images: [UIImageData], text: String?) async throws{
         
-        let storeImages = try await saveImages(userId: owner.id, images: images)
+        let storeImages = try await StorageManager.shared.saveImages(userId: owner.id, images: images)
         
         let postId = UUID().uuidString
         let post = Post(id: postId, owner: owner, caption: text, images: storeImages, createdAt: Date.now)
         
         try postCollections.document(postId).setData(from: post, merge: false)
         
-    }
-    
-    
-    func saveImages(userId: String, images: [UIImageData]) async throws -> [StoreImage]{
-        guard !images.isEmpty else { return [] }
-        
-        let manager = StorageManager.shared
-        
-        return try await withThrowingTaskGroup(of: StoreImage.self, returning: [StoreImage].self) { taskGroup in
-            for image in images{
-                taskGroup.addTask {
-                    guard let uiImage = image.image else {
-                        throw AppError.custom(errorDescription: "Not image")
-                    }
-                    return try await manager.saveImage(image: uiImage, type: .post, userId: userId)
-                }
-            }
-            return try await taskGroup.reduce(into: [StoreImage]()) { partialResult, name in
-                partialResult.append(name)
-            }
-        }
     }
     
     func removePost(for id: String) async throws{

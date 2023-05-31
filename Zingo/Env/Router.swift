@@ -20,6 +20,7 @@ enum RouterDestination: Hashable {
 enum FullScreenDestination: Identifiable{
     
     case createNewPost(User?)
+    case createStory(User?)
     case editProfile(CurrentUserManager)
     
     
@@ -27,6 +28,7 @@ enum FullScreenDestination: Identifiable{
         switch self {
         case .createNewPost: return 0
         case .editProfile: return 1
+        case .createStory: return 2
         }
     }
 }
@@ -55,7 +57,10 @@ enum SheetDestination {
   case newStatusEditor
 }
 
-
+struct StoryRouter{
+    var show: Bool = false
+    var stories: [Story] = []
+}
 
 
 final class MainRouter: ObservableObject {
@@ -67,6 +72,8 @@ final class MainRouter: ObservableObject {
     @Published var tab: Tab = .feed
     @Published var hiddenTabView: Bool = false
     @Published var userSession: FirebaseAuth.User?
+    @Published var storyRouter = StoryRouter()
+    
     private let cancelBag = CancelBag()
     let authManager = AuthenticationManager.share
     
@@ -111,6 +118,13 @@ final class MainRouter: ObservableObject {
         self.fullScreen = type
     }
     
+    func showStory(_ stories: [Story]){
+        storyRouter.stories = stories
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+            self.storyRouter.show = true
+        }
+    }
+    
     private func startSubsUserSession(){
         authManager.$userSession
             .receive(on: DispatchQueue.main)
@@ -119,6 +133,8 @@ final class MainRouter: ObservableObject {
         }
         .store(in: cancelBag)
     }
+    
+    
     
     private func setupNcPublisher(){
         nc.publisher(for: .successfullyPost)
