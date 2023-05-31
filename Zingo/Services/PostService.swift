@@ -39,7 +39,7 @@ final class PostService{
     
     func createPost(owner: ShortUser, images: [UIImageData], text: String?) async throws{
         
-        let storeImages = try await StorageManager.shared.saveImages(userId: owner.id, images: images)
+        let storeImages = try await StorageManager.shared.saveImages(userId: owner.id, images: images, typeImage: .post)
         
         let postId = UUID().uuidString
         let post = Post(id: postId, owner: owner, caption: text, images: storeImages, createdAt: Date.now)

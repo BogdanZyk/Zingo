@@ -97,7 +97,7 @@ extension TabViewContainer{
     @ViewBuilder
     var storyView: some View{
         if router.storyRouter.show{
-            StoryView(close: $router.storyRouter.show, stories: router.storyRouter.stories)
+            StoryView(close: $router.storyRouter.show, stories: router.storyRouter.stories, selectedStoryId: router.storyRouter.selectedId)
                 .transition(.move(edge: .bottom))
         }
     }

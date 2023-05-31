@@ -10,6 +10,8 @@ import SwiftUI
 struct StoryView: View {
     @Binding var close: Bool
     let stories: [Story]
+    var selectedStoryId: String?
+    @State private var selectedId: String = ""
     @State private var bgOpacity: Double = 1
     @State private var offsetY: CGSize = .zero
     @GestureState var draggingOffset: CGSize = .zero
@@ -19,9 +21,11 @@ struct StoryView: View {
                 .opacity(bgOpacity)
             GeometryReader { proxy in
                 VStack(spacing: 16) {
-                    TabView {
+                    let count = stories.count
+                    TabView(selection: $selectedId) {
                         ForEach(stories) { story in
-                            SingleStoryView(story: story)
+                            SingleStoryView(story: story, storyIndex: .constant(0), onNext: nextStore, onPrevious: previousStore)
+                                .tag(story.id)
                         }
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
@@ -37,6 +41,12 @@ struct StoryView: View {
                 }).onEnded(onEnded))
             }
         }
+        .onAppear{
+            guard let id = stories.first(where: {$0.id == selectedStoryId})?.id else {
+                selectedId = stories.first?.id ?? ""
+                return }
+            selectedId = id
+        }
     }
 }
 
@@ -50,30 +60,26 @@ struct StoryView_Previews: PreviewProvider {
 
 extension StoryView{
     
-//    private func headerSectionView(story: Story) -> some View{
-//        HStack(spacing: 6){
-//            ForEach(story.images.indices, id: \.self) {index in
-//                let progress = min(max(CGFloat(counTimer.progress) - CGFloat(index), 0.0), 1.0)
-//                Group{
-//                    StoryLoadingBar(progress: progress)
-//                        .frame(height: 3)
-//                }
-//            }
-//            Button {
-//                closeViewWithAnimation()
-//            } label: {
-//                Image(systemName: "xmark")
-//                    .font(.callout.bold())
-//                    .foregroundColor(.white)
-//                    .padding(10)
-//                    .background(Color.white.opacity(0.3))
-//                    .clipShape(Circle())
-//            }
-//            .padding(.leading, 5)
-//        }
-//        .padding([.horizontal, .top])
-//
-//    }
+    
+    private func nextStore(_ storyId: String){
+
+        guard let index = stories.firstIndex(where: {$0.id == storyId}) else {return}
+        if index != stories.count - 1{
+            withAnimation {
+                selectedId = stories[index + 1].id
+            }
+            
+        }
+    }
+    
+    private func previousStore(_ storyId: String){
+        guard let index = stories.firstIndex(where: {$0.id == storyId}) else {return}
+        if index != 0{
+            withAnimation {
+                selectedId = stories[index - 1].id
+            }
+        }
+    }
 //
 //    private var likeButton: some View{
 //        Button {
@@ -100,6 +106,7 @@ extension StoryView{
                 .clipShape(Circle())
         }
         .padding(10)
+        .padding(.top, 22)
     }
 }
 

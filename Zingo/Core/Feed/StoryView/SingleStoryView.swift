@@ -13,10 +13,19 @@ struct SingleStoryView: View {
     @State private var offsetY: CGSize = .zero
     @GestureState var draggingOffset: CGSize = .zero
     var story: Story
+    let onNext: (String) -> Void
+    let onPrevious: (String) -> Void
+
     
-    init(story: Story){
+    init(story: Story,
+         storyIndex: Binding<Int>,
+         onNext: @escaping (String) -> Void,
+         onPrevious: @escaping (String) -> Void){
+        
         self.story = story
         self._counTimer = StateObject(wrappedValue: CountTimer(max: story.images.count, interval: 18))
+        self.onNext = onNext
+        self.onPrevious = onPrevious
     }
     
     var indexProgress: Int{
@@ -45,7 +54,7 @@ struct SingleStoryView: View {
 
 struct SingleStoryView_Previews: PreviewProvider {
     static var previews: some View {
-        SingleStoryView(story: .mocks.first!)
+        SingleStoryView(story: .mocks.first!, storyIndex: .constant(0), onNext: {_ in}, onPrevious: {_ in})
     }
 }
 
@@ -53,18 +62,32 @@ struct SingleStoryView_Previews: PreviewProvider {
 extension SingleStoryView{
     
     private var headerSectionView: some View{
-        HStack(spacing: 6){
-            ForEach(story.images.indices, id: \.self) {index in
-                let progress = min(max(CGFloat(counTimer.progress) - CGFloat(index), 0.0), 1.0)
-                Group{
-                    StoryLoadingBar(progress: progress)
-                        .frame(height: 3)
+        VStack(spacing: 12) {
+            HStack(spacing: 6){
+                ForEach(story.images.indices, id: \.self) {index in
+                    let progress = min(max(CGFloat(counTimer.progress) - CGFloat(index), 0.0), 1.0)
+                    Group{
+                        StoryLoadingBar(progress: progress)
+                            .frame(height: 3)
+                    }
                 }
             }
+            
+            HStack{
+                UserAvatarView(image: story.creator.image, size: .init(width: 40, height: 40))
+                HStack {
+                    Text(story.creator.name)
+                        .font(.subheadline.bold())
+                        .foregroundColor(.white)
+                    Text(story.createdAt.toFormatDate())
+                        .font(.caption.bold())
+                        .foregroundColor(.white.opacity(0.6))
+                }
+            }
+            .hLeading()
         }
-        .padding(.leading)
-        .padding(.trailing, 60)
-        .padding(.top, 30)
+        .padding(.top, 12)
+        .padding(.horizontal)
     }
     
 //    private var likeButton: some View{
@@ -82,13 +105,18 @@ extension SingleStoryView{
     
     private func pageButtonsControls(_ proxy: GeometryProxy) -> some View{
         HStack{
+            let image = story.images[indexProgress]
             Rectangle()
                 .fill(Color.clear)
                 .frame(width: proxy.size.width / 5, height: proxy.size.height / 1.3)
                 .contentShape(Rectangle())
             
                 .onTapGesture {
-                    counTimer.advancePage(by: -1)
+                    if image.id == story.images.first?.id{
+                        onPrevious(story.id)
+                    }else{
+                        counTimer.advancePage(by: -1)
+                    }
                 }
             
             Spacer()
@@ -97,7 +125,11 @@ extension SingleStoryView{
                 .frame(width: proxy.size.width / 5, height: proxy.size.height / 1.3)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    counTimer.advancePage(by: 1)
+                    if image.id == story.images.last?.id{
+                        onNext(story.id)
+                    }else{
+                        counTimer.advancePage(by: 1)
+                    }
                 }
         }
     }

@@ -62,7 +62,7 @@ extension StoriesListView{
                     .strokeBorder(LinearGradient.primaryGradient, lineWidth: 2.5)
             }
             .onTapGesture {
-                router.showStory(viewModel.stories)
+                router.showStory(viewModel.stories, selectedId: story.id)
             }
     }
 }

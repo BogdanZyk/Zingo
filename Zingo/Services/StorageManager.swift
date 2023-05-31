@@ -58,7 +58,7 @@ final class StorageManager{
         try await getPathForImage(path).delete()
     }
     
-    func saveImages(userId: String, images: [UIImageData]) async throws -> [StoreImage]{
+    func saveImages(userId: String, images: [UIImageData], typeImage: ImageType) async throws -> [StoreImage]{
         guard !images.isEmpty else { return [] }
         
         return try await withThrowingTaskGroup(of: StoreImage.self, returning: [StoreImage].self) { [weak self] taskGroup in
@@ -72,7 +72,7 @@ final class StorageManager{
                     guard let uiImage = image.image else {
                         throw AppError.custom(errorDescription: "Not image")
                     }
-                    return try await self.saveImage(image: uiImage, type: .post, userId: userId)
+                    return try await self.saveImage(image: uiImage, type: typeImage, userId: userId)
                 }
             }
             return try await taskGroup.reduce(into: [StoreImage]()) { partialResult, name in
@@ -85,7 +85,7 @@ final class StorageManager{
 extension StorageManager{
     
     enum ImageType: Int{
-        case user, banner, post, message
+        case user, banner, post, message, story
         
         func getRef(uid: String) -> StorageReference{
             let storage = StorageManager.shared.storage
@@ -93,6 +93,7 @@ extension StorageManager{
             case .user, .banner: return storage.child("users").child(uid)
             case .post: return storage.child("posts").child(uid)
             case .message: return storage.child("messages").child(uid)
+            case .story: return storage.child("stories").child(uid)
             }
         }
         
@@ -102,6 +103,7 @@ extension StorageManager{
             case .banner: return 350
             case .post: return 500
             case .message: return 200
+            case .story: return 600
             }
         }
         
@@ -111,6 +113,7 @@ extension StorageManager{
             case .banner: return 0.95
             case .post: return 0.9
             case .message: return 0.7
+            case .story: return 0.95
             }
         }
     }

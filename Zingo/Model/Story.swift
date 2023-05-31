@@ -12,6 +12,7 @@ struct Story: Codable, Identifiable{
     var id: String
     var creator: ShortUser
     var images: [StoreImage]
+    var createdAt: Date = Date()
 }
 
 extension Story{

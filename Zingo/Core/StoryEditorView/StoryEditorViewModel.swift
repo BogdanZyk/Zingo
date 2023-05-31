@@ -46,7 +46,7 @@ class StoryEditorViewModel: ObservableObject{
     }
     
     private func saveImages(for id: String) async throws -> [StoreImage]{
-      try await StorageManager.shared.saveImages(userId: id, images: imagesData)
+        try await StorageManager.shared.saveImages(userId: id, images: imagesData, typeImage: .story)
     }
 }
 

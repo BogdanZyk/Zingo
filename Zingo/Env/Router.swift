@@ -60,6 +60,7 @@ enum SheetDestination {
 struct StoryRouter{
     var show: Bool = false
     var stories: [Story] = []
+    var selectedId: String?
 }
 
 
@@ -118,8 +119,9 @@ final class MainRouter: ObservableObject {
         self.fullScreen = type
     }
     
-    func showStory(_ stories: [Story]){
+    func showStory(_ stories: [Story], selectedId: String?){
         storyRouter.stories = stories
+        storyRouter.selectedId = selectedId
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
             self.storyRouter.show = true
         }
