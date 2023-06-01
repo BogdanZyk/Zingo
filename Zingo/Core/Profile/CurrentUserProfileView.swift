@@ -50,6 +50,9 @@ struct CurrentUserProfileView: View {
             switch destination{
             case .userProfile(let id):
                 UserProfile(userId: id)
+            case .followerFollowing(let user, let tab):
+                FollowingsFollowersView(user: user, tab: tab)
+                    .environmentObject(userManager)
             default: EmptyView()
             }
         }

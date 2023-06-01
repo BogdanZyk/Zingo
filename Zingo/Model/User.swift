@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct User: Identifiable, Codable{
+struct User: Identifiable, Codable, Hashable{
     
     let id: String
     var userName: String
@@ -66,7 +66,7 @@ extension User{
 
 extension User{
     
-    enum Gender: String, CaseIterable, Codable{
+    enum Gender: String, CaseIterable, Codable, Hashable{
         case male, female, over
     }
     
@@ -92,5 +92,12 @@ extension User{
     
     func getInfo() -> UserInfo{
         .init(id: id, userName: userName, fullName: fullName ?? "", bio: bio ?? "", gender: gender ?? .over, location: location ?? "")
+    }
+}
+
+
+extension User: Equatable{
+    static func == (lhs: User, rhs: User) -> Bool {
+        lhs.id == rhs.id
     }
 }

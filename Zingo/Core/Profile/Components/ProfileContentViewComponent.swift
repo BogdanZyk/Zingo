@@ -163,9 +163,18 @@ extension ProfileContentViewComponent{
     
     private var followerSection: some View{
         HStack(alignment: .bottom, spacing: 16){
-            followerLabel(label: "Followers", value: user.followersCount)
+            
+            Button {
+                router.navigate(to: .followerFollowing(user: user, tab: .followers))
+            } label: {
+                followerLabel(label: "Followers", value: user.followersCount)
+            }
             Spacer()
-            followerLabel(label: "Following", value: user.followingsCount)
+            Button {
+                router.navigate(to: .followerFollowing(user: user, tab: .following))
+            } label: {
+                followerLabel(label: "Following", value: user.followingsCount)
+            }
             Spacer()
             
             if isCurrentUser{

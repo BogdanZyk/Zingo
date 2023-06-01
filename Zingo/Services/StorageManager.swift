@@ -121,7 +121,7 @@ extension StorageManager{
 }
 
 
-struct StoreImage: Identifiable, Codable{
+struct StoreImage: Identifiable, Codable, Hashable{
     let path: String
     let fullPath: String
     

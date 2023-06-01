@@ -95,6 +95,8 @@
 		5A80C4692A1FA9FD00C42FC0 /* MessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C4682A1FA9FD00C42FC0 /* MessageBubbleView.swift */; };
 		5A80C46C2A20A3FC00C42FC0 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 5A80C46B2A20A3FC00C42FC0 /* Algorithms */; };
 		5A80C46F2A20FE5600C42FC0 /* SwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A80C46E2A20FE5600C42FC0 /* SwipeView.swift */; };
+		5AFB55C22A2891A600242F02 /* FollowingsFollowersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB55C12A2891A600242F02 /* FollowingsFollowersView.swift */; };
+		5AFB55C42A289BB600242F02 /* FollowingsFollowersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB55C32A289BB600242F02 /* FollowingsFollowersViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -181,6 +183,8 @@
 		5A80C4662A1F6B7700C42FC0 /* DialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogViewModel.swift; sourceTree = "<group>"; };
 		5A80C4682A1FA9FD00C42FC0 /* MessageBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleView.swift; sourceTree = "<group>"; };
 		5A80C46E2A20FE5600C42FC0 /* SwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeView.swift; sourceTree = "<group>"; };
+		5AFB55C12A2891A600242F02 /* FollowingsFollowersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsFollowersView.swift; sourceTree = "<group>"; };
+		5AFB55C32A289BB600242F02 /* FollowingsFollowersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsFollowersViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,6 +364,7 @@
 		5A28FFEA2A17ABED0068D3FD /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				5AFB55C02A28918800242F02 /* FollowingsFollowers */,
 				5A7418242A2501CE004EBDDD /* EditProfileView */,
 				5A4BADEF2A1CF6300009CD12 /* ViewModel */,
 				5A4BADD72A1BBD880009CD12 /* Components */,
@@ -585,6 +590,15 @@
 			path = SwipeView;
 			sourceTree = "<group>";
 		};
+		5AFB55C02A28918800242F02 /* FollowingsFollowers */ = {
+			isa = PBXGroup;
+			children = (
+				5AFB55C12A2891A600242F02 /* FollowingsFollowersView.swift */,
+				5AFB55C32A289BB600242F02 /* FollowingsFollowersViewModel.swift */,
+			);
+			path = FollowingsFollowers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -680,6 +694,7 @@
 				5A7418372A264DAA004EBDDD /* StoriesListView.swift in Sources */,
 				5A4BADD42A1BB6400009CD12 /* UserAvatarView.swift in Sources */,
 				5A4BADA12A1B6FB80009CD12 /* TextFieldView.swift in Sources */,
+				5AFB55C42A289BB600242F02 /* FollowingsFollowersViewModel.swift in Sources */,
 				5A4BAD972A1B5BE70009CD12 /* Image.swift in Sources */,
 				5A7418322A263E2E004EBDDD /* StoryEditorView.swift in Sources */,
 				5A4BADDD2A1BC1A00009CD12 /* UserProfile.swift in Sources */,
@@ -705,6 +720,7 @@
 				5A3B9C7E2A2743C00080F9DA /* StoryLoadingBar.swift in Sources */,
 				5A4BADAA2A1B7A5E0009CD12 /* User.swift in Sources */,
 				5A3B9C772A27381E0080F9DA /* StoriesListViewModel.swift in Sources */,
+				5AFB55C22A2891A600242F02 /* FollowingsFollowersView.swift in Sources */,
 				5A7418232A24B23B004EBDDD /* PostsListView.swift in Sources */,
 				5A4BADCA2A1B9EEB0009CD12 /* String.swift in Sources */,
 				5A28FFF52A17B7A00068D3FD /* View.swift in Sources */,

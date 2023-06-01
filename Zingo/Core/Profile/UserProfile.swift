@@ -41,9 +41,9 @@ struct UserProfile: View {
             switch destination{
             case .userProfile(let id):
                 UserProfile(userId: id)
-            case .chats, .dialog: EmptyView()
             case .dialogForId(let id):
                 DialogView(participantId: id)
+            default: EmptyView()
             }
         }
     }

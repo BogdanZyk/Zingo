@@ -19,7 +19,7 @@ struct TabViewContainer: View {
         TabView(selection: $router.tab) {
             
             NavigationStack(path: $router.pathDestination.feed){
-                FeedView(currentUser: userManager.user)
+                FeedView(userManager: userManager)
             }
             .tag(Tab.feed)
             

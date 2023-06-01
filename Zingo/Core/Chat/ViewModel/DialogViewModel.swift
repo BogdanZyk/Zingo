@@ -187,6 +187,7 @@ extension DialogViewModel{
             do{
                 let user = try await userService.getUser(for: id)
                 let chatId = await getChatId(participantId: user.id)
+                print(chatId)
                 await MainActor.run {
                     self.participant = .init(user: user)
                     self.chatId = chatId

@@ -71,7 +71,7 @@ extension ButtonView{
         var color: Color{
             switch self{
             case .primary: return .accentPink
-            case .secondary: return .darkBlack
+            case .secondary: return .darkGray
             case .border: return .darkGray
             }
         }

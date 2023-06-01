@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct FeedView: View {
-    var currentUser: User?
+    @ObservedObject var userManager: CurrentUserManager
     @EnvironmentObject var router: MainRouter
     @StateObject private var viewModel = FeedViewModel()
+    
+    var currentUser: User? {
+        userManager.user
+    }
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             if viewModel.posts.isEmpty{
@@ -37,6 +41,9 @@ struct FeedView: View {
                 DialogView(participant: conversation.conversationUser, chatId: conversation.id)
             case .dialogForId(let id):
                 DialogView(participantId: id)
+            case .followerFollowing(let user, let tab):
+                FollowingsFollowersView(user: user, tab: tab)
+                    .environmentObject(userManager)
             }
         }
     }
@@ -44,7 +51,7 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView(currentUser: .mock)
+        FeedView(userManager: CurrentUserManager())
             .environmentObject(MainRouter())
     }
 }

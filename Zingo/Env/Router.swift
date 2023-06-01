@@ -15,6 +15,7 @@ enum RouterDestination: Hashable {
     case chats
     case dialog(Conversation)
     case dialogForId(String)
+    case followerFollowing(user: User, tab: FollowTab)
 }
 
 enum FullScreenDestination: Identifiable{
