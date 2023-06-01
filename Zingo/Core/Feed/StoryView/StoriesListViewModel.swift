@@ -30,10 +30,9 @@ class StoriesListViewModel: ObservableObject{
                 let stories = try await storyServices.fetchStories()
                 let mergedStories = mergeStories(stories)
                 let userStory = mergedStories.first(where: {currentUserId == $0.creator.id})
-                let anotherStory = mergedStories.drop(while: {currentUserId == $0.creator.id})
                 await MainActor.run{
                     self.userStory = userStory
-                    self.stories = Array(anotherStory)
+                    self.stories = stories
                 }
             }catch{
                 print(error.localizedDescription)

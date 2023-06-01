@@ -46,7 +46,6 @@ struct GrowingTextInputView: View {
                 TextViewWrapper(text: $text, focused: $focused, contentHeight: $contentHeight, font: font)
                     .padding(.trailing, isRemoveBtn ? 25 : 10)
                     .padding(.leading, 10)
-                    .padding(.top, 6)
             }
             if isRemoveBtn && !showPlaceholder{
                 Button {
@@ -67,8 +66,8 @@ struct GrowingTextInputView: View {
             .font(Font(font))
             .foregroundColor(.white)
             .opacity(showPlaceholder ? 0.5 : 0)
-            .padding()
             .animation(nil, value: placeholder)
+            .offset(x: 14, y: 8)
     }
     
 }
@@ -85,7 +84,7 @@ struct GrowingTextInputView_Previews: PreviewProvider {
   static var previews: some View {
       ZStack{
           Color.darkBlack
-          GrowingTextInputView(text: .constant(""), isRemoveBtn: false, placeholder: "Add your comment", isFocused: false, minHeight: 90)
+          GrowingTextInputView(text: .constant(""), isRemoveBtn: false, placeholder: "Add your comment", isFocused: false, minHeight: 40)
               .overlay(RoundedRectangle(cornerRadius: 25).strokeBorder(Color.lightWhite, lineWidth: 1))
               .padding()
       }

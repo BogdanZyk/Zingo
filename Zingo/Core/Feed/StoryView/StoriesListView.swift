@@ -21,7 +21,7 @@ struct StoriesListView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(alignment: .top, spacing: 12) {
                 addStoryButton
-                ForEach(viewModel.stories) { story in
+                ForEach(viewModel.stories.filter({$0.creator.id != currentUser?.id})) { story in
                     storyCell(story)
                 }
             }
