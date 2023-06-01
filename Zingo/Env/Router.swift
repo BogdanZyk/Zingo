@@ -100,19 +100,23 @@ final class MainRouter: ObservableObject {
     func popLast(){
         switch tab {
         case .feed:
-            pathDestination.feed.removeLast()
+            pathDestination.feed.removeLastOptionally()
         case .search:
-            pathDestination.search.removeLast()
+            pathDestination.search.removeLastOptionally()
         case .notification:
-            pathDestination.notification.removeLast()
+            pathDestination.notification.removeLastOptionally()
         case .profile:
-            pathDestination.profile.removeLast()
+            pathDestination.profile.removeLastOptionally()
         default: break
         }
     }
     
     func setTab(_ tab: Tab){
-        self.tab = tab
+        if tab == self.tab{
+            resetPath()
+        }else{
+            self.tab = tab
+        }
     }
     
     func setFullScreen(_ type: FullScreenDestination){
@@ -136,7 +140,19 @@ final class MainRouter: ObservableObject {
         .store(in: cancelBag)
     }
     
-    
+    private func resetPath(){
+        switch tab {
+        case .feed:
+            pathDestination.feed.removeAll()
+        case .search:
+            pathDestination.search.removeAll()
+        case .notification:
+            pathDestination.notification.removeAll()
+        case .profile:
+            pathDestination.profile.removeAll()
+        default: break
+        }
+    }
     
     private func setupNcPublisher(){
         nc.publisher(for: .successfullyPost)

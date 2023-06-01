@@ -73,19 +73,22 @@ extension PostCommentView{
             HStack(alignment: .top, spacing: 10) {
                 UserAvatarView(image: comment.owner.image, size: .init(width: 35, height: 35))
                 VStack(alignment: .leading, spacing: 6){
-                    NavigationLink {
-                        UserProfile(userId: comment.owner.id)
-                    } label: {
-                        HStack(alignment: .firstTextBaseline) {
-                            Text(comment.owner.name)
-                                .font(.callout.bold())
-                            Text(comment.createdAt.timeAgo())
-                                .font(.footnote)
-                                .foregroundColor(.lightGray)
-                        }
-                        .hLeading()
-                        .contentShape(Rectangle())
+                    
+                    
+                    HStack(alignment: .firstTextBaseline) {
+                        Text(comment.owner.name)
+                            .font(.callout.bold())
+                        Text(comment.createdAt.timeAgo())
+                            .font(.footnote)
+                            .foregroundColor(.lightGray)
                     }
+                    .hLeading()
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        mainRouter.navigate(to: .userProfile(id: comment.owner.id))
+                    }
+                    
+                    
                     if let text = comment.text{
                         Text(text)
                             .font(.system(size: 16, weight: .medium))

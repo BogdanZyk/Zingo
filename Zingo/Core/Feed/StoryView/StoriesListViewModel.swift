@@ -12,22 +12,28 @@ class StoriesListViewModel: ObservableObject{
     
     
     @Published private(set) var stories = [Story]()
+    @Published private(set) var userStory: Story?
     private let storyServices = StoryService.shared
     private let cancelBag = CancelBag()
+    private var currentUserId: String?
     
-    init(){
+    init(currentUserId: String?){
+        self.currentUserId = currentUserId
         fetchStories()
         setupNcPublisher()
     }
     
     func fetchStories(){
-        
+        guard let currentUserId else {return}
         Task{
             do{
                 let stories = try await storyServices.fetchStories()
                 let mergedStories = mergeStories(stories)
+                let userStory = mergedStories.first(where: {currentUserId == $0.creator.id})
+                let anotherStory = mergedStories.drop(while: {currentUserId == $0.creator.id})
                 await MainActor.run{
-                    self.stories = mergedStories
+                    self.userStory = userStory
+                    self.stories = Array(anotherStory)
                 }
             }catch{
                 print(error.localizedDescription)

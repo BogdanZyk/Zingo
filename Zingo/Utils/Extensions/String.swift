@@ -30,3 +30,12 @@ extension Optional where Wrapped == String {
     self ?? ""
   }
 }
+
+extension Array where Element: Hashable{
+    
+    mutating func removeLastOptionally(){
+        if !self.isEmpty{
+            self.removeLast()
+        }
+    }
+}
