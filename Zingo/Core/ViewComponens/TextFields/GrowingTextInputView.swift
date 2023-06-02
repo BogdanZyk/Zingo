@@ -46,6 +46,7 @@ struct GrowingTextInputView: View {
                 TextViewWrapper(text: $text, focused: $focused, contentHeight: $contentHeight, font: font)
                     .padding(.trailing, isRemoveBtn ? 25 : 10)
                     .padding(.leading, 10)
+                    .padding(.top, 1)
             }
             if isRemoveBtn && !showPlaceholder{
                 Button {
@@ -67,7 +68,7 @@ struct GrowingTextInputView: View {
             .foregroundColor(.white)
             .opacity(showPlaceholder ? 0.5 : 0)
             .animation(nil, value: placeholder)
-            .offset(x: 14, y: 8)
+            .offset(x: 14, y: 9)
     }
     
 }

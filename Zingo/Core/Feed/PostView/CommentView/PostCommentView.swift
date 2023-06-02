@@ -126,10 +126,10 @@ extension PostCommentView{
     }
     private var bottomTab: some View{
         HStack(alignment: .bottom, spacing: 12){
-            UserAvatarView(image: viewModel.currentUser?.profileImage?.fullPath, size: .init(width: 45, height: 45))
-            GrowingTextInputView(text: $viewModel.commentText, isRemoveBtn: false, placeholder: "Add your comment", isFocused: false, minHeight: 45)
+            UserAvatarView(image: viewModel.currentUser?.profileImage?.fullPath, size: .init(width: 40, height: 40))
+            GrowingTextInputView(text: $viewModel.commentText, isRemoveBtn: false, placeholder: "Add your comment", isFocused: false, minHeight: 40)
                 .overlay(RoundedRectangle(cornerRadius: 25).strokeBorder(Color.lightWhite, lineWidth: 1))
-            ButtonView(label: "Send", type: .primary, height: 45, font: .body.bold(), isDisabled: viewModel.commentText.orEmpty.isEmptyStrWithSpace) {
+            ButtonView(label: "Send", type: .primary, height: 40, font: .body.bold(), isDisabled: viewModel.commentText.orEmpty.isEmptyStrWithSpace) {
                 Task{
                     await viewModel.sendComment()
                 }

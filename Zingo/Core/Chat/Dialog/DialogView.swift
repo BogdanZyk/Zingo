@@ -157,8 +157,9 @@ extension DialogView{
                 .resizable()
                 .scaledToFit()
                 .frame(width: 44, height: 40)
-                .foregroundColor(viewModel.text.orEmpty.isEmpty ? .lightGray : .accentPink)
+                .foregroundColor((viewModel.text?.isEmptyStrWithSpace ?? true) ? .lightGray : .accentPink)
         }
+        .disabled((viewModel.text?.isEmptyStrWithSpace ?? true))
     }
     
     @ViewBuilder
