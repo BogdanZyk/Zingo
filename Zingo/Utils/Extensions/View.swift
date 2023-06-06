@@ -88,7 +88,16 @@ extension View{
     }
 }
 
-
+extension UIViewController {
+    
+    func presentInKeyWindow(animated: Bool = true, completion: (() -> Void)? = nil) {
+        UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+            .first?.rootViewController?.present(self, animated: animated, completion: completion)
+    }
+}
 
 struct OffsetKey: PreferenceKey{
     static var defaultValue: CGFloat = 0

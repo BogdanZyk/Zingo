@@ -72,6 +72,15 @@
 		5A5B57412A2E154F0042A072 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B57402A2E154F0042A072 /* CameraView.swift */; };
 		5A5B57472A2E27270042A072 /* CircleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B57462A2E27270042A072 /* CircleProgressBar.swift */; };
 		5A5B574A2A2E27540042A072 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B57492A2E27540042A072 /* RecordButton.swift */; };
+		5A5B574F2A2F31D70042A072 /* PlayerEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B574E2A2F31D70042A072 /* PlayerEditorView.swift */; };
+		5A5B57522A2F32E50042A072 /* CameraManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B57512A2F32E50042A072 /* CameraManger.swift */; };
+		5A5B57562A2F35E30042A072 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B57552A2F35E30042A072 /* FileManager.swift */; };
+		5A5B57582A2F405B0042A072 /* VideoPlayerManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B57572A2F405B0042A072 /* VideoPlayerManger.swift */; };
+		5A5B575A2A2F40B30042A072 /* PlayerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B57592A2F40B30042A072 /* PlayerRepresentable.swift */; };
+		5A5B575C2A2F42E20042A072 /* AVAudioSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B575B2A2F42E20042A072 /* AVAudioSession.swift */; };
+		5A5B575E2A2F61920042A072 /* testView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B575D2A2F61920042A072 /* testView.swift */; };
+		5A5B57602A2F7B7C0042A072 /* ScreenRecoderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B575F2A2F7B7C0042A072 /* ScreenRecoderManager.swift */; };
+		5A5B57632A2F8B5F0042A072 /* CameraRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B57622A2F8B5F0042A072 /* CameraRepresentable.swift */; };
 		5A74181F2A24955E004EBDDD /* ProfileContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A74181E2A24955E004EBDDD /* ProfileContentViewModel.swift */; };
 		5A7418232A24B23B004EBDDD /* PostsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7418222A24B23B004EBDDD /* PostsListView.swift */; };
 		5A7418262A2501DE004EBDDD /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7418252A2501DE004EBDDD /* EditProfileView.swift */; };
@@ -165,6 +174,15 @@
 		5A5B57402A2E154F0042A072 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		5A5B57462A2E27270042A072 /* CircleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressBar.swift; sourceTree = "<group>"; };
 		5A5B57492A2E27540042A072 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
+		5A5B574E2A2F31D70042A072 /* PlayerEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEditorView.swift; sourceTree = "<group>"; };
+		5A5B57512A2F32E50042A072 /* CameraManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManger.swift; sourceTree = "<group>"; };
+		5A5B57552A2F35E30042A072 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		5A5B57572A2F405B0042A072 /* VideoPlayerManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerManger.swift; sourceTree = "<group>"; };
+		5A5B57592A2F40B30042A072 /* PlayerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRepresentable.swift; sourceTree = "<group>"; };
+		5A5B575B2A2F42E20042A072 /* AVAudioSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAudioSession.swift; sourceTree = "<group>"; };
+		5A5B575D2A2F61920042A072 /* testView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testView.swift; sourceTree = "<group>"; };
+		5A5B575F2A2F7B7C0042A072 /* ScreenRecoderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRecoderManager.swift; sourceTree = "<group>"; };
+		5A5B57622A2F8B5F0042A072 /* CameraRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRepresentable.swift; sourceTree = "<group>"; };
 		5A74181E2A24955E004EBDDD /* ProfileContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContentViewModel.swift; sourceTree = "<group>"; };
 		5A7418222A24B23B004EBDDD /* PostsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListView.swift; sourceTree = "<group>"; };
 		5A7418252A2501DE004EBDDD /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
@@ -298,6 +316,8 @@
 				5A4BADD12A1BB1E70009CD12 /* Query.swift */,
 				5A4BADEB2A1CEB190009CD12 /* NotificationCenter.swift */,
 				5A4BADF62A1CFEB60009CD12 /* UINavigationController.swift */,
+				5A5B57552A2F35E30042A072 /* FileManager.swift */,
+				5A5B575B2A2F42E20042A072 /* AVAudioSession.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -492,7 +512,7 @@
 		5A5B573C2A2E12070042A072 /* VideoFeed */ = {
 			isa = PBXGroup;
 			children = (
-				5A5B573F2A2E15430042A072 /* CameraView */,
+				5A5B574D2A2F31A50042A072 /* CreateVideoView */,
 				5A5B573D2A2E144F0042A072 /* VideoFeedView.swift */,
 			);
 			path = VideoFeed;
@@ -501,8 +521,10 @@
 		5A5B573F2A2E15430042A072 /* CameraView */ = {
 			isa = PBXGroup;
 			children = (
+				5A5B57502A2F32DC0042A072 /* Managers */,
 				5A5B57482A2E27430042A072 /* Components */,
 				5A5B57402A2E154F0042A072 /* CameraView.swift */,
+				5A5B57622A2F8B5F0042A072 /* CameraRepresentable.swift */,
 			);
 			path = CameraView;
 			sourceTree = "<group>";
@@ -521,6 +543,35 @@
 				5A5B57492A2E27540042A072 /* RecordButton.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		5A5B574C2A2F31990042A072 /* PlayerView */ = {
+			isa = PBXGroup;
+			children = (
+				5A5B574E2A2F31D70042A072 /* PlayerEditorView.swift */,
+				5A5B57572A2F405B0042A072 /* VideoPlayerManger.swift */,
+				5A5B57592A2F40B30042A072 /* PlayerRepresentable.swift */,
+				5A5B575D2A2F61920042A072 /* testView.swift */,
+				5A5B575F2A2F7B7C0042A072 /* ScreenRecoderManager.swift */,
+			);
+			path = PlayerView;
+			sourceTree = "<group>";
+		};
+		5A5B574D2A2F31A50042A072 /* CreateVideoView */ = {
+			isa = PBXGroup;
+			children = (
+				5A5B573F2A2E15430042A072 /* CameraView */,
+				5A5B574C2A2F31990042A072 /* PlayerView */,
+			);
+			path = CreateVideoView;
+			sourceTree = "<group>";
+		};
+		5A5B57502A2F32DC0042A072 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				5A5B57512A2F32E50042A072 /* CameraManger.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		5A7418242A2501CE004EBDDD /* EditProfileView */ = {
@@ -724,8 +775,10 @@
 				5A28FFFD2A17C3910068D3FD /* LazyNukeImage.swift in Sources */,
 				5A4BAD9C2A1B623A0009CD12 /* FeedView.swift in Sources */,
 				5A80C4582A1E5DE500C42FC0 /* ChatView.swift in Sources */,
+				5A5B57632A2F8B5F0042A072 /* CameraRepresentable.swift in Sources */,
 				5A74182A2A260023004EBDDD /* EditUserInfoView.swift in Sources */,
 				5A4BADD62A1BBBB20009CD12 /* ImagePicker.swift in Sources */,
+				5A5B57562A2F35E30042A072 /* FileManager.swift in Sources */,
 				5A4BADD02A1BAAA00009CD12 /* ErrorHandler.swift in Sources */,
 				5A7418372A264DAA004EBDDD /* StoriesListView.swift in Sources */,
 				5A4BADD42A1BB6400009CD12 /* UserAvatarView.swift in Sources */,
@@ -747,8 +800,10 @@
 				5A4BADA52A1B75420009CD12 /* AuthenticationViewModel.swift in Sources */,
 				5A3B9C7C2A2743190080F9DA /* StoryBodyView.swift in Sources */,
 				5A80C44F2A1E48AC00C42FC0 /* CommentViewModel.swift in Sources */,
+				5A5B57522A2F32E50042A072 /* CameraManger.swift in Sources */,
 				5A4BADF72A1CFEB60009CD12 /* UINavigationController.swift in Sources */,
 				5A80C4492A1E334500C42FC0 /* PostCommentView.swift in Sources */,
+				5A5B574F2A2F31D70042A072 /* PlayerEditorView.swift in Sources */,
 				5A80C44B2A1E33D900C42FC0 /* Comment.swift in Sources */,
 				5A5B573E2A2E144F0042A072 /* VideoFeedView.swift in Sources */,
 				5A80C4652A1F6B6000C42FC0 /* DialogView.swift in Sources */,
@@ -767,10 +822,14 @@
 				5A80C45A2A1E5FE400C42FC0 /* Chat.swift in Sources */,
 				5A4BADC02A1B8B6F0009CD12 /* AuthenticationManager.swift in Sources */,
 				5A4BADEE2A1CEE570009CD12 /* FeedViewModel.swift in Sources */,
+				5A5B575C2A2F42E20042A072 /* AVAudioSession.swift in Sources */,
+				5A5B575E2A2F61920042A072 /* testView.swift in Sources */,
 				5A7418262A2501DE004EBDDD /* EditProfileView.swift in Sources */,
 				5A4BADF52A1CF97D0009CD12 /* AppRoute+View.swift in Sources */,
 				5A80C4432A1E11FE00C42FC0 /* PostViewModel.swift in Sources */,
 				5A80C4612A1F572A00C42FC0 /* Message.swift in Sources */,
+				5A5B57602A2F7B7C0042A072 /* ScreenRecoderManager.swift in Sources */,
+				5A5B575A2A2F40B30042A072 /* PlayerRepresentable.swift in Sources */,
 				5A80C45C2A1E6A2B00C42FC0 /* ChatServices.swift in Sources */,
 				5A4BADAC2A1B7CBB0009CD12 /* Post.swift in Sources */,
 				5A80C4522A1E557B00C42FC0 /* PullToRefreshView.swift in Sources */,
@@ -785,6 +844,7 @@
 				5A80C45F2A1F509D00C42FC0 /* MessageService.swift in Sources */,
 				5A80C4462A1E1F4D00C42FC0 /* ImageSliderView.swift in Sources */,
 				5A4BAD9A2A1B5DA60009CD12 /* Icon.swift in Sources */,
+				5A5B57582A2F405B0042A072 /* VideoPlayerManger.swift in Sources */,
 				5A4BADC42A1B915A0009CD12 /* AppError.swift in Sources */,
 				5A4BADEA2A1CE77B0009CD12 /* PopupView.swift in Sources */,
 				5A4BAD952A1B5B260009CD12 /* IconButton.swift in Sources */,
@@ -937,6 +997,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -969,6 +1032,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

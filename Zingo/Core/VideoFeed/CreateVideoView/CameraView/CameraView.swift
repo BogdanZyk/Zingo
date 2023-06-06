@@ -9,11 +9,13 @@ import SwiftUI
 
 struct CameraView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var recordTime: RecordTime = .half
+    @StateObject private var cameraManager = CameraManager()
+    @State private var showVideoEditor: Bool = false
     var body: some View {
         NavigationStack {
             ZStack{
-                RoundedRectangle(cornerRadius: 30)
+                CameraPreviewHolder(captureSession: cameraManager.session)
+                    .cornerRadius(20)
                 VStack {
                     recordTimer
                     Spacer()
@@ -33,6 +35,11 @@ struct CameraView: View {
                     }
                 }
             }
+            .navigationDestination(isPresented: $showVideoEditor) {
+                if let url = cameraManager.finalURL{
+                    PlayerEditorView(video: Video(url: url, originalDuration: cameraManager.recordedDuration))
+                }
+            }
         }
     }
 }
@@ -47,6 +54,7 @@ extension CameraView{
     
     private var closeButton: some View{
         Button {
+            cameraManager.removeVideo()
             dismiss()
         } label: {
             buttonLabel("xmark")
@@ -73,34 +81,43 @@ extension CameraView{
     }
     
     private var recordButton: some View{
-        RecordButton(totalSec: 60, progress: 10){}
-            .hCenter()
-            .overlay(alignment: .trailing) {
-                nextButton
-                
+        RecordButton(totalSec: CGFloat(cameraManager.recordTime.rawValue), progress: cameraManager.recordedDuration){
+            if cameraManager.isRecording{
+                cameraManager.stopRecord()
+            }else{
+                cameraManager.startRecording()
             }
-            .padding()
+            
+        }
+        .hCenter()
+        .overlay(alignment: .trailing) {
+            nextButton
+        }
+        .padding()
     }
 
     private var recordTimer: some View{
         Text(11.formatterTimeString())
             .font(.title3.bold())
             .foregroundColor(.white)
-            .opacity(1)
+            .opacity(cameraManager.isRecording ? 1 : 0)
     }
     
+    @ViewBuilder
     private var nextButton: some View{
-        ButtonView(label: "Next", type: .primary, height: 40, font: .body.bold()) {
-            
+        if cameraManager.finalURL != nil{
+            ButtonView(label: "Next", type: .primary, height: 40, font: .body.bold()) {
+                showVideoEditor.toggle()
+            }
+            .frame(width: 80)
         }
-        .frame(width: 80)
     }
     
     private var totalRecordTimeButton: some View{
         Button {
-            recordTime = recordTime == .full ? .half : .full
+            cameraManager.changeRecordTime()
         } label: {
-            Text(verbatim: String(recordTime.rawValue))
+            Text(verbatim: String(cameraManager.recordTime.rawValue))
                 .font(.callout.bold())
                 .foregroundColor(.white)
                 .padding(10)
@@ -112,10 +129,7 @@ extension CameraView{
 }
 
 
-enum RecordTime: Int{
-    case half = 30
-    case full = 15
-}
+
 
 
 
