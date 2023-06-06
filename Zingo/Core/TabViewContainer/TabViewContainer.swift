@@ -28,10 +28,10 @@ struct TabViewContainer: View {
             }
             .tag(Tab.search)
             
-            NavigationStack(path: $router.pathDestination.notification){
-                Text("Notification")
+            NavigationStack(path: $router.pathDestination.videoFeed){
+                VideoFeedView()
             }
-            .tag(Tab.notification)
+            .tag(Tab.videoFeed)
             
             NavigationStack(path: $router.pathDestination.profile){
                 CurrentUserProfileView(userManager: userManager)
@@ -85,6 +85,8 @@ extension TabViewContainer{
             }else{
                 Image(tab.image)
                     .renderingMode(.template)
+                    .resizable()
+                    .frame(width: 22, height: 22)
                     .foregroundColor(tab == router.tab ? .white : .lightGray)
                     .onTapGesture {
                         router.setTab(tab)

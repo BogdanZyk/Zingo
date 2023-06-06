@@ -90,8 +90,8 @@ final class MainRouter: ObservableObject {
             pathDestination.feed.append(to)
         case .search:
             pathDestination.search.append(to)
-        case .notification:
-            pathDestination.notification.append(to)
+        case .videoFeed:
+            pathDestination.videoFeed.append(to)
         case .profile:
             pathDestination.profile.append(to)
         default: break
@@ -104,8 +104,8 @@ final class MainRouter: ObservableObject {
             pathDestination.feed.removeLastOptionally()
         case .search:
             pathDestination.search.removeLastOptionally()
-        case .notification:
-            pathDestination.notification.removeLastOptionally()
+        case .videoFeed:
+            pathDestination.videoFeed.removeLastOptionally()
         case .profile:
             pathDestination.profile.removeLastOptionally()
         default: break
@@ -147,8 +147,8 @@ final class MainRouter: ObservableObject {
             pathDestination.feed.removeAll()
         case .search:
             pathDestination.search.removeAll()
-        case .notification:
-            pathDestination.notification.removeAll()
+        case .videoFeed:
+            pathDestination.videoFeed.removeAll()
         case .profile:
             pathDestination.profile.removeAll()
         default: break
@@ -171,7 +171,7 @@ extension MainRouter{
     struct PathDestination{
         var feed = [RouterDestination]()
         var search = [RouterDestination]()
-        var notification = [RouterDestination]()
+        var videoFeed = [RouterDestination]()
         var profile = [RouterDestination]()
     }
 }

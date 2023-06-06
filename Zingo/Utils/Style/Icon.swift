@@ -22,6 +22,7 @@ enum Icon: String{
     case like = "like"
     case bubble = "bubble"
     case share = "share"
+    case videoFeed = "videoIcon"
     
     
 }
