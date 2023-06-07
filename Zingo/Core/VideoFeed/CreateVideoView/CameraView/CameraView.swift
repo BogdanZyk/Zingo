@@ -11,11 +11,13 @@ struct CameraView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var cameraManager = CameraManager()
     @State private var showVideoEditor: Bool = false
+    @State var scale: CGFloat = 1
     var body: some View {
         NavigationStack {
+           
             ZStack{
-                CameraPreviewHolder(captureSession: cameraManager.session)
-                    .cornerRadius(20)
+                CameraPreview(cameraManager: cameraManager)
+                    
                 VStack {
                     recordTimer
                     Spacer()
@@ -63,7 +65,7 @@ extension CameraView{
     
     private var changeCameraButton: some View{
         Button {
-            
+            cameraManager.switchCameraAndStart()
         } label: {
             buttonLabel("arrow.triangle.2.circlepath")
         }
@@ -83,7 +85,7 @@ extension CameraView{
     private var recordButton: some View{
         RecordButton(totalSec: CGFloat(cameraManager.recordTime.rawValue), progress: cameraManager.recordedDuration){
             if cameraManager.isRecording{
-                cameraManager.stopRecord()
+                cameraManager.stopRecord(.user)
             }else{
                 cameraManager.startRecording()
             }
@@ -97,7 +99,7 @@ extension CameraView{
     }
 
     private var recordTimer: some View{
-        Text(11.formatterTimeString())
+        Text(cameraManager.recordedDuration.formatterTimeString())
             .font(.title3.bold())
             .foregroundColor(.white)
             .opacity(cameraManager.isRecording ? 1 : 0)
@@ -105,7 +107,7 @@ extension CameraView{
     
     @ViewBuilder
     private var nextButton: some View{
-        if cameraManager.finalURL != nil{
+        if cameraManager.finalURL != nil && !cameraManager.isRecording{
             ButtonView(label: "Next", type: .primary, height: 40, font: .body.bold()) {
                 showVideoEditor.toggle()
             }
@@ -133,12 +135,3 @@ extension CameraView{
 
 
 
-extension Double{
-    
-    func formatterTimeString() -> String{
-        let minutes = Int(self / 60)
-          let seconds = Int(self.truncatingRemainder(dividingBy: 60))
-          return "\(minutes):\(String(format: "%02d", seconds))"
-    }
-    
-}

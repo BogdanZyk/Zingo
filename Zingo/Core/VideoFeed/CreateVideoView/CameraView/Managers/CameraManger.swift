@@ -29,7 +29,10 @@ final class CameraManager: NSObject, ObservableObject{
     private var timer: Timer?
     private let sessionQueue = DispatchQueue(label: "com.VideoEditorSwiftUI")
     private let videoOutput = AVCaptureMovieFileOutput()
+    var cameraInput: AVCaptureDeviceInput?
     private var status: Status = .unConfig
+    private var recordsURl = [URL]()
+    private var stopInitiatorType: StopInitiator = .empty
     
     var isRecording: Bool{
         videoOutput.isRecording
@@ -97,6 +100,13 @@ final class CameraManager: NSObject, ObservableObject{
         }
     }
     
+    func zoom(_ zoomFactor: CGFloat){
+        guard let device = cameraInput?.device else {return}
+        try? device.lockForConfiguration()
+        device.ramp(toVideoZoomFactor: zoomFactor, withRate: 15)
+        device.unlockForConfiguration()
+    }
+    
     ///Configuring a session and adding video, audio input and adding video output
     private func configCaptureSession(){
         guard status == .unConfig else {
@@ -106,7 +116,7 @@ final class CameraManager: NSObject, ObservableObject{
         
         session.sessionPreset = .hd1280x720
         
-        let device = getCameraDevice(for: .back)
+        let device = getCameraDevice(for: cameraPosition)
         let audioDevice = AVCaptureDevice.default(for: .audio)
         
         guard let camera = device, let audio = audioDevice else {
@@ -118,6 +128,7 @@ final class CameraManager: NSObject, ObservableObject{
         do{
             let cameraInput = try AVCaptureDeviceInput(device: camera)
             let audioInput = try AVCaptureDeviceInput(device: audio)
+            self.cameraInput = cameraInput
             
             if session.canAddInput(cameraInput) && session.canAddInput(audioInput){
                 session.addInput(audioInput)
@@ -149,15 +160,25 @@ final class CameraManager: NSObject, ObservableObject{
         let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInTripleCamera, .builtInTelephotoCamera, .builtInDualCamera, .builtInTrueDepthCamera, .builtInDualWideCamera], mediaType: AVMediaType.video, position: .unspecified)
         for device in discoverySession.devices {
             if device.position == position {
+                
+                try? device.lockForConfiguration()
+                device.videoZoomFactor = 1.5
+                if position == .back{
+                    device.focusMode = .autoFocus
+                }
+                device.unlockForConfiguration()
+                
                 return device
             }
         }
         return nil
     }
     
-    func stopRecord(){
+    func stopRecord(_ type: StopInitiator){
         print("stop")
+        self.stopInitiatorType = type
         timer?.invalidate()
+        timer = nil
         videoOutput.stopRecording()
     }
     
@@ -170,13 +191,6 @@ final class CameraManager: NSObject, ObservableObject{
         startTimer()
     }
     
-//    func set(_ delegate: AVCaptureVideoDataOutputSampleBufferDelegate,
-//             queue: DispatchQueue){
-//        sessionQueue.async {
-//            self.videoOutput.setSampleBufferDelegate(delegate, queue: queue)
-//        }
-//    }
-    
     func changeRecordTime(){
         recordTime = recordTime == .full ? .half : .full
     }
@@ -187,6 +201,55 @@ final class CameraManager: NSObject, ObservableObject{
     }
 }
 
+extension CameraManager{
+    
+    
+    
+    func switchCameraAndStart(){
+        stopRecord(.onSwitch)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.switchCamera()
+            if self.isRecording{
+                self.startRecording()
+            }
+        }
+    }
+    
+    private func switchCamera() {
+        
+        
+        //Indicate that some changes will be made to the session
+        session.beginConfiguration()
+        cameraPosition = cameraPosition == .back ? .front : .back
+        //Get new input
+        guard let newCamera = getCameraDevice(for: cameraPosition),
+              let newAudio = AVCaptureDevice.default(for: .audio)
+        else {
+            print("ERROR: Issue in cameraWithPosition() method")
+            return
+        }
+        
+        do {
+            let audioInput = try AVCaptureDeviceInput(device: newAudio)
+            let newVideoInput = try AVCaptureDeviceInput(device: newCamera)
+            self.cameraInput = newVideoInput
+            
+            //remove all inputs in inputs array
+            while session.inputs.count > 0 {
+                session.removeInput(session.inputs[0])
+            }
+            
+            session.addInput(newVideoInput)
+            session.addInput(audioInput)
+            
+        } catch {
+            print("Error creating capture device input: \(error.localizedDescription)")
+        }
+        
+        //Commit all the configuration changes at once
+        session.commitConfiguration()
+    }
+}
 
 
 extension CameraManager{
@@ -197,9 +260,9 @@ extension CameraManager{
             print("🟢 RECORDING")
             recordedDuration += 1
         }
-//        if recordedDuration >= Double(recordTime.rawValue) && videoOutput.isRecording{
-//            stopRecord()
-//        }
+        if recordedDuration >= Double(recordTime.rawValue) && videoOutput.isRecording{
+            stopRecord(.auto)
+        }
     }
     
     private func startTimer(){
@@ -215,16 +278,23 @@ extension CameraManager{
 
 extension CameraManager: AVCaptureFileOutputRecordingDelegate{
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        print(outputFileURL)
-        timer?.invalidate()
+        
         if let error{
             self.error = .outputError(error)
-        }else{
+            return
+        }
+        
+        self.recordsURl.append(outputFileURL)
+        
+        if recordsURl.count != 0 && stopInitiatorType != .onSwitch{
+            print(recordsURl)
+            self.finalURL = recordsURl.last
+        }
+        
+       else{
             self.finalURL = outputFileURL
         }
     }
-    
-    
 }
 
 
@@ -244,5 +314,11 @@ extension CameraManager{
     enum RecordTime: Int{
         case half = 30
         case full = 15
+    }
+}
+
+extension CameraManager{
+    enum StopInitiator: Int{
+        case user, auto, onSwitch, empty
     }
 }
