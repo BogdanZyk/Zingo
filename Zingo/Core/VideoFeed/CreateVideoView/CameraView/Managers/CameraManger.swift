@@ -25,7 +25,7 @@ final class CameraManager: NSObject, ObservableObject{
     @Published var recordTime: RecordTime = .half
     
     private var timer: Timer?
-    private let sessionQueue = DispatchQueue(label: "com.VideoEditorSwiftUI")
+    private let sessionQueue = DispatchQueue(label: "com.Zingo.recorder")
     private let videoOutput = AVCaptureMovieFileOutput()
     var cameraInput: AVCaptureDeviceInput?
     private var status: Status = .unConfig
@@ -34,6 +34,10 @@ final class CameraManager: NSObject, ObservableObject{
     
     var isRecording: Bool{
         videoOutput.isRecording
+    }
+    
+    var timeLimitActive: Bool{
+        recordedDuration >= Double(recordTime.rawValue)
     }
     
     override init(){
@@ -256,16 +260,16 @@ extension CameraManager{
         
         if recordedDuration <= Double(recordTime.rawValue) && videoOutput.isRecording{
             print("🟢 RECORDING")
-            recordedDuration += 1
-        }
-        if recordedDuration >= Double(recordTime.rawValue) && videoOutput.isRecording{
+            recordedDuration += 0.1
+        }else{
+            print("auto stop")
             stopRecord(.auto)
         }
     }
     
     private func startTimer(){
         if timer == nil {
-            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] (timer) in
+            timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] (timer) in
                 self?.onTimerFires()
             }
         }
@@ -298,7 +302,7 @@ extension CameraManager: AVCaptureFileOutputRecordingDelegate{
                 let url = try await VideoEditorHelper.share.createVideo(for: urls)
                 setDraftVideo(url)
             }catch{
-                print(error.localizedDescription)
+                print("Merge video error", error.localizedDescription)
             }
         }
     }

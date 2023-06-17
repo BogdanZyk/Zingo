@@ -14,10 +14,8 @@ struct CameraView: View {
     @State var scale: CGFloat = 1
     var body: some View {
         NavigationStack {
-           
             ZStack{
                 CameraPreview(cameraManager: cameraManager)
-                    
                 VStack {
                     recordTimer
                     Spacer()
@@ -29,12 +27,14 @@ struct CameraView: View {
             .navigationBarBackButtonHidden(true)
             .overlay(alignment: .top) {
                 HStack(alignment: .top) {
-                    closeButton
-                    Spacer()
-                    VStack{
-                        changeCameraButton
-                        totalRecordTimeButton
+                    if !cameraManager.isRecording{
+                        VStack{
+                            closeButton
+                            totalRecordTimeButton
+                        }
                     }
+                    Spacer()
+                    changeCameraButton
                 }
             }
             .navigationDestination(isPresented: $showVideoEditor) {
@@ -76,20 +76,22 @@ extension CameraView{
         Image(systemName: image)
             .font(.callout.bold())
             .foregroundColor(.white)
-            .padding(10)
+            .frame(width: 40, height: 40)
             .background(Color.white.opacity(0.3))
             .clipShape(Circle())
             .padding()
     }
     
     private var recordButton: some View{
-        RecordButton(totalSec: CGFloat(cameraManager.recordTime.rawValue), progress: cameraManager.recordedDuration){
+        RecordButton(isPlay: cameraManager.isRecording,
+                     totalSec: CGFloat(cameraManager.recordTime.rawValue),
+                     progress: cameraManager.recordedDuration,
+                     isDisabled: cameraManager.timeLimitActive){
             if cameraManager.isRecording{
                 cameraManager.stopRecord(.user)
             }else{
                 cameraManager.startRecording()
             }
-            
         }
         .hCenter()
         .overlay(alignment: .trailing) {
@@ -102,7 +104,7 @@ extension CameraView{
         Text(cameraManager.recordedDuration.formatterTimeString())
             .font(.title3.bold())
             .foregroundColor(.white)
-            .opacity(cameraManager.isRecording ? 1 : 0)
+            .opacity(cameraManager.isRecording || cameraManager.timeLimitActive ? 1 : 0)
     }
     
     @ViewBuilder
@@ -122,11 +124,13 @@ extension CameraView{
             Text(verbatim: String(cameraManager.recordTime.rawValue))
                 .font(.callout.bold())
                 .foregroundColor(.white)
-                .padding(10)
+                .frame(width: 40, height: 40)
                 .background(Color.white.opacity(0.3))
                 .clipShape(Circle())
                 .padding()
+                .opacity(cameraManager.timeLimitActive ? 0.5 : 1)
         }
+        .disabled(cameraManager.timeLimitActive)
     }
 }
 

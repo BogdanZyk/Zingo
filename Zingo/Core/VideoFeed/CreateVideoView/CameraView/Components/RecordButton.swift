@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct RecordButton: View {
+    var isPlay: Bool
     let totalSec: CGFloat
     let progress: CGFloat
+    var isDisabled: Bool = false
     @Namespace private var animation
-    @State private var isPlay: Bool = false
     let onTap: () -> Void
     var size2: CGFloat{
         isPlay ? 90 : 75
@@ -25,11 +26,7 @@ struct RecordButton: View {
     var body: some View {
         Button {
             onTap()
-            withAnimation(.easeInOut(duration: 0.2)) {
-                isPlay.toggle()
-            }
         } label: {
-            
             ZStack {
                 Group{
                     if isPlay{
@@ -39,9 +36,9 @@ struct RecordButton: View {
                     }else{
                         Circle()
                             .fill(Color.white)
+                            .opacity(isDisabled ? 0.5 : 1)
                             .matchedGeometryEffect(id: "RecordButton", in: animation)
                     }
-                    
                 }
                 .frame(width: size1, height: size1)
             }
@@ -49,15 +46,21 @@ struct RecordButton: View {
             .background(Material.ultraThinMaterial, in: Circle())
             .overlay {
                 if !isPlay{
-                    Circle()
-                        .stroke(lineWidth: 3)
-                        .foregroundColor(.white)
+                    if progress > 0{
+                        CircleProgressBar(total: totalSec, progress: progress, lineWidth: 4, bgCircleColor: .clear, primaryCircleColor: .accentPink)
+                    }else{
+                        Circle()
+                            .stroke(lineWidth: 3)
+                            .foregroundColor(.white)
+                    }
                 }else{
                     CircleProgressBar(total: totalSec, progress: progress, lineWidth: 8, bgCircleColor: .clear, primaryCircleColor: .accentPink)
                         .padding(4)
                 }
             }
         }
+        .disabled(isDisabled)
+        .animation(.easeInOut(duration: 0.2), value: isPlay)
     }
 }
 
@@ -65,7 +68,11 @@ struct RecordButton_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.darkBlack
-            RecordButton(totalSec: 60, progress: 10){}
+            VStack{
+                RecordButton(isPlay: false, totalSec: 60, progress: 10){}
+                RecordButton(isPlay: true, totalSec: 60, progress: 10){}
+                RecordButton(isPlay: false, totalSec: 60, progress: 10, isDisabled: true){}
+            }
         }
     }
 }
