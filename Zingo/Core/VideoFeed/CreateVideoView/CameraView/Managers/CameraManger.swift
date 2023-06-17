@@ -8,8 +8,6 @@
 import SwiftUI
 import AVFoundation
 
-
-
 final class CameraManager: NSObject, ObservableObject{
     
     enum Status{
@@ -197,7 +195,7 @@ final class CameraManager: NSObject, ObservableObject{
     
     func removeVideo(){
         guard let url = videoOutput.outputFileURL else {return}
-        FileManager.default.removeFileExists(for: url)
+        FileManager.default.removeFileIfExists(for: url)
     }
 }
 
@@ -287,12 +285,23 @@ extension CameraManager: AVCaptureFileOutputRecordingDelegate{
         self.recordsURl.append(outputFileURL)
         
         if recordsURl.count != 0 && stopInitiatorType != .onSwitch{
-            print(recordsURl)
-            self.finalURL = recordsURl.last
-        }
-        
-       else{
+            mergeVideos(recordsURl)
+        }else{
             self.finalURL = outputFileURL
+        }
+    }
+    
+
+    private func mergeVideos(_ urls: [URL]){
+        Task{
+            do{
+                let url = try await VideoEditorHelper.share.createVideo(for: urls)
+                await MainActor.run {
+                    self.finalURL = url
+                }
+            }catch{
+                print(error.localizedDescription)
+            }
         }
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 
 extension Double{
+    
     func toTimeWithMilliseconds() -> String{
         let minutes = Int(self / 60)
           let seconds = Int(self.truncatingRemainder(dividingBy: 60))

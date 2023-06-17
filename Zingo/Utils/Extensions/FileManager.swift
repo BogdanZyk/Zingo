@@ -20,7 +20,7 @@ extension FileManager{
         return url
     }
 
-    func removeFileExists(for url: URL){
+    func removeFileIfExists(for url: URL){
         if fileExists(atPath: url.path){
             do{
                 try removeItem(at: url)

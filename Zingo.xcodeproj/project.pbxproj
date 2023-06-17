@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5A0E52EC2A3085AA003BA8E9 /* ScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E52EB2A3085AA003BA8E9 /* ScaleView.swift */; };
 		5A0E52EF2A308B86003BA8E9 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E52EE2A308B86003BA8E9 /* CameraPreview.swift */; };
+		5A0E52F12A30AD6C003BA8E9 /* VideoEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E52F02A30AD6C003BA8E9 /* VideoEditor.swift */; };
 		5A2800002A17C3F10068D3FD /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5A28FFFF2A17C3F10068D3FD /* NukeUI */; };
 		5A28FFD12A17A9040068D3FD /* ZingoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFD02A17A9040068D3FD /* ZingoApp.swift */; };
 		5A28FFD32A17A9040068D3FD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFD22A17A9040068D3FD /* ContentView.swift */; };
@@ -118,6 +119,7 @@
 /* Begin PBXFileReference section */
 		5A0E52EB2A3085AA003BA8E9 /* ScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleView.swift; sourceTree = "<group>"; };
 		5A0E52EE2A308B86003BA8E9 /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
+		5A0E52F02A30AD6C003BA8E9 /* VideoEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditor.swift; sourceTree = "<group>"; };
 		5A28FFCD2A17A9040068D3FD /* Zingo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zingo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A28FFD02A17A9040068D3FD /* ZingoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZingoApp.swift; sourceTree = "<group>"; };
 		5A28FFD22A17A9040068D3FD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 			isa = PBXGroup;
 			children = (
 				5A5B57512A2F32E50042A072 /* CameraManger.swift */,
+				5A0E52F02A30AD6C003BA8E9 /* VideoEditor.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -825,6 +828,7 @@
 				5A4BADAA2A1B7A5E0009CD12 /* User.swift in Sources */,
 				5A3B9C772A27381E0080F9DA /* StoriesListViewModel.swift in Sources */,
 				5AFB55C22A2891A600242F02 /* FollowingsFollowersView.swift in Sources */,
+				5A0E52F12A30AD6C003BA8E9 /* VideoEditor.swift in Sources */,
 				5A0E52EC2A3085AA003BA8E9 /* ScaleView.swift in Sources */,
 				5A7418232A24B23B004EBDDD /* PostsListView.swift in Sources */,
 				5A4BADCA2A1B9EEB0009CD12 /* String.swift in Sources */,
