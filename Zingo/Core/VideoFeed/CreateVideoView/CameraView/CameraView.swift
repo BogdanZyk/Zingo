@@ -38,8 +38,8 @@ struct CameraView: View {
                 }
             }
             .navigationDestination(isPresented: $showVideoEditor) {
-                if let url = cameraManager.finalURL{
-                    PlayerEditorView(video: Video(url: url, originalDuration: cameraManager.recordedDuration))
+                if let video = cameraManager.draftVideo{
+                    PlayerEditorView(video: video)
                 }
             }
         }
@@ -107,7 +107,7 @@ extension CameraView{
     
     @ViewBuilder
     private var nextButton: some View{
-        if cameraManager.finalURL != nil && !cameraManager.isRecording{
+        if cameraManager.draftVideo != nil && !cameraManager.isRecording{
             ButtonView(label: "Next", type: .primary, height: 40, font: .body.bold()) {
                 showVideoEditor.toggle()
             }

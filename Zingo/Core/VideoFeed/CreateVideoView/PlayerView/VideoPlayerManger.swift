@@ -8,100 +8,82 @@
 import Foundation
 import Combine
 import AVKit
-import PhotosUI
 import SwiftUI
 
-
+/// A class for video management
 final class VideoPlayerManager: ObservableObject{
     
     @Published var currentTime: Double = .zero
-    @Published var selectedItem: PhotosPickerItem?
-    @Published var loadState: LoadState = .unknown
-    @Published private(set) var videoPlayer = AVPlayer()
-    @Published private(set) var audioPlayer = AVPlayer()
+    @Published private(set) var video: DraftVideo?
     @Published private(set) var isPlaying: Bool = false
-    private var isSetAudio: Bool = false
-    private var cancellable = Set<AnyCancellable>()
+    
+    var videoPlayer = AVPlayer()
+    
+    private var rate: Float = 1
+    private var cancelBag = CancelBag()
     private var timeObserver: Any?
     private var currentDurationRange: ClosedRange<Double>?
+    private var isSeekInProgress: Bool = false
+    
+
+    init(video: DraftVideo){
+        loadVideo(video)
+    }
     
     
     deinit {
         removeTimeObserver()
     }
     
-    init(){
-        onSubsUrl()
-    }
-    
-    
+    /// Scrubbing state for seek video time
     var scrubState: PlayerScrubState = .reset {
         didSet {
             switch scrubState {
             case .scrubEnded(let seekTime):
-                pause()
-                seek(seekTime, player: videoPlayer)
-                if isSetAudio{
-                    seek(seekTime, player: audioPlayer)
-                }
+                seek(seekTime)
             default : break
             }
         }
     }
     
-    func action(_ video: Video){
+    
+    /// load storage video object
+    private func loadVideo(_ video: DraftVideo){
+        self.video = video
+        self.videoPlayer = AVPlayer(url: video.url)
         self.currentDurationRange = video.rangeDuration
+        self.startControlStatusSubscriptions()
+    }
+    
+    /// Play or pause video
+    func action(){
         if isPlaying{
             pause()
         }else{
-            play(video.rate)
+            play(rate)
         }
     }
     
-    func setVideo(_ url: URL){
-        loadState = .loaded(url)
-    }
-    
-    func setAudio(_ url: URL?){
-        guard let url else {
-            isSetAudio = false
-            return
+    /// Play or pause video from range
+    func action(_ range: ClosedRange<Double>){
+        self.currentDurationRange = range
+        if isPlaying{
+            pause()
+        }else{
+            play(rate)
         }
-        audioPlayer = .init(url: url)
-        isSetAudio = true
     }
-    
-    private func onSubsUrl(){
-        $loadState
-            .dropFirst()
-            .receive(on: DispatchQueue.main)
-            
-            .sink {[weak self] returnLoadState in
-                guard let self = self else {return}
-                
-                switch returnLoadState {
-                case .loaded(let url):
-                    self.pause()
-                    self.videoPlayer = AVPlayer(url: url)
-                    self.startStatusSubscriptions()
-                    print("AVPlayer set url:", url.absoluteString)
-                    play(1)
-                case .failed, .loading, .unknown:
-                    break
-                }
-            }
-            .store(in: &cancellable)
-    }
-    
-    
-    private func startStatusSubscriptions(){
+        
+    /// Observing the change timeControlStatus
+    private func startControlStatusSubscriptions(){
         videoPlayer.publisher(for: \.timeControlStatus)
             .sink { [weak self] status in
                 guard let self = self else {return}
                 switch status {
                 case .playing:
-                    self.isPlaying = true
+                    print("playing")
                     self.startTimer()
+                    self.isPlaying = true
                 case .paused:
                     self.isPlaying = false
                 case .waitingToPlayAtSpecifiedRate:
@@ -110,68 +92,68 @@ final class VideoPlayerManager: ObservableObject{
                     break
                 }
             }
-            .store(in: &cancellable)
+            .store(in: cancelBag)
     }
     
     
     func pause(){
-        if isPlaying{
-            videoPlayer.pause()
-            if isSetAudio{
-                audioPlayer.pause()
-            }
-        }
+        guard isPlaying else {return}
+        videoPlayer.pause()
     }
     
-    func setVolume(_ isVideo: Bool, value: Float){
+    /// Set video volume
+    func setVolume(_ value: Float){
         pause()
-        if isVideo{
-            videoPlayer.volume = value
-        }else{
-            audioPlayer.volume = value
-        }
+        videoPlayer.volume = value
     }
 
+    /// Play for rate and durationRange
     private func play(_ rate: Float?){
         
-        //AVAudioSession.sharedInstance().configurePlaybackSession()
+        AVAudioSession.sharedInstance().configurePlaybackSession()
         
         if let currentDurationRange{
             if currentTime >= currentDurationRange.upperBound{
-                seek(currentDurationRange.lowerBound, player: videoPlayer)
-                if isSetAudio{
-                    seek(currentDurationRange.lowerBound, player: audioPlayer)
-                }
+                seek(currentDurationRange.lowerBound)
             }else{
-                seek(videoPlayer.currentTime().seconds, player: videoPlayer)
-                if isSetAudio{
-                    seek(audioPlayer.currentTime().seconds, player: audioPlayer)
-                }
+                seek(videoPlayer.currentTime().seconds)
             }
         }
         videoPlayer.play()
-        if isSetAudio{
-            audioPlayer.play()
-        }
         
         if let rate{
+            self.rate = rate
             videoPlayer.rate = rate
-            if isSetAudio{
-                audioPlayer.play()
-            }
         }
-        
-        if let currentDurationRange, videoPlayer.currentItem?.duration.seconds ?? 0 >= currentDurationRange.upperBound{
+
+        if isPlaying{
             NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: videoPlayer.currentItem, queue: .main) { _ in
                 self.playerDidFinishPlaying()
             }
         }
     }
-    
-    private func seek(_ seconds: Double, player: AVPlayer){
-        player.seek(to: CMTime(seconds: seconds, preferredTimescale: 600))
+     
+    /// Seek video time
+     func seek(_ seconds: Double){
+         if isSeekInProgress{return}
+         pause()
+         isSeekInProgress = true
+         videoPlayer.seek(to: CMTimeMakeWithSeconds(seconds, preferredTimescale: 600), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero) {[weak self] isFinished in
+             guard let self = self else {return}
+             if isFinished{
+                 self.isSeekInProgress = false
+             }else{
+                 self.seek(seconds)
+             }
+         }
     }
     
+    func setRateAndPlay(_ rate: Float){
+        videoPlayer.pause()
+        play(rate)
+    }
+    
+    /// Start video timer
     private func startTimer() {
         
         let interval = CMTimeMake(value: 1, timescale: 10)
@@ -196,19 +178,26 @@ final class VideoPlayerManager: ObservableObject{
         }
     }
     
-    
+    /// Did finish action seek to zero
     private func playerDidFinishPlaying() {
-        self.videoPlayer.seek(to: .zero)
+        seek(currentDurationRange?.lowerBound ?? 0)
     }
     
+    /// Remove all time observers
     private func removeTimeObserver(){
         if let timeObserver = timeObserver {
             videoPlayer.removeTimeObserver(timeObserver)
         }
     }
     
-}
+    enum PlayerScrubState{
+        case reset
+        case scrubStarted
+        case scrubEnded(Double)
+    }
 
+    
+}
 
 
 //
@@ -234,45 +223,3 @@ final class VideoPlayerManager: ObservableObject{
 //        videoPlayer.currentItem?.videoComposition = nil
 //    }
 //}
-
-enum LoadState: Identifiable, Equatable {
-    case unknown, loading, loaded(URL), failed
-    
-    var id: Int{
-        switch self {
-        case .unknown: return 0
-        case .loading: return 1
-        case .loaded: return 2
-        case .failed: return 3
-        }
-    }
-}
-
-
-enum PlayerScrubState{
-    case reset
-    case scrubStarted
-    case scrubEnded(Double)
-}
-
-
-
-struct Video: Identifiable{
-    
-    var id: UUID = UUID()
-    var url: URL
-    let originalDuration: Double
-    var rangeDuration: ClosedRange<Double>
-    var thumbnailsImage: UIImage?
-    var rate: Float = 1.0
-    
-    var totalDuration: Double{
-        rangeDuration.upperBound - rangeDuration.lowerBound
-    }
-    
-    init(url: URL, originalDuration: Double){
-        self.url = url
-        self.originalDuration = originalDuration
-        self.rangeDuration = 0...originalDuration
-    }
-}

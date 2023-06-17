@@ -8,15 +8,22 @@
 import SwiftUI
 
 struct PlayerEditorView: View {
+    let video: DraftVideo
     @State private var showPlayPauseIcon: Bool = false
-    @StateObject private var playerManager = VideoPlayerManager()
-    let video: Video
+    @StateObject private var playerManager: VideoPlayerManager
+
+    init(video: DraftVideo){
+        self.video = video
+        self._playerManager = StateObject(wrappedValue: VideoPlayerManager(video: video))
+    }
+    
+    
     var body: some View {
         ZStack{
             PlayerRepresentable(player: playerManager.videoPlayer)
                 .ignoresSafeArea()
                 .onTapGesture {
-                    playerManager.action(video)
+                    playerManager.action()
                     showPlayPauseIcon = true
                 }
             
@@ -25,15 +32,12 @@ struct PlayerEditorView: View {
             timeSlider
             
         }
-        .onAppear{
-            playerManager.setVideo(video.url)
-        }
     }
 }
 
 struct PlayerEditorView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerEditorView(video: Video(url: URL(string: "test")!, originalDuration: 10))
+        PlayerEditorView(video: DraftVideo(url: URL(string: "test")!, originalDuration: 10))
     }
 }
 

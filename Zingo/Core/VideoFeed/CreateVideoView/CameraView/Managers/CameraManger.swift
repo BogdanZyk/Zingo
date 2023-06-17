@@ -18,9 +18,9 @@ final class CameraManager: NSObject, ObservableObject{
     }
     
     @Published var error: CameraError?
-    @Published var session = AVCaptureSession()
-    @Published var finalURL: URL?
-    @Published var recordedDuration: Double = .zero
+    @Published private(set) var session = AVCaptureSession()
+    @Published private(set) var draftVideo: DraftVideo?
+    @Published private(set) var recordedDuration: Double = .zero
     @Published var cameraPosition: AVCaptureDevice.Position = .front
     @Published var recordTime: RecordTime = .half
     
@@ -287,7 +287,7 @@ extension CameraManager: AVCaptureFileOutputRecordingDelegate{
         if recordsURl.count != 0 && stopInitiatorType != .onSwitch{
             mergeVideos(recordsURl)
         }else{
-            self.finalURL = outputFileURL
+            setDraftVideo(outputFileURL)
         }
     }
     
@@ -296,11 +296,18 @@ extension CameraManager: AVCaptureFileOutputRecordingDelegate{
         Task{
             do{
                 let url = try await VideoEditorHelper.share.createVideo(for: urls)
-                await MainActor.run {
-                    self.finalURL = url
-                }
+                setDraftVideo(url)
             }catch{
                 print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func setDraftVideo(_ url: URL){
+        Task{
+            let video = await DraftVideo(url: url)
+            await MainActor.run {
+                self.draftVideo = video
             }
         }
     }

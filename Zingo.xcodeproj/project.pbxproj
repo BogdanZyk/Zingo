@@ -22,6 +22,8 @@
 		5A28FFF82A17BD660068D3FD /* PrimaryButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF72A17BD660068D3FD /* PrimaryButtonView.swift */; };
 		5A28FFFA2A17C3100068D3FD /* CurrentUserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF92A17C3100068D3FD /* CurrentUserProfileView.swift */; };
 		5A28FFFD2A17C3910068D3FD /* LazyNukeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFFC2A17C3910068D3FD /* LazyNukeImage.swift */; };
+		5A398EE92A3E4D22003FE261 /* AVAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A398EE82A3E4D22003FE261 /* AVAsset.swift */; };
+		5A398EEB2A3E5120003FE261 /* DraftVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A398EEA2A3E5120003FE261 /* DraftVideo.swift */; };
 		5A3B9C752A2735260080F9DA /* StoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B9C742A2735260080F9DA /* StoryService.swift */; };
 		5A3B9C772A27381E0080F9DA /* StoriesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B9C762A27381E0080F9DA /* StoriesListViewModel.swift */; };
 		5A3B9C7A2A2742CD0080F9DA /* CountTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B9C792A2742CD0080F9DA /* CountTimer.swift */; };
@@ -132,6 +134,8 @@
 		5A28FFF72A17BD660068D3FD /* PrimaryButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonView.swift; sourceTree = "<group>"; };
 		5A28FFF92A17C3100068D3FD /* CurrentUserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserProfileView.swift; sourceTree = "<group>"; };
 		5A28FFFC2A17C3910068D3FD /* LazyNukeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyNukeImage.swift; sourceTree = "<group>"; };
+		5A398EE82A3E4D22003FE261 /* AVAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAsset.swift; sourceTree = "<group>"; };
+		5A398EEA2A3E5120003FE261 /* DraftVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftVideo.swift; sourceTree = "<group>"; };
 		5A3B9C742A2735260080F9DA /* StoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryService.swift; sourceTree = "<group>"; };
 		5A3B9C762A27381E0080F9DA /* StoriesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesListViewModel.swift; sourceTree = "<group>"; };
 		5A3B9C792A2742CD0080F9DA /* CountTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountTimer.swift; sourceTree = "<group>"; };
@@ -327,6 +331,7 @@
 				5A5B57552A2F35E30042A072 /* FileManager.swift */,
 				5A5B575B2A2F42E20042A072 /* AVAudioSession.swift */,
 				5AC5CD432A3077AC00E901A2 /* Double.swift */,
+				5A398EE82A3E4D22003FE261 /* AVAsset.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -351,6 +356,7 @@
 				5A80C4592A1E5FE400C42FC0 /* Chat.swift */,
 				5A80C4602A1F572A00C42FC0 /* Message.swift */,
 				5A74182B2A263810004EBDDD /* Story.swift */,
+				5A398EEA2A3E5120003FE261 /* DraftVideo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -801,6 +807,7 @@
 				5A7418322A263E2E004EBDDD /* StoryEditorView.swift in Sources */,
 				5A4BADDD2A1BC1A00009CD12 /* UserProfile.swift in Sources */,
 				5A4BADE32A1CAAFB0009CD12 /* StorageManager.swift in Sources */,
+				5A398EE92A3E4D22003FE261 /* AVAsset.swift in Sources */,
 				5A80C4632A1F5D5600C42FC0 /* ChatViewModel.swift in Sources */,
 				5A7418282A25EB4A004EBDDD /* EditProfileViewModel.swift in Sources */,
 				5A5B57472A2E27270042A072 /* CircleProgressBar.swift in Sources */,
@@ -828,6 +835,7 @@
 				5A4BADAA2A1B7A5E0009CD12 /* User.swift in Sources */,
 				5A3B9C772A27381E0080F9DA /* StoriesListViewModel.swift in Sources */,
 				5AFB55C22A2891A600242F02 /* FollowingsFollowersView.swift in Sources */,
+				5A398EEB2A3E5120003FE261 /* DraftVideo.swift in Sources */,
 				5A0E52F12A30AD6C003BA8E9 /* VideoEditor.swift in Sources */,
 				5A0E52EC2A3085AA003BA8E9 /* ScaleView.swift in Sources */,
 				5A7418232A24B23B004EBDDD /* PostsListView.swift in Sources */,
