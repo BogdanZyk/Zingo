@@ -12,25 +12,29 @@ import VideoPlayer
 struct FeedVideoCellView: View {
     let video: FeedVideo
     var currentUserId: String?
-    @ObservedObject var feedViewModel: MainVideoFeedViewModel
     @State var isOpacity: Bool = false
     @State private var time: CMTime = .zero
     @State private var isPlay: Bool = false
     @State private var isShowPlay: Bool = false
     @State var showThumbImage: Bool = false
+    
+    var isShowComments: Bool = false
+    let onTapComment: () -> Void
+    let onTapLike: (_ isLiked: Bool) -> Void
+    
     var body: some View {
         ZStack{
             
             if let url = URL(string: video.video.fullPath){
                 VideoPlayer(url: url, play: $isPlay, time: $time)
+                    .autoReplay(true)
                     .onStateChanged(onStateChanged)
-                    .onPlayToEndTime({resetVideo(withPlay: true)})
                     .contentMode(.scaleAspectFill)
                     .onTapGesture {
                         isPlay.toggle()
                     }
                     .onDisappear{
-                        resetVideo(withPlay: false)
+                        resetAndStopVideo()
                     }
                     .onAppear{
                         isPlay = true
@@ -38,8 +42,7 @@ struct FeedVideoCellView: View {
             }
             
             if let image = video.video.thumbImage?.fullPath, showThumbImage{
-                LazyNukeImage(strUrl: image, resizeHeight: 200, resizingMode: .aspectFill, loadPriority: .high)
-                    .ignoresSafeArea()
+                LazyNukeImage(strUrl: image, resizeHeight: 400, resizingMode: .aspectFit, loadPriority: .high)
                     .allowsHitTesting(false)
             }
             
@@ -49,12 +52,6 @@ struct FeedVideoCellView: View {
                 .foregroundColor(.white)
                 .frame(maxHeight: .infinity, alignment: .bottom)
                 .opacity(isOpacity ? 0.5 : 1)
-            
-            Image(systemName: "play.fill")
-                .font(.largeTitle)
-                .foregroundColor(.white)
-                .allowsHitTesting(false)
-                .opacity(isShowPlay ? 1 : 0)
         }
         .background(geometryReader)
         .animation(.easeInOut(duration: 0.15), value: isOpacity)
@@ -63,7 +60,7 @@ struct FeedVideoCellView: View {
 
 struct FeedVideoCellView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedVideoCellView(video: .mock, feedViewModel: MainVideoFeedViewModel())
+        FeedVideoCellView(video: .mock, onTapComment: {}, onTapLike: {_ in})
             .preferredColorScheme(.dark)
     }
 }
@@ -107,7 +104,7 @@ extension FeedVideoCellView{
                         }
                 }
             }
-            Text("Video description")
+            Text(video.description ?? "")
                 .font(.callout.weight(.medium))
                 .lineLimit(1)
         }
@@ -115,11 +112,10 @@ extension FeedVideoCellView{
     
     private var actionButtons: some View{
         Group{
-            VideoActionButton(type: .like(video.isHiddenLikesCount ? 0 : video.likeCount, video.didLike(currentUserId)), action: {})
+            let didLike = video.didLike(currentUserId)
+            VideoActionButton(type: .like(video.isHiddenLikesCount ? 0 : video.likeCount, didLike), action: { onTapLike(didLike) })
             if !video.isDisabledComments{
-                VideoActionButton(type: .comment(video.comments)){
-                    feedViewModel.openComments()
-                }
+                VideoActionButton(type: .comment(video.comments), action: onTapComment)
             }
             VideoActionButton(type: .share, action: {})
             VideoActionButton(type: .more, action: {})
@@ -131,14 +127,14 @@ extension FeedVideoCellView{
             let minY = proxy.frame(in: .global).minY
             DispatchQueue.main.async {
                 isOpacity = abs(minY) > 1
-                isPlay = -minY < proxy.size.height && minY < 1
+                isPlay = -minY < proxy.size.height && minY < 1 && !isShowComments
             }
             return Color.clear
         }
     }
-    private func resetVideo(withPlay: Bool = true){
+    private func resetAndStopVideo(){
         time = CMTimeMakeWithSeconds(0.0, preferredTimescale: self.time.timescale)
-        isPlay = withPlay
+        isPlay = false
     }
     
     private func onStateChanged(_ state: VideoPlayer.State){

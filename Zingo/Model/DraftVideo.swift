@@ -27,7 +27,7 @@ struct DraftVideo{
         self.url = url
         self.originalDuration = await asset.videoDuration() ?? 1
         self.rangeDuration = 0...originalDuration
-        self.thumbnailImage = asset.getImage(0, compressionQuality: 0.5)?.rotated(byDegrees: 90)
+        self.thumbnailImage = asset.getImage(0, compressionQuality: 0.15)?.rotate(radians: .pi/2)
     }
     
     

@@ -43,6 +43,7 @@ class MainVideoFeedViewModel: ObservableObject{
                 if id == self.videos.last?.id &&
                     self.totalCountVideo > self.videos.count{
                     self.fetchVideo()
+                    print("set VideoPreLoader")
                 }
             }
             .store(in: cancelBag)
@@ -78,4 +79,14 @@ class MainVideoFeedViewModel: ObservableObject{
             }
             .store(in: cancelBag)
     }
+}
+
+
+// Like action
+extension MainVideoFeedViewModel{
+    
+    func likeAction(_ isDidLiked: Bool){
+        
+    }
+    
 }

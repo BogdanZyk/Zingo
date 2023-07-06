@@ -12,37 +12,30 @@ struct VideoFeedView: View {
     @StateObject private var viewModel = MainVideoFeedViewModel()
     @EnvironmentObject var mainRouter: MainRouter
     var body: some View {
-        ZStack(alignment: .top){
-            GeometryReader { proxy in
-                let size = proxy.size
-                ZStack(alignment: .leading){
+        ZStack{
+            Color.black.ignoresSafeArea()
+            if viewModel.videos.isEmpty{
+                loader
+            }else{
+                GeometryReader { proxy in
                     TabView(selection: $viewModel.currentVideoId) {
-                        ForEach(viewModel.videos) { video in
-                            FeedVideoCellView(video: video, currentUserId: userManager.user?.id, feedViewModel: viewModel)
-                            .frame(width: size.width)
-                            .rotationEffect(.degrees(-90))
-                            .ignoresSafeArea(.all, edges: .top)
-                            .tag(video.id)
-                        }
+                        videosSection(width:  proxy.size.width)
                     }
-                    
+                    .rotationEffect(.degrees(90))
+                    .frame(width:  proxy.size.height)
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .frame(width:  proxy.size.width)
                 }
-                .rotationEffect(.degrees(90))
-                .frame(width: size.height)
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                .frame(width: size.width)
             }
-            
         }
         .ignoresSafeArea(.all, edges: .top)
         .bottomTabPadding()
-        .background(Color.black.ignoresSafeArea())
         .safeAreaInset(edge: .top, alignment: .center, spacing: 0) {
             header
         }
         .sheet(isPresented: $viewModel.showComments) {
             VStack{
-                
+                Text(viewModel.currentVideoId)
             }
             .allFrame()
             .background(Color.darkBlack)
@@ -75,7 +68,29 @@ extension VideoFeedView{
         }
         .foregroundColor(.white)
         .padding(.horizontal)
-        
+    }
+    
+    
+    private func videosSection(width: CGFloat) -> some View{
+        ForEach(viewModel.videos) { video in
+            FeedVideoCellView(
+                video: video,
+                currentUserId: userManager.user?.id,
+                isShowComments: viewModel.showComments,
+                onTapComment: { viewModel.openComments() },
+                onTapLike: { viewModel.likeAction($0) })
+            
+            .frame(width: width)
+            .rotationEffect(.degrees(-90))
+            .ignoresSafeArea(.all, edges: .top)
+            .tag(video.id)
+        }
+    }
+    
+    private var loader: some View{
+        ProgressView()
+            .tint(.accentPink)
+            .scaleEffect(1.5)
     }
 }
 
