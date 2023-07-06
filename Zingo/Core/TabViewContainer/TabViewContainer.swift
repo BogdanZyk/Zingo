@@ -29,7 +29,7 @@ struct TabViewContainer: View {
             .tag(Tab.search)
             
             NavigationStack(path: $router.pathDestination.videoFeed){
-                VideoFeedView()
+                VideoFeedView(userManager: userManager)
             }
             .tag(Tab.videoFeed)
             
@@ -42,7 +42,7 @@ struct TabViewContainer: View {
             tabView
         }
         .notifyPopup(popup: $router.popup)
-        .withFullScreenRouter(fullScreen: $router.fullScreen)
+        .withFullScreenRouter(fullScreen: $router.fullScreen, router: router)
         .overlay {
             storyView
         }

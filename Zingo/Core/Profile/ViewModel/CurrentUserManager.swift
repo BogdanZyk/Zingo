@@ -78,12 +78,12 @@ final class CurrentUserManager: ObservableObject{
     @MainActor
     func removeImage(_ type: ProfileImageType) async{
         if let bannerPath = user?.bannerImage?.path, type == .banner {
-            try? await StorageManager.shared.deleteImage(path: bannerPath)
+            try? await StorageManager.shared.deleteAsset(path: bannerPath)
             user?.bannerImage = nil
         }
         
         if let avatarPath = user?.profileImage?.path, type == .avatar {
-            try? await StorageManager.shared.deleteImage(path: avatarPath)
+            try? await StorageManager.shared.deleteAsset(path: avatarPath)
             user?.profileImage = nil
         }
     }

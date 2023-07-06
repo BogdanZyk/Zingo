@@ -19,7 +19,7 @@ extension View {
 //    }
     
     
-    func withFullScreenRouter(fullScreen: Binding<FullScreenDestination?>) -> some View{
+    func withFullScreenRouter(fullScreen: Binding<FullScreenDestination?>, router: MainRouter) -> some View{
         fullScreenCover(item: fullScreen) { type in
             switch type{
             case .createNewPost(let user):
@@ -28,6 +28,9 @@ extension View {
                 EditProfileView(userManager: manager)
             case .createStory(let user):
                 StoryEditorView(currentUser: user)
+            case .feedCameraView:
+                CameraView()
+                    .environmentObject(router)
             }
         }
     }

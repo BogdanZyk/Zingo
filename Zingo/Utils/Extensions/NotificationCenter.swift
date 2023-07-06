@@ -41,5 +41,5 @@ extension NotificationCenter {
 extension Notification.Name {
     static let successfullyPost = Self("successfullyPost")
     static let successfullyStory = Self("successfullyStory")
-    //static let productCreated = Self("productCreated")
+    static let successfullyFeedVideo = Self("successfullyFeedVideo")
 }

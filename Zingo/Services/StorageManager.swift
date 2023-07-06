@@ -36,9 +36,33 @@ final class StorageManager{
         guard let path = returnedData.path else {
             throw AppError.custom(errorDescription: "Failed upload image")
         }
+        try Task.checkCancellation()
         let fullPath = try await getUrlForImage(path: path).absoluteString
         
         return .init(path: path, fullPath: fullPath)
+    }
+        
+    func uploadVideo(videoUrl: URL, thumbImage: UIImage?, for uid: String) async throws -> StoreVideo{
+        
+        var uploadedThumbImage: StoreImage? = nil
+        let type: ImageType = .video
+        if let thumbImage{
+            uploadedThumbImage = try await saveImage(image: thumbImage, type: type, userId: uid)
+        }
+            
+        let meta = StorageMetadata()
+        meta.contentType = "video/mp4"
+        let name = "\(UUID().uuidString).mp4"
+        let ref = type.getRef(uid: uid)
+        try Task.checkCancellation()
+        let returnedData = try await ref.child(name).putFileAsync(from: videoUrl, metadata: meta)
+        
+        guard let path = returnedData.path else {
+            throw AppError.custom(errorDescription: "Failed upload video")
+        }
+        let fullPath = try await getUrlForImage(path: path).absoluteString
+    
+        return .init(path: path, fullPath: fullPath, thumbImage: uploadedThumbImage)
     }
     
     func saveImage(image: UIImage, type: ImageType, userId: String) async throws -> StoreImage{
@@ -53,7 +77,7 @@ final class StorageManager{
         try await getPathForImage(path).downloadURL()
     }
     
-    func deleteImage(path: String) async throws{
+    func deleteAsset(path: String) async throws{
         print(getPathForImage(path))
         try await getPathForImage(path).delete()
     }
@@ -85,7 +109,7 @@ final class StorageManager{
 extension StorageManager{
     
     enum ImageType: Int{
-        case user, banner, post, message, story
+        case user, banner, post, message, story, video
         
         func getRef(uid: String) -> StorageReference{
             let storage = StorageManager.shared.storage
@@ -94,6 +118,7 @@ extension StorageManager{
             case .post: return storage.child("posts").child(uid)
             case .message: return storage.child("messages").child(uid)
             case .story: return storage.child("stories").child(uid)
+            case .video: return storage.child("feed_videos").child(uid)
             }
         }
         
@@ -104,6 +129,7 @@ extension StorageManager{
             case .post: return 500
             case .message: return 200
             case .story: return 600
+            case .video:  return 400
             }
         }
         
@@ -114,6 +140,7 @@ extension StorageManager{
             case .post: return 0.9
             case .message: return 0.7
             case .story: return 0.95
+            case .video: return 0.7
             }
         }
     }
@@ -138,4 +165,19 @@ extension StoreImage{
     static let mocks: [StoreImage] = [.init(path: "", fullPath: "https://i.etsystatic.com/30097568/r/il/c7f1a0/3513889975/il_570xN.3513889975_lfe4.jpg"),
                                       .init(path: "", fullPath: "https://i.etsystatic.com/30097568/r/il/c7f1a0/3513889975/il_570xN.3513889975_lfe4.jpg")]
     
+}
+
+
+struct StoreVideo: Identifiable, Codable{
+
+    let path: String
+    let fullPath: String
+    var thumbImage: StoreImage?
+    
+    var id: String{ path }
+    
+    
+    func getData() throws -> [String : Any]{
+        try Firestore.Encoder().encode(self)
+    }
 }

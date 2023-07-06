@@ -8,61 +8,75 @@
 import SwiftUI
 
 struct PlayerEditorView: View {
-    let video: DraftVideo
-    @State private var showPlayPauseIcon: Bool = false
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var playerManager: VideoPlayerManager
-
+    @State var isPresentedCreator: Bool = false
+    let video: DraftVideo
     init(video: DraftVideo){
         self.video = video
         self._playerManager = StateObject(wrappedValue: VideoPlayerManager(video: video))
     }
     
-    
     var body: some View {
         ZStack{
-            PlayerRepresentable(player: playerManager.videoPlayer)
-                .ignoresSafeArea()
-                .onTapGesture {
-                    playerManager.action()
-                    showPlayPauseIcon = true
+            Color.darkBlack.ignoresSafeArea()
+            VStack(spacing: 0){
+                ZStack {
+                    PlayerRepresentable(player: playerManager.videoPlayer)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            playerManager.action()
+                        }
+                    timeSlider
                 }
+                
+                bottomSection
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 20))
             
             playPauseIcon
-        
-            timeSlider
             
+            backButton
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationDestination(isPresented: $isPresentedCreator) {
+            VideoFeedCreatorView(draftVideo: video)
         }
     }
 }
 
 struct PlayerEditorView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerEditorView(video: DraftVideo(url: URL(string: "test")!, originalDuration: 10))
+        NavigationStack{
+            PlayerEditorView(video: DraftVideo(url: URL(string: "test")!, originalDuration: 10))
+        }
     }
 }
 
 extension PlayerEditorView{
     
+    
+    private var backButton: some View{
+        IconButton(icon: .arrowLeft) {
+            dismiss()
+        }
+        .vTop()
+        .hLeading()
+        .padding()
+    }
+    
     @ViewBuilder
     private var playPauseIcon: some View{
-        if showPlayPauseIcon{
+        if !playerManager.isPlaying{
             Image(systemName: playerManager.isPlaying ? "play.fill" : "pause.fill")
                 .font(.system(size: 40))
-                .foregroundColor(.white)
+                .foregroundColor(.white.opacity(0.7))
                 .padding(20)
                 .background(Material.ultraThinMaterial, in: Circle())
-                .onAppear{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                        withAnimation(.easeIn(duration: 2)) {
-                            showPlayPauseIcon = false
-                        }
-                    }
-                }
         }
     }
     
     private var timeSlider: some View{
-        
         Slider(value: Binding(get: {
             playerManager.currentTime
         }, set: { newValue in
@@ -82,8 +96,20 @@ extension PlayerEditorView{
             }
         }
         .foregroundColor(.white)
-        .padding()
         .tint(.white)
         .vBottom()
+        .padding()
+    }
+    
+    private var bottomSection: some View{
+        HStack{
+            Spacer()
+            ButtonView(label: "Next", showLoader: false, type: .primary, isDisabled: false) {
+                isPresentedCreator.toggle()
+            }
+            .frame(width: 120)
+        }
+        .padding(.top, 10)
+        .padding(.horizontal)
     }
 }

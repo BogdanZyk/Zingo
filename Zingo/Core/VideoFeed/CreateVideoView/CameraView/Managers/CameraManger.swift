@@ -186,7 +186,7 @@ final class CameraManager: NSObject, ObservableObject{
     
     func startRecording(){
         ///Temporary URL for recording Video
-        let tempURL = NSTemporaryDirectory() + "\(Date().ISO8601Format()).mov"
+        let tempURL = NSTemporaryDirectory() + "\(Date().ISO8601Format()).mp4"
         print(tempURL)
         videoOutput.startRecording(to: URL(fileURLWithPath: tempURL), recordingDelegate: self)
         videoOutput.maxRecordedDuration = .init(seconds: Double(recordTime.rawValue), preferredTimescale: CMTimeScale(NSEC_PER_SEC))

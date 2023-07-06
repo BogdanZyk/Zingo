@@ -25,7 +25,7 @@ class VideoEditorHelper{
         let outputURL = URL.documentsDirectory.appending(path: "\(UUID().uuidString).mp4")
         fileManager.removeFileIfExists(for: outputURL)
         
-        guard let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)else{
+        guard let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPreset1280x720) else{
             throw ExporterError.cannotCreateExportSession
         }
         
@@ -74,7 +74,7 @@ class VideoEditorHelper{
         }
         
         
-        let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality)
+        let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPreset1280x720)
         let exportUrl = URL.documentsDirectory.appending(path: "record.mp4")
         fileManager.removeFileIfExists(for: exportUrl)
         

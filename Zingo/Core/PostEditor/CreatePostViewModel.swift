@@ -17,8 +17,6 @@ class CreatePostViewModel: ObservableObject{
     @Published var error: Error?
     
     var currentUser: User?
-    
-    private let userService = UserService.share
     private let postService = PostService.shared
    
     

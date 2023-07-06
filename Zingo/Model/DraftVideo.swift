@@ -16,6 +16,7 @@ struct DraftVideo{
     var rangeDuration: ClosedRange<Double>
     var thumbnailImage: UIImage?
     var rate: Float = 1.0
+    var description: String?
     
     var totalDuration: Double{
         rangeDuration.upperBound - rangeDuration.lowerBound
@@ -26,7 +27,7 @@ struct DraftVideo{
         self.url = url
         self.originalDuration = await asset.videoDuration() ?? 1
         self.rangeDuration = 0...originalDuration
-        self.thumbnailImage = asset.getImage(0, compressionQuality: 0.5)
+        self.thumbnailImage = asset.getImage(0, compressionQuality: 0.5)?.rotated(byDegrees: 90)
     }
     
     
@@ -35,4 +36,11 @@ struct DraftVideo{
         self.originalDuration = originalDuration
         self.rangeDuration = 0...originalDuration
     }
+    
+}
+
+
+extension DraftVideo{
+    
+    static let mock = DraftVideo(url: URL(string: "url")!, originalDuration: 10)
 }
