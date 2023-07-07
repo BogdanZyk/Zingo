@@ -38,11 +38,11 @@ class CommentViewModel: ObservableObject {
     }
     
     private func startCommentsListener(){
-        let (publisher, listener) = commentService.addCommentsListener(for: postId)
+        let fbListenerResult = commentService.addCommentsListener(for: postId, type: .post)
         
-        self.listener.listener = listener
+        self.listener.listener = fbListenerResult.listener
         
-        publisher.sink { completion in
+        fbListenerResult.publisher.sink { completion in
             switch completion{
                 
             case .finished: break
@@ -54,7 +54,6 @@ class CommentViewModel: ObservableObject {
             self.updateCounter += 1
         }
         .store(in: cancelBag)
-
     }
     
     func sendComment() async{
@@ -62,7 +61,7 @@ class CommentViewModel: ObservableObject {
         let comment = Comment(id: UUID().uuidString, postId: postId, owner: .init(user: currentUser), text: commentText?.noSpaceStr())
         do{
             commentText = ""
-            try await commentService.createComment(for: postId, comment: comment)
+            try await commentService.createComment(for: postId, type: .post, comment: comment)
             lastCommentId = comment.id
         }catch{
             print(error.localizedDescription)
@@ -73,9 +72,9 @@ class CommentViewModel: ObservableObject {
         guard let currentUser else { return }
         do{
             if comment.didLike(currentUser.id){
-                try await commentService.unLikeComment(userId: currentUser.id, postId: postId, commentId: comment.id)
+                try await commentService.unLikeComment(userId: currentUser.id, parentCollectionId: postId, type: .post, commentId: comment.id)
             }else{
-                try await commentService.likeComment(userId: currentUser.id, postId: postId, commentId: comment.id)
+                try await commentService.likeComment(userId: currentUser.id, parentCollectionId: postId, type: .post, commentId: comment.id)
             }
         }catch{
             print(error.localizedDescription)

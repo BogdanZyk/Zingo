@@ -120,6 +120,8 @@
 		5AA2FF412A49D6600005D8D2 /* FeedVideoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA2FF402A49D6600005D8D2 /* FeedVideoService.swift */; };
 		5AA2FF442A49DDB30005D8D2 /* CreateVideoFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA2FF432A49DDB30005D8D2 /* CreateVideoFeedViewModel.swift */; };
 		5AC5CD442A3077AC00E901A2 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5CD432A3077AC00E901A2 /* Double.swift */; };
+		5ADD382F2A580F0100383B33 /* FbConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD382E2A580F0100383B33 /* FbConstants.swift */; };
+		5ADD38312A58123400383B33 /* FBListenerResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD38302A58123400383B33 /* FBListenerResult.swift */; };
 		5AFB55C22A2891A600242F02 /* FollowingsFollowersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB55C12A2891A600242F02 /* FollowingsFollowersView.swift */; };
 		5AFB55C42A289BB600242F02 /* FollowingsFollowersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFB55C32A289BB600242F02 /* FollowingsFollowersViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -232,6 +234,8 @@
 		5AA2FF402A49D6600005D8D2 /* FeedVideoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVideoService.swift; sourceTree = "<group>"; };
 		5AA2FF432A49DDB30005D8D2 /* CreateVideoFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVideoFeedViewModel.swift; sourceTree = "<group>"; };
 		5AC5CD432A3077AC00E901A2 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		5ADD382E2A580F0100383B33 /* FbConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FbConstants.swift; sourceTree = "<group>"; };
+		5ADD38302A58123400383B33 /* FBListenerResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBListenerResult.swift; sourceTree = "<group>"; };
 		5AFB55C12A2891A600242F02 /* FollowingsFollowersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsFollowersView.swift; sourceTree = "<group>"; };
 		5AFB55C32A289BB600242F02 /* FollowingsFollowersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsFollowersViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -527,6 +531,8 @@
 				5A80C45E2A1F509D00C42FC0 /* MessageService.swift */,
 				5A3B9C742A2735260080F9DA /* StoryService.swift */,
 				5AA2FF402A49D6600005D8D2 /* FeedVideoService.swift */,
+				5ADD382E2A580F0100383B33 /* FbConstants.swift */,
+				5ADD38302A58123400383B33 /* FBListenerResult.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -852,6 +858,7 @@
 				5A4BADC22A1B8BE00009CD12 /* UserService.swift in Sources */,
 				5A28FFF12A17ADFA0068D3FD /* Router.swift in Sources */,
 				5A80C4672A1F6B7700C42FC0 /* DialogViewModel.swift in Sources */,
+				5ADD382F2A580F0100383B33 /* FbConstants.swift in Sources */,
 				5A4BADDF2A1BC54C0009CD12 /* CreatePostViewModel.swift in Sources */,
 				5A4BADA52A1B75420009CD12 /* AuthenticationViewModel.swift in Sources */,
 				5AC5CD442A3077AC00E901A2 /* Double.swift in Sources */,
@@ -893,6 +900,7 @@
 				5A80C4612A1F572A00C42FC0 /* Message.swift in Sources */,
 				5A5B57602A2F7B7C0042A072 /* ScreenRecoderManager.swift in Sources */,
 				5A5B575A2A2F40B30042A072 /* PlayerRepresentable.swift in Sources */,
+				5ADD38312A58123400383B33 /* FBListenerResult.swift in Sources */,
 				5A80C45C2A1E6A2B00C42FC0 /* ChatServices.swift in Sources */,
 				5A4BADAC2A1B7CBB0009CD12 /* Post.swift in Sources */,
 				5A80C4522A1E557B00C42FC0 /* PullToRefreshView.swift in Sources */,

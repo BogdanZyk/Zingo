@@ -28,7 +28,7 @@ extension Query{
         return (items, snapshot.documents.last)
     }
         
-    func addSnapshotListener<T>(as type: T.Type) -> (AnyPublisher<[T], Error>, ListenerRegistration) where T: Decodable{
+    func addSnapshotListener<T>(as type: T.Type) -> FBListenerResult<T> where T: Decodable{
         let publisher = PassthroughSubject<[T], Error>()
         let listener = addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else{
@@ -37,7 +37,7 @@ extension Query{
             let items: [T] = documents.compactMap({ try? $0.data(as: T.self)})
             publisher.send(items)
         }
-        return (publisher.eraseToAnyPublisher(), listener)
+        return .init(publisher: publisher.eraseToAnyPublisher(), listener: listener)
     }
     
     func addSnapshotListenerWithChangeType<T>(as type: T.Type) -> (AnyPublisher<([T], [DocumentChangeType]), Error>, ListenerRegistration) where T: Decodable{

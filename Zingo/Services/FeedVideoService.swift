@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-
+import Combine
 
 final class FeedVideoService{
     
@@ -85,7 +85,11 @@ final class FeedVideoService{
         ]
         try await getVideoDocumentRef(videoId).updateData(dict)
     }
+    
+    func incrementCommentCounter(videoId: String) async throws{
+        let dict: [String: Any] = [
+            FeedVideo.CodingKeys.comments.rawValue: FieldValue.increment(1.0)
+        ]
+        try await getVideoDocumentRef(videoId).updateData(dict)
+    }
 }
-
-
-
