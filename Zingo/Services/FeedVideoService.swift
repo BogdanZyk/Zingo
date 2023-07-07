@@ -68,6 +68,23 @@ final class FeedVideoService{
             print(error.localizedDescription)
         }
     }
+    
+    
+    func likeVideo(userId: String, videoId: String) async throws{
+        
+        let dict: [String: Any] = [
+            FeedVideo.CodingKeys.likedUserIds.rawValue: FieldValue.arrayUnion([userId])
+        ]
+        try await getVideoDocumentRef(videoId).updateData(dict)
+    }
+    
+    func unLikeVideo(userId: String, videoId: String) async throws{
+        
+        let dict: [String: Any] = [
+            FeedVideo.CodingKeys.likedUserIds.rawValue: FieldValue.arrayRemove([userId])
+        ]
+        try await getVideoDocumentRef(videoId).updateData(dict)
+    }
 }
 
 

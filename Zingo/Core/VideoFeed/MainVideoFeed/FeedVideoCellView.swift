@@ -41,8 +41,8 @@ struct FeedVideoCellView: View {
                     }
             }
             
-            if let image = video.video.thumbImage?.fullPath, showThumbImage{
-                LazyNukeImage(strUrl: image, resizeHeight: 400, resizingMode: .aspectFit, loadPriority: .high)
+           if let image = video.video.thumbImage?.fullPath, showThumbImage{
+            LazyNukeImage(strUrl: image, resizeHeight: 200, resizingMode: .aspectFill, loadPriority: .high)
                     .allowsHitTesting(false)
             }
             

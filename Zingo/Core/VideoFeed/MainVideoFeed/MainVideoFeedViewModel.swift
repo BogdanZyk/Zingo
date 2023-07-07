@@ -63,6 +63,7 @@ class MainVideoFeedViewModel: ObservableObject{
             
             if self.lastDoc.lastDocument == nil{
                 self.videos = videos
+                self.currentVideoId = videos.first?.id ?? ""
             }else if lastDoc != self.lastDoc.lastDocument{
                 self.videos.append(contentsOf: videos)
             }
@@ -85,8 +86,29 @@ class MainVideoFeedViewModel: ObservableObject{
 // Like action
 extension MainVideoFeedViewModel{
     
-    func likeAction(_ isDidLiked: Bool){
-        
+    func likeAction(_ isDidLiked: Bool, userId: String?){
+        guard let userId else { return }
+        Task{
+            do{
+                if isDidLiked{
+                    try await feedVideoService.unLikeVideo(userId: userId, videoId: currentVideoId)
+                    updateVideoLikes(userId, isRemove: true)
+                }else{
+                    try await feedVideoService.likeVideo(userId: userId, videoId: currentVideoId)
+                    updateVideoLikes(userId, isRemove: false)
+                }
+            }catch{
+                print(error.localizedDescription)
+            }
+        }
     }
     
+    private func updateVideoLikes(_ userId: String, isRemove: Bool){
+        guard let index = videos.firstIndex(where: {$0.id == currentVideoId}) else {return}
+        if isRemove{
+            videos[index].likedUserIds.removeAll(where: {$0 == userId})
+        }else{
+            videos[index].likedUserIds.append(userId)
+        }
+    }
 }

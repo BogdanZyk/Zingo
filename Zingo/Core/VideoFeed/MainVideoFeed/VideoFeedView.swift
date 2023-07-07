@@ -78,7 +78,7 @@ extension VideoFeedView{
                 currentUserId: userManager.user?.id,
                 isShowComments: viewModel.showComments,
                 onTapComment: { viewModel.openComments() },
-                onTapLike: { viewModel.likeAction($0) })
+                onTapLike: { viewModel.likeAction($0, userId: userManager.user?.id) })
             
             .frame(width: width)
             .rotationEffect(.degrees(-90))
