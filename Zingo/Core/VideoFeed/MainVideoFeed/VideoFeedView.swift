@@ -34,13 +34,10 @@ struct VideoFeedView: View {
             header
         }
         .sheet(isPresented: $viewModel.showComments) {
-            VStack{
-                Text(viewModel.currentVideoId)
-            }
-            .allFrame()
-            .background(Color.darkBlack)
+            CommentsView(parentId: viewModel.currentVideoId, type: .video, onUpdateCounter: {viewModel.updateCommentsCounter($0)})
             .presentationDetents([.fraction(0.9)])
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 

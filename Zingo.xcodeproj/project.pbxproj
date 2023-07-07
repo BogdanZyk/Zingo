@@ -320,6 +320,7 @@
 		5A28FFDE2A17A9130068D3FD /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				5A80C4472A1E333300C42FC0 /* CommentView */,
 				5A5B573C2A2E12070042A072 /* VideoFeed */,
 				5A7418302A263E01004EBDDD /* StoryEditorView */,
 				5A80C4532A1E5D8F00C42FC0 /* Chat */,
@@ -665,7 +666,6 @@
 		5A80C4412A1E0E3D00C42FC0 /* PostView */ = {
 			isa = PBXGroup;
 			children = (
-				5A80C4472A1E333300C42FC0 /* CommentView */,
 				5A4BAD9D2A1B62C50009CD12 /* PostView.swift */,
 				5A80C4422A1E11FE00C42FC0 /* PostViewModel.swift */,
 				5A7418222A24B23B004EBDDD /* PostsListView.swift */,

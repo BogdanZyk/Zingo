@@ -80,6 +80,12 @@ class MainVideoFeedViewModel: ObservableObject{
             }
             .store(in: cancelBag)
     }
+    
+    
+    func updateCommentsCounter(_ count: Int){
+        guard let index = videos.firstIndex(where: {$0.id == currentVideoId}) else {return}
+        videos[index].comments = count
+    }
 }
 
 

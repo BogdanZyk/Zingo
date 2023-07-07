@@ -23,6 +23,7 @@ enum Icon: String{
     case bubble = "bubble"
     case share = "share"
     case videoFeed = "videoIcon"
+    case xmark = "xmark"
     
     
 }

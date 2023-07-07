@@ -11,7 +11,9 @@ import SwiftUI
 @MainActor
 class CommentViewModel: ObservableObject {
     
-    private let postId: String
+    private let parentId: String
+    private let type: CommentsService.CommentType
+    
     @Published private(set) var currentUser: User?
     @Published private(set) var comments = [Comment]()
     @Published private(set) var updateCounter: Int = 0
@@ -28,8 +30,9 @@ class CommentViewModel: ObservableObject {
     }
     
     
-    init(postId: String){
-        self.postId = postId
+    init(parentId: String, type: CommentsService.CommentType){
+        self.parentId = parentId
+        self.type = type
         startCommentsListener()
     }
     
@@ -38,7 +41,7 @@ class CommentViewModel: ObservableObject {
     }
     
     private func startCommentsListener(){
-        let fbListenerResult = commentService.addCommentsListener(for: postId, type: .post)
+        let fbListenerResult = commentService.addCommentsListener(for: parentId, type: type)
         
         self.listener.listener = fbListenerResult.listener
         
@@ -58,10 +61,10 @@ class CommentViewModel: ObservableObject {
     
     func sendComment() async{
         guard let currentUser else { return }
-        let comment = Comment(id: UUID().uuidString, postId: postId, owner: .init(user: currentUser), text: commentText?.noSpaceStr())
+        let comment = Comment(id: UUID().uuidString, postId: parentId, owner: .init(user: currentUser), text: commentText?.noSpaceStr())
         do{
             commentText = ""
-            try await commentService.createComment(for: postId, type: .post, comment: comment)
+            try await commentService.createComment(for: parentId, type: type, comment: comment)
             lastCommentId = comment.id
         }catch{
             print(error.localizedDescription)
@@ -72,9 +75,9 @@ class CommentViewModel: ObservableObject {
         guard let currentUser else { return }
         do{
             if comment.didLike(currentUser.id){
-                try await commentService.unLikeComment(userId: currentUser.id, parentCollectionId: postId, type: .post, commentId: comment.id)
+                try await commentService.unLikeComment(userId: currentUser.id, parentCollectionId: parentId, type: type, commentId: comment.id)
             }else{
-                try await commentService.likeComment(userId: currentUser.id, parentCollectionId: postId, type: .post, commentId: comment.id)
+                try await commentService.likeComment(userId: currentUser.id, parentCollectionId: parentId, type: type, commentId: comment.id)
             }
         }catch{
             print(error.localizedDescription)

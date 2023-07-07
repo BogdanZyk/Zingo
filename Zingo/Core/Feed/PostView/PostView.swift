@@ -40,7 +40,9 @@ struct PostView: View {
             divider
         }
         .navigationDestination(isPresented: $showComments) {
-            PostCommentView(post: $post)
+            CommentsView(parentId: post.id, type: .post) { count in
+                post.comments = count
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  PostCommentView.swift
+//  CommentsView.swift
 //  Zingo
 //
 //  Created by Bogdan Zykov on 24.05.2023.
@@ -7,15 +7,20 @@
 
 import SwiftUI
 
-struct PostCommentView: View {
+struct CommentsView: View {
     @EnvironmentObject var mainRouter: MainRouter
     @Environment(\.dismiss) private var dismiss
-    @Binding var post: Post
     @StateObject private var viewModel: CommentViewModel
     
-    init(post: Binding<Post>){
-        self._post = post
-        self._viewModel = StateObject(wrappedValue: CommentViewModel(postId: post.id))
+    private var type: CommentsService.CommentType
+
+    var onUpdateCounter: ((Int) -> Void)?
+    
+    init(parentId: String,
+         type: CommentsService.CommentType,
+         onUpdateCounter: ((Int) -> Void)? = nil){
+        self._viewModel = StateObject(wrappedValue: CommentViewModel(parentId: parentId, type: type))
+        self.type = type
     }
     
     var body: some View {
@@ -42,31 +47,35 @@ struct PostCommentView: View {
             bottomTab
         }
         .safeAreaInset(edge: .top, alignment: .center, spacing: 0) {
-            header
+           header
         }
         .task {
             await viewModel.getCurrentUser()
         }
         .onAppear{
-            mainRouter.hiddenTabView = true
+            if type == .post{
+                mainRouter.hiddenTabView = true
+            }
         }
         .onDisappear{
-            mainRouter.hiddenTabView = false
+            if type == .post{
+                mainRouter.hiddenTabView = false
+            }
         }
         .onChange(of: viewModel.updateCounter) { _ in
-            post.comments = viewModel.comments.count
+            onUpdateCounter?(viewModel.comments.count)
         }
     }
 }
 
-struct PostCommentView_Previews: PreviewProvider {
+struct CommentsView_Previews: PreviewProvider {
     static var previews: some View {
-        PostCommentView(post: .constant(Post.mockPosts.last!))
+        CommentsView(parentId: "09351298-E9D6-4FFF-96A2-3CE6E813E081", type: .video)
             .environmentObject(MainRouter())
     }
 }
 
-extension PostCommentView{
+extension CommentsView{
     
     private func commentCell(_ comment: Comment) -> some View{
         VStack(alignment: .leading){
@@ -142,18 +151,26 @@ extension PostCommentView{
     }
     
     private var header: some View{
-        Text("Comments")
-            .font(.title3.bold())
-            .padding(.bottom)
-            .hCenter()
-            .background(Color.darkBlack)
-            .foregroundColor(.white)
-            .overlay(alignment: Alignment(horizontal: .leading, vertical: .top)) {
-                IconButton(icon: .arrowLeft){
-                    dismiss()
+        HStack {
+            Text("Comments")
+                .font(.title3.bold())
+            Text("\(viewModel.comments.count)")
+                .foregroundColor(.lightGray)
+                .font(.body.bold())
+        }
+        .padding(.bottom)
+        .hCenter()
+        .background(Color.darkBlack)
+        .foregroundColor(.white)
+        .overlay(alignment: Alignment(horizontal: .leading, vertical: .top)) {
+            IconButton(icon: type == .post ? .arrowLeft : .xmark){
+                dismiss()
+                if type == .post{
                     mainRouter.hiddenTabView = false
                 }
-                .padding(.leading)
             }
+            .padding(.leading)
+        }
+        .padding(.top, type == .post ? 0 : 16)
     }
 }
