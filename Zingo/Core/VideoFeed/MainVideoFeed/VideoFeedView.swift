@@ -38,6 +38,14 @@ struct VideoFeedView: View {
             .presentationDetents([.fraction(0.9)])
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .navigationDestination(for: RouterDestination.self) { destination in
+            switch destination{
+            case .userProfile(let id):
+                UserProfile(userId: id)
+            default:
+                EmptyView()
+            }
+        }
     }
 }
 

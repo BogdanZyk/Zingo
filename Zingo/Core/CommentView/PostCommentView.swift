@@ -160,7 +160,6 @@ extension CommentsView{
         }
         .padding(.bottom)
         .hCenter()
-        .background(Color.darkBlack)
         .foregroundColor(.white)
         .overlay(alignment: Alignment(horizontal: .leading, vertical: .top)) {
             IconButton(icon: type == .post ? .arrowLeft : .xmark){
@@ -171,6 +170,7 @@ extension CommentsView{
             }
             .padding(.leading)
         }
-        .padding(.top, type == .post ? 0 : 16)
+        .padding(.top, type == .post ? 0 : 10)
+        .background(Color.darkBlack)
     }
 }

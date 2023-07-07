@@ -31,7 +31,7 @@ struct DialogView: View {
             .flippedUpsideDown()
             .background(Color.darkBlack)
             .navigationBarBackButtonHidden(true)
-            .scrollDismissesKeyboard(.interactively)
+            .scrollDismissesKeyboard(.immediately)
             .overlay(alignment: .bottomTrailing) {
                 downButton(proxy)
             }

@@ -16,6 +16,7 @@ struct FeedVideoCellView: View {
     @State private var time: CMTime = .zero
     @State private var isPlay: Bool = false
     @State private var isShowPlay: Bool = false
+    @State private var isDisappear: Bool = false
     @State var showThumbImage: Bool = false
     
     var isShowComments: Bool = false
@@ -32,13 +33,10 @@ struct FeedVideoCellView: View {
                     .contentMode(.scaleAspectFill)
                     .onTapGesture {
                         isPlay.toggle()
+                        isShowPlay.toggle()
                     }
-                    .onDisappear{
-                        resetAndStopVideo()
-                    }
-                    .onAppear{
-                        isPlay = true
-                    }
+                    .onDisappear(perform: resetAndStopVideo)
+                    .onAppear(perform: onAppear)
             }
             
            if let image = video.video.thumbImage?.fullPath, showThumbImage{
@@ -52,6 +50,12 @@ struct FeedVideoCellView: View {
                 .foregroundColor(.white)
                 .frame(maxHeight: .infinity, alignment: .bottom)
                 .opacity(isOpacity ? 0.5 : 1)
+            if isShowPlay{
+                Image(systemName: "play.fill")
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+                    .allowsHitTesting(false)
+            }
         }
         .background(geometryReader)
         .animation(.easeInOut(duration: 0.15), value: isOpacity)
@@ -127,7 +131,8 @@ extension FeedVideoCellView{
             let minY = proxy.frame(in: .global).minY
             DispatchQueue.main.async {
                 isOpacity = abs(minY) > 1
-                isPlay = -minY < proxy.size.height && minY < 1 && !isShowComments
+                
+                isPlay = -minY < proxy.size.height && minY < 1 && !isShowComments && !isDisappear && !isShowPlay
             }
             return Color.clear
         }
@@ -135,6 +140,13 @@ extension FeedVideoCellView{
     private func resetAndStopVideo(){
         time = CMTimeMakeWithSeconds(0.0, preferredTimescale: self.time.timescale)
         isPlay = false
+        isDisappear = true
+    }
+    
+    private func onAppear(){
+        isPlay = true
+        isDisappear = false
+        isShowPlay = false
     }
     
     private func onStateChanged(_ state: VideoPlayer.State){
