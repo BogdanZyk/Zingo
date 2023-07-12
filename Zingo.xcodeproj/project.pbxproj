@@ -25,6 +25,7 @@
 		5A28FFF82A17BD660068D3FD /* PrimaryButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF72A17BD660068D3FD /* PrimaryButtonView.swift */; };
 		5A28FFFA2A17C3100068D3FD /* CurrentUserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFF92A17C3100068D3FD /* CurrentUserProfileView.swift */; };
 		5A28FFFD2A17C3910068D3FD /* LazyNukeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A28FFFC2A17C3910068D3FD /* LazyNukeImage.swift */; };
+		5A31F4B12A5EB2E5000E1EB9 /* VideoRender in Frameworks */ = {isa = PBXBuildFile; productRef = 5A31F4B02A5EB2E5000E1EB9 /* VideoRender */; };
 		5A398EE92A3E4D22003FE261 /* AVAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A398EE82A3E4D22003FE261 /* AVAsset.swift */; };
 		5A398EEB2A3E5120003FE261 /* DraftVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A398EEA2A3E5120003FE261 /* DraftVideo.swift */; };
 		5A3B9C752A2735260080F9DA /* StoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B9C742A2735260080F9DA /* StoryService.swift */; };
@@ -86,7 +87,6 @@
 		5A5B57582A2F405B0042A072 /* VideoPlayerManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B57572A2F405B0042A072 /* VideoPlayerManger.swift */; };
 		5A5B575A2A2F40B30042A072 /* PlayerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B57592A2F40B30042A072 /* PlayerRepresentable.swift */; };
 		5A5B575C2A2F42E20042A072 /* AVAudioSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B575B2A2F42E20042A072 /* AVAudioSession.swift */; };
-		5A5B57602A2F7B7C0042A072 /* ScreenRecoderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B575F2A2F7B7C0042A072 /* ScreenRecoderManager.swift */; };
 		5A5B57632A2F8B5F0042A072 /* CameraRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B57622A2F8B5F0042A072 /* CameraRepresentable.swift */; };
 		5A74181F2A24955E004EBDDD /* ProfileContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A74181E2A24955E004EBDDD /* ProfileContentViewModel.swift */; };
 		5A7418232A24B23B004EBDDD /* PostsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7418222A24B23B004EBDDD /* PostsListView.swift */; };
@@ -201,7 +201,6 @@
 		5A5B57572A2F405B0042A072 /* VideoPlayerManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerManger.swift; sourceTree = "<group>"; };
 		5A5B57592A2F40B30042A072 /* PlayerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRepresentable.swift; sourceTree = "<group>"; };
 		5A5B575B2A2F42E20042A072 /* AVAudioSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAudioSession.swift; sourceTree = "<group>"; };
-		5A5B575F2A2F7B7C0042A072 /* ScreenRecoderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRecoderManager.swift; sourceTree = "<group>"; };
 		5A5B57622A2F8B5F0042A072 /* CameraRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRepresentable.swift; sourceTree = "<group>"; };
 		5A74181E2A24955E004EBDDD /* ProfileContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContentViewModel.swift; sourceTree = "<group>"; };
 		5A7418222A24B23B004EBDDD /* PostsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListView.swift; sourceTree = "<group>"; };
@@ -247,6 +246,7 @@
 			files = (
 				5A23A2AD2A4B3DBC009C9462 /* VideoPlayer in Frameworks */,
 				5A80C46C2A20A3FC00C42FC0 /* Algorithms in Frameworks */,
+				5A31F4B12A5EB2E5000E1EB9 /* VideoRender in Frameworks */,
 				5A2800002A17C3F10068D3FD /* NukeUI in Frameworks */,
 				5A4BADB52A1B893C0009CD12 /* FirebaseAuth in Frameworks */,
 				5A4BADB72A1B893C0009CD12 /* FirebaseFirestore in Frameworks */,
@@ -608,7 +608,6 @@
 				5A5B574E2A2F31D70042A072 /* PlayerEditorView.swift */,
 				5A5B57572A2F405B0042A072 /* VideoPlayerManger.swift */,
 				5A5B57592A2F40B30042A072 /* PlayerRepresentable.swift */,
-				5A5B575F2A2F7B7C0042A072 /* ScreenRecoderManager.swift */,
 			);
 			path = PlayerView;
 			sourceTree = "<group>";
@@ -767,6 +766,7 @@
 				5A4BADBA2A1B893C0009CD12 /* FirebaseStorage */,
 				5A80C46B2A20A3FC00C42FC0 /* Algorithms */,
 				5A23A2AC2A4B3DBC009C9462 /* VideoPlayer */,
+				5A31F4B02A5EB2E5000E1EB9 /* VideoRender */,
 			);
 			productName = Zingo;
 			productReference = 5A28FFCD2A17A9040068D3FD /* Zingo.app */;
@@ -801,6 +801,7 @@
 				5A4BADB32A1B893C0009CD12 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				5A80C46A2A20A3FC00C42FC0 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				5A23A2AB2A4B3DBC009C9462 /* XCRemoteSwiftPackageReference "VideoPlayer" */,
+				5A31F4AF2A5EB2E5000E1EB9 /* XCRemoteSwiftPackageReference "VideoRender" */,
 			);
 			productRefGroup = 5A28FFCE2A17A9040068D3FD /* Products */;
 			projectDirPath = "";
@@ -898,7 +899,6 @@
 				5A4BADF52A1CF97D0009CD12 /* AppRoute+View.swift in Sources */,
 				5A80C4432A1E11FE00C42FC0 /* PostViewModel.swift in Sources */,
 				5A80C4612A1F572A00C42FC0 /* Message.swift in Sources */,
-				5A5B57602A2F7B7C0042A072 /* ScreenRecoderManager.swift in Sources */,
 				5A5B575A2A2F40B30042A072 /* PlayerRepresentable.swift in Sources */,
 				5ADD38312A58123400383B33 /* FBListenerResult.swift in Sources */,
 				5A80C45C2A1E6A2B00C42FC0 /* ChatServices.swift in Sources */,
@@ -1166,6 +1166,14 @@
 				minimumVersion = 0.8.3;
 			};
 		};
+		5A31F4AF2A5EB2E5000E1EB9 /* XCRemoteSwiftPackageReference "VideoRender" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/BogdanZyk/VideoRender";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		5A4BADB32A1B893C0009CD12 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1194,6 +1202,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5A28FFFE2A17C3F10068D3FD /* XCRemoteSwiftPackageReference "NukeUI" */;
 			productName = NukeUI;
+		};
+		5A31F4B02A5EB2E5000E1EB9 /* VideoRender */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A31F4AF2A5EB2E5000E1EB9 /* XCRemoteSwiftPackageReference "VideoRender" */;
+			productName = VideoRender;
 		};
 		5A4BADB42A1B893C0009CD12 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

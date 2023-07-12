@@ -56,7 +56,7 @@ extension CameraView{
     
     private var closeButton: some View{
         Button {
-            cameraManager.removeVideo()
+            cameraManager.removeAll()
             dismiss()
         } label: {
             buttonLabel("xmark")
@@ -69,6 +69,7 @@ extension CameraView{
         } label: {
             buttonLabel("arrow.triangle.2.circlepath")
         }
+        .disabled(cameraManager.isExporting)
     }
     
     
@@ -93,6 +94,7 @@ extension CameraView{
                 cameraManager.startRecording()
             }
         }
+        .disabled(cameraManager.isExporting)
         .hCenter()
         .overlay(alignment: .trailing) {
             nextButton
@@ -109,7 +111,7 @@ extension CameraView{
     
     @ViewBuilder
     private var nextButton: some View{
-        if cameraManager.draftVideo != nil && !cameraManager.isRecording{
+        if cameraManager.draftVideo != nil && !cameraManager.isRecording && !cameraManager.isExporting{
             ButtonView(label: "Next", type: .primary, height: 40, font: .body.bold()) {
                 showVideoEditor.toggle()
             }
@@ -128,9 +130,7 @@ extension CameraView{
                 .background(Color.white.opacity(0.3))
                 .clipShape(Circle())
                 .padding()
-                .opacity(cameraManager.timeLimitActive ? 0.5 : 1)
         }
-        .disabled(cameraManager.timeLimitActive)
     }
 }
 

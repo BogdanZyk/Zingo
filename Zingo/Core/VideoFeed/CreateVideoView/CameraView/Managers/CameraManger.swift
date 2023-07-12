@@ -21,6 +21,7 @@ final class CameraManager: NSObject, ObservableObject{
     @Published private(set) var session = AVCaptureSession()
     @Published private(set) var draftVideo: DraftVideo?
     @Published private(set) var recordedDuration: Double = .zero
+    @Published private(set) var isExporting: Bool = false
     @Published var cameraPosition: AVCaptureDevice.Position = .front
     @Published var recordTime: RecordTime = .half
     
@@ -186,9 +187,8 @@ final class CameraManager: NSObject, ObservableObject{
     
     func startRecording(){
         ///Temporary URL for recording Video
-        let tempURL = NSTemporaryDirectory() + "\(Date().ISO8601Format()).mp4"
-        print(tempURL)
-        videoOutput.startRecording(to: URL(fileURLWithPath: tempURL), recordingDelegate: self)
+        let tempURL = URL.temporaryDirectory.appending(path: "record_\(Date().ISO8601Format()).mp4")
+        videoOutput.startRecording(to: tempURL, recordingDelegate: self)
         videoOutput.maxRecordedDuration = .init(seconds: Double(recordTime.rawValue), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         startTimer()
     }
@@ -197,9 +197,15 @@ final class CameraManager: NSObject, ObservableObject{
         recordTime = recordTime == .full ? .half : .full
     }
     
-    func removeVideo(){
-        guard let url = videoOutput.outputFileURL else {return}
-        FileManager.default.removeFileIfExists(for: url)
+    func removeAll(){
+        
+        let fileManager = FileManager.default
+        
+        if let draftVideoURL = draftVideo?.url{
+            fileManager.removeFileIfExists(for: draftVideoURL)
+        }
+    
+        recordsURl.forEach({fileManager.removeFileIfExists(for: $0)})
     }
 }
 
@@ -288,30 +294,31 @@ extension CameraManager: AVCaptureFileOutputRecordingDelegate{
         
         self.recordsURl.append(outputFileURL)
         
-        if recordsURl.count != 0 && stopInitiatorType != .onSwitch{
+        if stopInitiatorType != .onSwitch{
             mergeVideos(recordsURl)
-        }else{
-            setDraftVideo(outputFileURL)
         }
     }
     
-
+    
     private func mergeVideos(_ urls: [URL]){
+        isExporting = true
         Task{
             do{
                 let url = try await VideoEditorHelper.share.createVideo(for: urls)
                 setDraftVideo(url)
             }catch{
                 print("Merge video error", error.localizedDescription)
+                isExporting = false
             }
         }
     }
     
     private func setDraftVideo(_ url: URL){
         Task{
-            let video = await DraftVideo(url: url)
+            let video = await DraftVideo(url: url, recordsURl: recordsURl)
             await MainActor.run {
                 self.draftVideo = video
+                isExporting = false
             }
         }
     }
@@ -342,3 +349,5 @@ extension CameraManager{
         case user, auto, onSwitch, empty
     }
 }
+
+
