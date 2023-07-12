@@ -94,6 +94,9 @@ extension CommentsView{
                     .hLeading()
                     .contentShape(Rectangle())
                     .onTapGesture {
+                        if type == .video{
+                            dismiss()
+                        }
                         mainRouter.navigate(to: .userProfile(id: comment.owner.id))
                     }
                     

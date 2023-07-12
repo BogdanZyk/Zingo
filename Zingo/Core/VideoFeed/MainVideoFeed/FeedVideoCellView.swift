@@ -22,7 +22,7 @@ struct FeedVideoCellView: View {
     var isShowComments: Bool = false
     let onTapComment: () -> Void
     let onTapLike: (_ isLiked: Bool) -> Void
-    
+    let onTapUser: () -> Void
     var body: some View {
         ZStack{
             
@@ -64,7 +64,7 @@ struct FeedVideoCellView: View {
 
 struct FeedVideoCellView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedVideoCellView(video: .mock, onTapComment: {}, onTapLike: {_ in})
+        FeedVideoCellView(video: .mock, onTapComment: {}, onTapLike: {_ in}, onTapUser: {})
             .preferredColorScheme(.dark)
     }
 }
@@ -91,9 +91,15 @@ extension FeedVideoCellView{
     private var videoInfoSection: some View{
         VStack(alignment: .leading, spacing: 16){
             HStack{
-                UserAvatarView(image: video.owner.image, size: .init(width: 30, height: 30))
-                Text(video.owner.name)
-                    .font(.body.bold())
+                Group {
+                    UserAvatarView(image: video.owner.image, size: .init(width: 30, height: 30))
+                    Text(video.owner.name)
+                        .font(.body.bold())
+                }
+                .onTapGesture {
+                    onTapUser()
+                }
+                
                 Button {
                     
                 } label: {
