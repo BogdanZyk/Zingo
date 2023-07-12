@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct VideoFeedCreatorView: View {
+    @EnvironmentObject var uploaderManager: VideoUploaderManager
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var mainRouter: MainRouter
-    @StateObject private var viewModel = CreateVideoFeedViewModel(video: .mock)
-    
-    private var draftVideo: DraftVideo
+    @State private var draftVideo: DraftVideo
     
     init(draftVideo: DraftVideo) {
-        self.draftVideo = draftVideo
+        self._draftVideo = State(wrappedValue: draftVideo)
     }
     
     var body: some View {
@@ -31,20 +30,7 @@ struct VideoFeedCreatorView: View {
         .safeAreaInset(edge: .top, alignment: .center, spacing: 0) {
             navBarSection
         }
-        .handle(error: $viewModel.error)
-        .onChange(of: viewModel.loadState) { state in
-            if state == .load{
-                mainRouter.fullScreen = nil
-            }
-        }
-        .overlay {
-            loader
-        }
         .navigationBarBackButtonHidden(true)
-        .task {
-            viewModel.video = draftVideo
-            await viewModel.setUser()
-        }
     }
 }
 
@@ -52,6 +38,7 @@ struct VideoFeedCreatorView_Previews: PreviewProvider {
     static var previews: some View {
         VideoFeedCreatorView( draftVideo: .mock)
             .environmentObject(MainRouter())
+            .environmentObject(VideoUploaderManager(user: .mock))
     }
 }
 
@@ -65,13 +52,13 @@ extension VideoFeedCreatorView{
             .overlay(alignment: .leading) {
                 HStack{
                     IconButton(icon: .arrowLeft) {
-                        viewModel.cancel()
                         dismiss()
                     }
                     .padding(.horizontal)
                     Spacer()
                     Button {
-                        viewModel.uploadFeedVideo()
+                        uploaderManager.setVideo(draftVideo)
+                        mainRouter.fullScreen = nil
                     } label: {
                         Text("Upload")
                             .font(.headline.bold())
@@ -85,7 +72,7 @@ extension VideoFeedCreatorView{
     private var videoDescriptionSection: some View{
         HStack(alignment: .top, spacing: 0){
             Group{
-                if let image = viewModel.video.thumbnailImage{
+                if let image = draftVideo.thumbnailImage{
                     Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -97,18 +84,18 @@ extension VideoFeedCreatorView{
             .cornerRadius(10)
             Spacer()
 
-            GrowingTextInputView(text: $viewModel.video.description, isRemoveBtn: true, placeholder: "Add description", isFocused: false, minHeight: 50)
+            GrowingTextInputView(text: $draftVideo.description, isRemoveBtn: true, placeholder: "Add description", isFocused: false, minHeight: 50)
         }
     }
 
     private var settings: some View{
         Group{
-            Toggle(isOn: $viewModel.isDisabledComments){
+            Toggle(isOn: $draftVideo.isDisabledComments){
                 Text("Disable comments")
                     .font(.body.bold())
                     .foregroundColor(.white)
             }
-            Toggle(isOn: $viewModel.isHiddenLikesCount){
+            Toggle(isOn: $draftVideo.isHiddenLikesCount){
                 Text("Hidden likes count")
                     .font(.body.bold())
                     .foregroundColor(.white)
@@ -117,27 +104,42 @@ extension VideoFeedCreatorView{
         .tint(Color.accentPink)
     }
 
-    @ViewBuilder
-    private var loader: some View{
-        if viewModel.loadState == .loading{
-            ZStack{
-                Color.black.opacity(0.5).ignoresSafeArea()
-                ZStack {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.darkGray)
-                    VStack(spacing: 25) {
-                        Text("Upload video")
-                            .bold()
-                            .foregroundColor(.white)
-                        ProgressView()
-                            .tint(.accentPink)
-                        Button("Cancel"){
-                            viewModel.cancel()
-                        }
-                    }
-                }
-                .frame(width: 200, height: 150)
-            }
-        }
-    }
+//    @ViewBuilder
+//    private var loader: some View{
+//        if viewModel.loadState == .loading{
+//            ZStack{
+//                Color.black.opacity(0.5).ignoresSafeArea()
+//                ZStack {
+//                    RoundedRectangle(cornerRadius: 12)
+//                        .fill(Color.darkGray)
+//                    VStack(spacing: 25) {
+//                        Text("Upload video")
+//                            .bold()
+//                            .foregroundColor(.white)
+//
+//                        Text("\(viewModel.persent)%")
+//                            .bold()
+//                            .foregroundColor(.white)
+////                        ProgressView()
+////                            .tint(.accentPink)
+//                        Button("Cancel"){
+//                            viewModel.cancelTask()
+//                        }
+//
+//                        Button {
+//                            viewModel.pause()
+//                        } label: {
+//                            Text("Pause")
+//                        }
+//                        Button {
+//                            viewModel.resume()
+//                        } label: {
+//                            Text("Resume")
+//                        }
+//                    }
+//                }
+//                .frame(width: 200, height: 250)
+//            }
+//        }
+//    }
 }

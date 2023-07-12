@@ -23,7 +23,7 @@ final class StorageManager{
         storage.child("users").child(uid)
     }
     
-    func getPathForImage(_ path: String) -> StorageReference{
+    func getPath(_ path: String) -> StorageReference{
         Storage.storage().reference(withPath: path)
     }
     
@@ -37,7 +37,7 @@ final class StorageManager{
             throw AppError.custom(errorDescription: "Failed upload image")
         }
         try Task.checkCancellation()
-        let fullPath = try await getUrlForImage(path: path).absoluteString
+        let fullPath = try await getFullPathUrl(path: path).absoluteString
         
         return .init(path: path, fullPath: fullPath)
     }
@@ -60,10 +60,23 @@ final class StorageManager{
         guard let path = returnedData.path else {
             throw AppError.custom(errorDescription: "Failed upload video")
         }
-        let fullPath = try await getUrlForImage(path: path).absoluteString
+        let fullPath = try await getFullPathUrl(path: path).absoluteString
     
         return .init(path: path, fullPath: fullPath, thumbImage: uploadedThumbImage)
     }
+    
+    
+    func createUploadVideoTask(videoUrl: URL, for uid: String) -> StorageUploadTask{
+    
+        let type: ImageType = .video
+        let meta = StorageMetadata()
+        meta.contentType = "video/mp4"
+        let name = "\(UUID().uuidString).mp4"
+        let ref = type.getRef(uid: uid)
+    
+        return ref.child(name).putFile(from: videoUrl, metadata: meta)
+    }
+    
     
     func saveImage(image: UIImage, type: ImageType, userId: String) async throws -> StoreImage{
         let resizeImage = image.aspectFittedToHeight(type.size)
@@ -73,13 +86,12 @@ final class StorageManager{
         return try await saveImage(data, type: type, uid: userId)
     }
     
-    func getUrlForImage(path: String) async throws -> URL{
-        try await getPathForImage(path).downloadURL()
+    func getFullPathUrl(path: String) async throws -> URL{
+        try await getPath(path).downloadURL()
     }
     
     func deleteAsset(path: String) async throws{
-        print(getPathForImage(path))
-        try await getPathForImage(path).delete()
+        try await getPath(path).delete()
     }
     
     func saveImages(userId: String, images: [UIImageData], typeImage: ImageType) async throws -> [StoreImage]{

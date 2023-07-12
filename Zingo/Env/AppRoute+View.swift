@@ -28,9 +28,10 @@ extension View {
                 EditProfileView(userManager: manager)
             case .createStory(let user):
                 StoryEditorView(currentUser: user)
-            case .feedCameraView:
+            case .feedCameraView(let uploader):
                 CameraView()
                     .environmentObject(router)
+                    .environmentObject(uploader)
             }
         }
     }

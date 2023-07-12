@@ -23,7 +23,7 @@ enum FullScreenDestination: Identifiable{
     case createNewPost(User?)
     case createStory(User?)
     case editProfile(CurrentUserManager)
-    case feedCameraView
+    case feedCameraView(VideoUploaderManager)
     
     var id: Int{
         switch self {

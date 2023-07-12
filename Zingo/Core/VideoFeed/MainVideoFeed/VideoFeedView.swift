@@ -9,8 +9,16 @@ import SwiftUI
 
 struct VideoFeedView: View {
     @ObservedObject var userManager: CurrentUserManager
-    @StateObject private var viewModel = MainVideoFeedViewModel()
     @EnvironmentObject var mainRouter: MainRouter
+    @StateObject private var viewModel = MainVideoFeedViewModel()
+    @StateObject private var uploaderManager: VideoUploaderManager
+    
+    
+    init(userManager: CurrentUserManager){
+        self._userManager = ObservedObject(wrappedValue: userManager)
+        self._uploaderManager = StateObject(wrappedValue: VideoUploaderManager(user: userManager.user))
+    }
+    
     var body: some View {
         ZStack{
             Color.black.ignoresSafeArea()
@@ -46,6 +54,11 @@ struct VideoFeedView: View {
                 EmptyView()
             }
         }
+        .overlay(alignment: .top) {
+            if uploaderManager.showUploaderView{
+                UploaderView(uploader: uploaderManager)
+            }
+        }
     }
 }
 
@@ -66,7 +79,7 @@ extension VideoFeedView{
                 .font(.title2.bold())
             Spacer()
             Button {
-                mainRouter.setFullScreen(.feedCameraView)
+                mainRouter.setFullScreen(.feedCameraView(uploaderManager))
             } label: {
                 Image(systemName: "camera.fill")
             }

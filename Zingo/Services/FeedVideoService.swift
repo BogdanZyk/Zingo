@@ -41,15 +41,14 @@ final class FeedVideoService{
         return Int(truncating: snapshot.count)
     }
     
-    func createFeedVideo(owner: ShortUser, draftVideo: DraftVideo,
+    func createFeedVideo(owner: ShortUser, video: StoreVideo,
+                         description: String?,
                          isDisabledComments: Bool,
                          isHiddenLikesCount: Bool) async throws{
         
-        let video = try await StorageManager.shared.uploadVideo(videoUrl: draftVideo.url, thumbImage: draftVideo.thumbnailImage, for: owner.id)
-        
         let feedVideo = FeedVideo(owner: owner,
                                   video: video,
-                                  description: draftVideo.description,
+                                  description: description ?? "",
                                   isDisabledComments: isDisabledComments,
                                   isHiddenLikesCount: isHiddenLikesCount)
         

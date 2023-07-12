@@ -17,6 +17,8 @@ struct DraftVideo{
     var thumbnailImage: UIImage?
     var rate: Float = 1.0
     var description: String?
+    var isDisabledComments = false
+    var isHiddenLikesCount = false
     
     var recordsURl: [URL]
     
