@@ -104,7 +104,7 @@ extension CameraView{
     }
 
     private var recordTimer: some View{
-        Text(cameraManager.recordedDuration.formatterTimeString())
+        Text(cameraManager.recordedDuration.humanReadableShortTime())
             .font(.title3.bold())
             .foregroundColor(.white)
             .opacity(cameraManager.isRecording || cameraManager.timeLimitActive ? 1 : 0)

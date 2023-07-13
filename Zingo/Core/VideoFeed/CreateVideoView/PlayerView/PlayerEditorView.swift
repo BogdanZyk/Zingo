@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PlayerEditorView: View {
+    @State private var rangeDuration: ClosedRange<Double> = 0...5
     @Environment(\.dismiss) private var dismiss
     @StateObject private var playerManager: VideoPlayerManager
     @State var isPresentedCreator: Bool = false
@@ -27,7 +28,8 @@ struct PlayerEditorView: View {
                         .onTapGesture {
                             playerManager.action()
                         }
-                    timeSlider
+                    trimVideoSlider
+                    //timeSlider
                 }
                 
                 bottomSection
@@ -76,6 +78,16 @@ extension PlayerEditorView{
         }
     }
     
+    @ViewBuilder
+    private var trimVideoSlider: some View{
+        if let video = playerManager.video{
+            VideoTrimBarSlider(videoURL: video.url, videoRange: video.rangeDuration, editedRange: $rangeDuration, currentTime: $playerManager.currentTime, onTapTrim: playerManager.action, seek: playerManager.seek)
+                .vBottom()
+                .padding()
+        }
+       
+    }
+    
     private var timeSlider: some View{
         Slider(value: Binding(get: {
             playerManager.currentTime
@@ -87,7 +99,7 @@ extension PlayerEditorView{
         } minimumValueLabel: {
             Text("")
         } maximumValueLabel: {
-            Text(video.originalDuration.formatterTimeString())
+            Text(video.originalDuration.humanReadableShortTime())
                 .font(.body.weight(.medium))
         } onEditingChanged: { changed in
             print(changed)

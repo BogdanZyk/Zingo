@@ -37,10 +37,23 @@ extension UIImage {
         context.rotate(by: CGFloat(radians))
         // Draw the image at its center
         self.draw(in: CGRect(x: -self.size.width/2, y: -self.size.height/2, width: self.size.width, height: self.size.height))
-
+        
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-
+        
         return newImage
     }
+    
+    
+    
+    /// Resize image
+    /// Return new UIImage with needed size and scale
+    func resize(to size: CGSize, scale: CGFloat = 1.0) -> UIImage{
+        let format = UIGraphicsImageRendererFormat.default()
+        format.scale = scale
+        let renderer = UIGraphicsImageRenderer(size: size, format: format)
+        return renderer.image { _ in draw(in: CGRect(origin: .zero, size: size))}
+    }
+    
+    
 }
