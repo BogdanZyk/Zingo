@@ -25,6 +25,8 @@ final class VideoPlayerManager: ObservableObject{
     private var currentDurationRange: ClosedRange<Double>?
     private var isSeekInProgress: Bool = false
     
+    /// Reached the end time of the video
+    private var isReachedEndTime: Bool = false
 
     init(video: DraftVideo){
         loadVideo(video)
@@ -53,6 +55,7 @@ final class VideoPlayerManager: ObservableObject{
         self.videoPlayer = AVPlayer(url: video.url)
         self.currentDurationRange = video.rangeDuration
         self.startControlStatusSubscriptions()
+        self.setDidFinishPlayingObserver()
     }
     
     /// Play or pause video
@@ -112,24 +115,17 @@ final class VideoPlayerManager: ObservableObject{
         
         AVAudioSession.sharedInstance().configurePlaybackSession()
         
-        if let currentDurationRange{
-            if currentTime >= currentDurationRange.upperBound{
-                seek(currentDurationRange.lowerBound)
-            }else{
-                seek(videoPlayer.currentTime().seconds)
-            }
+        if isReachedEndTime{
+            seek(currentDurationRange?.lowerBound ?? 0)
+            isReachedEndTime = false
+        }else{
+            seek(currentTime)
         }
         videoPlayer.play()
         
         if let rate{
             self.rate = rate
             videoPlayer.rate = rate
-        }
-
-        if isPlaying{
-            NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: videoPlayer.currentItem, queue: .main) { _ in
-                self.playerDidFinishPlaying()
-            }
         }
     }
      
@@ -141,6 +137,7 @@ final class VideoPlayerManager: ObservableObject{
          videoPlayer.seek(to: CMTimeMakeWithSeconds(seconds, preferredTimescale: 600), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero) {[weak self] isFinished in
              guard let self = self else {return}
              if isFinished{
+                 self.handleReachedEndTime(seconds, withPause: false)
                  self.isSeekInProgress = false
              }else{
                  self.seek(seconds)
@@ -162,9 +159,7 @@ final class VideoPlayerManager: ObservableObject{
             if self.isPlaying{
                 let time = time.seconds
                 
-                if let currentDurationRange = self.currentDurationRange, time >= currentDurationRange.upperBound{
-                    self.pause()
-                }
+                self.handleReachedEndTime(time, withPause: true)
 
                 switch self.scrubState {
                 case .reset:
@@ -179,14 +174,28 @@ final class VideoPlayerManager: ObservableObject{
     }
     
     /// Did finish action seek to zero
-    private func playerDidFinishPlaying() {
-        seek(currentDurationRange?.lowerBound ?? 0)
+    private func setDidFinishPlayingObserver(){
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: videoPlayer.currentItem, queue: .main) { [weak self] _ in
+            guard let self = self else {return}
+            self.pause()
+            self.isReachedEndTime = true
+        }
     }
     
     /// Remove all time observers
     private func removeTimeObserver(){
         if let timeObserver = timeObserver {
             videoPlayer.removeTimeObserver(timeObserver)
+        }
+    }
+    
+    /// Handle is reached end video time
+    private func handleReachedEndTime(_ time: Double, withPause: Bool){
+        if time.rounded(toPlaces: 2) >= currentDurationRange?.upperBound ?? 0{
+            isReachedEndTime = true
+            if withPause{
+                pause()
+            }
         }
     }
     
