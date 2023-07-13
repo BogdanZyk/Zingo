@@ -83,15 +83,17 @@ extension PostView{
                 }
                 Spacer()
             }
-            .contentShape(Rectangle())
             .onTapGesture {
                 onTapUser?(post.owner.id)
             }
-            Button {
-                onRemove?(post.id)
+            
+            Menu {
+                menuButtons
             } label: {
                 Image(systemName: "ellipsis")
+                    .font(.body.bold())
                     .foregroundColor(.lightGray)
+                    .padding([.leading, .vertical])
             }
         }
     }
@@ -131,7 +133,7 @@ extension PostView{
             buttonIcon(.like(post.likeCount))
             buttonIcon(.comment(post.comments))
             Spacer()
-            buttonIcon(.save)
+
         }
         .overlay(alignment: .center) {
             pageControlView(images: post.images)
@@ -148,8 +150,6 @@ extension PostView{
                 }
             case .comment:
                 showComments.toggle()
-            case .save:
-                break
             }
         } label: {
             HStack(spacing: 5){
@@ -164,8 +164,6 @@ extension PostView{
                         Text(verbatim: String(value))
                     case .comment(let value):
                         Text(verbatim: String(value))
-                    case .save:
-                        EmptyView()
                     }
                 }
                 .font(.caption.weight(.medium))
@@ -176,13 +174,12 @@ extension PostView{
     
     enum PostStats{
         
-        case like(Int), comment(Int), save
+        case like(Int), comment(Int)
         
         var image: String{
             switch self{
             case .like: return Icon.like.rawValue
             case .comment: return Icon.bubble.rawValue
-            case .save: return Icon.bookmark.rawValue
             }
         }
         
@@ -190,7 +187,6 @@ extension PostView{
             switch self{
             case .like: return 0
             case .comment: return 1
-            case .save: return 3
             }
         }
     }
@@ -240,6 +236,31 @@ extension PostView{
                             .fill(selectionImage == index ? Color.accentPink : .lightGray)
                             .frame(width: 6, height: 6)
                     }
+                }
+            }
+        }
+    }
+    
+    private var menuButtons: some View{
+        Group{
+            
+            Button {
+               
+            } label: {
+                Label("Share", systemImage: "arrowshape.turn.up.right.fill")
+            }
+
+            Button {
+                onTapUser?(post.owner.id)
+            } label: {
+                Label(post.owner.name, systemImage: "person.fill")
+            }
+            
+            if currentUserId == post.owner.id{
+                Button(role: .destructive) {
+                    onRemove?(post.id)
+                } label: {
+                    Label("Remove", systemImage: "trash.fill")
                 }
             }
         }

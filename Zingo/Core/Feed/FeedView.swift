@@ -75,10 +75,12 @@ extension FeedView{
     
     
     private var postsListView: some View{
-        PostsListView(router: router, posts: $viewModel.posts,
+        PostsListView(router: router,
+                      posts: $viewModel.posts,
                       shouldNextPageLoader: viewModel.shouldNextPageLoader,
                       currentUserId: currentUser?.id ?? "",
-                      fetchNextPage: viewModel.fetchPosts)
+                      fetchNextPage: viewModel.fetchPosts,
+                      onRemove: viewModel.removePost)
     }
     
     private var loaderView: some View{

@@ -25,7 +25,6 @@ class FeedViewModel: ObservableObject{
     
     
     func fetchPosts(){
-        print("fetchPosts now")
         Task{
             let (posts, lastDoc) = try await postService.fetchPaginatedPosts(lastDocument: lastDoc.lastDocument)
             await MainActor.run {
@@ -49,7 +48,8 @@ class FeedViewModel: ObservableObject{
     
     func removePost(_ postId: String){
         Task{
-            try await postService.removePost(for: postId)
+            guard let pathImages = posts.first(where: {$0.id == postId})?.images.map({$0.path}) else { return }
+            try await postService.removePost(for: postId, pathImages: pathImages)
             await MainActor.run {
                 posts.removeAll(where:{$0.id == postId})
                 totalCountPosts -= 1
@@ -61,7 +61,6 @@ class FeedViewModel: ObservableObject{
         Task{
             let total = try await postService.getTotalCountPosts()
             await MainActor.run {
-                print("total posts", total)
                 self.totalCountPosts = total
             }
         }

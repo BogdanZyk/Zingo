@@ -25,7 +25,7 @@ class CreatePostViewModel: ObservableObject{
     }
     
     var isValid: Bool{
-        !(text.orEmpty.isEmpty) || !(imagesData.isEmpty)
+        !imagesData.isEmpty
     }
 
     func createPost(onCreate: @escaping () -> Void){

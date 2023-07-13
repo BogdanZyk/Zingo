@@ -48,8 +48,12 @@ final class PostService{
         
     }
     
-    func removePost(for id: String) async throws{
-       try await getPostDocumentRef(id).delete()
+    func removePost(for id: String, pathImages: [String]) async throws{
+        try await getPostDocumentRef(id).delete()
+        
+        for path in pathImages {
+            try? await StorageManager.shared.deleteAsset(path: path)
+        }
     }
     
     
