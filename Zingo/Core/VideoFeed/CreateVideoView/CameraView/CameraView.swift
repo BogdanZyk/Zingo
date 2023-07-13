@@ -32,9 +32,9 @@ struct CameraView: View {
                             closeButton
                             totalRecordTimeButton
                         }
+                        Spacer()
+                        changeCameraButton
                     }
-                    Spacer()
-                    changeCameraButton
                 }
             }
             .navigationDestination(isPresented: $showVideoEditor) {
@@ -63,9 +63,10 @@ extension CameraView{
         }
     }
     
+    
     private var changeCameraButton: some View{
         Button {
-            cameraManager.switchCameraAndStart()
+            cameraManager.switchCamera()
         } label: {
             buttonLabel("arrow.triangle.2.circlepath")
         }
@@ -89,7 +90,7 @@ extension CameraView{
                      progress: cameraManager.recordedDuration,
                      isDisabled: cameraManager.timeLimitActive){
             if cameraManager.isRecording{
-                cameraManager.stopRecord(.user)
+                cameraManager.stopRecord()
             }else{
                 cameraManager.startRecording()
             }
@@ -111,9 +112,11 @@ extension CameraView{
     
     @ViewBuilder
     private var nextButton: some View{
-        if cameraManager.draftVideo != nil && !cameraManager.isRecording && !cameraManager.isExporting{
-            ButtonView(label: "Next", type: .primary, height: 40, font: .body.bold()) {
-                showVideoEditor.toggle()
+        if cameraManager.isThereRecords && !cameraManager.isRecording{
+            ButtonView(label: "Next", showLoader: cameraManager.isExporting, type: .primary, height: 40, font: .body.bold()) {
+                cameraManager.createVideo {
+                    showVideoEditor.toggle()
+                }
             }
             .frame(width: 80)
         }

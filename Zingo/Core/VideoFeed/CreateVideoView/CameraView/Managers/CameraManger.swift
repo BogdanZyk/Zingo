@@ -22,8 +22,10 @@ final class CameraManager: NSObject, ObservableObject{
     @Published private(set) var draftVideo: DraftVideo?
     @Published private(set) var recordedDuration: Double = .zero
     @Published private(set) var isExporting: Bool = false
+    @Published private(set) var isRecording: Bool = false
     @Published var cameraPosition: AVCaptureDevice.Position = .front
     @Published var recordTime: RecordTime = .half
+    
     
     private var timer: Timer?
     private let sessionQueue = DispatchQueue(label: "com.Zingo.recorder")
@@ -31,14 +33,13 @@ final class CameraManager: NSObject, ObservableObject{
     var cameraInput: AVCaptureDeviceInput?
     private var status: Status = .unConfig
     private var recordsURl = [URL]()
-    private var stopInitiatorType: StopInitiator = .empty
-    
-    var isRecording: Bool{
-        videoOutput.isRecording
-    }
     
     var timeLimitActive: Bool{
         recordedDuration >= Double(recordTime.rawValue)
+    }
+    
+    var isThereRecords: Bool{
+        !recordsURl.isEmpty
     }
     
     override init(){
@@ -51,22 +52,6 @@ final class CameraManager: NSObject, ObservableObject{
         sessionQueue.async {
             self.configCaptureSession()
             self.session.startRunning()
-        }
-    }
-    
-    func controllSession(start: Bool){
-        guard status == .config else {
-            config()
-            return
-        }
-        sessionQueue.async {
-            if start{
-                if !self.session.isRunning{
-                    self.session.startRunning()
-                }
-            }else{
-                self.session.stopRunning()
-            }
         }
     }
     
@@ -160,12 +145,15 @@ final class CameraManager: NSObject, ObservableObject{
     
     
    private func getCameraDevice(for position: AVCaptureDevice.Position) -> AVCaptureDevice? {
-        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInTripleCamera, .builtInTelephotoCamera, .builtInDualCamera, .builtInTrueDepthCamera, .builtInDualWideCamera], mediaType: AVMediaType.video, position: .unspecified)
+       
+       ///Search devices for params
+        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInTripleCamera, .builtInTelephotoCamera, .builtInDualCamera, .builtInWideAngleCamera], mediaType: AVMediaType.video, position: .unspecified)
+       
         for device in discoverySession.devices {
             if device.position == position {
                 
                 try? device.lockForConfiguration()
-                device.videoZoomFactor = 1.5
+                device.videoZoomFactor = 1
                 if position == .back{
                     device.focusMode = .autoFocus
                 }
@@ -177,16 +165,14 @@ final class CameraManager: NSObject, ObservableObject{
         return nil
     }
     
-    func stopRecord(_ type: StopInitiator){
+    func stopRecord(){
         print("stop")
-        self.stopInitiatorType = type
         timer?.invalidate()
         timer = nil
         videoOutput.stopRecording()
     }
     
     func startRecording(){
-        ///Temporary URL for recording Video
         let tempURL = URL.temporaryDirectory.appending(path: "record_\(Date().ISO8601Format()).mp4")
         videoOutput.startRecording(to: tempURL, recordingDelegate: self)
         videoOutput.maxRecordedDuration = .init(seconds: Double(recordTime.rawValue), preferredTimescale: CMTimeScale(NSEC_PER_SEC))
@@ -211,20 +197,8 @@ final class CameraManager: NSObject, ObservableObject{
 
 extension CameraManager{
     
-    
-    
-    func switchCameraAndStart(){
-        stopRecord(.onSwitch)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.switchCamera()
-            if self.isRecording{
-                self.startRecording()
-            }
-        }
-    }
-    
-    private func switchCamera() {
-        
+
+    func switchCamera(){
         
         //Indicate that some changes will be made to the session
         session.beginConfiguration()
@@ -269,7 +243,7 @@ extension CameraManager{
             recordedDuration += 0.1
         }else{
             print("auto stop")
-            stopRecord(.auto)
+            stopRecord()
         }
     }
     
@@ -285,7 +259,14 @@ extension CameraManager{
 
 
 extension CameraManager: AVCaptureFileOutputRecordingDelegate{
+    
+    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
+        self.isRecording = true
+    }
+    
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        
+        self.isRecording = false
         
         if let error{
             self.error = .outputError(error)
@@ -293,31 +274,24 @@ extension CameraManager: AVCaptureFileOutputRecordingDelegate{
         }
         
         self.recordsURl.append(outputFileURL)
-        
-        if stopInitiatorType != .onSwitch{
-            mergeVideos(recordsURl)
-        }
     }
     
     
-    private func mergeVideos(_ urls: [URL]){
+    func createVideo(completion: @escaping () -> Void){
+        
         isExporting = true
         Task{
             do{
-                let url = try await VideoEditorHelper.share.createVideo(for: urls)
-                setDraftVideo(url)
+                let url = try await VideoEditorHelper.share.createVideo(for: recordsURl)
+                let video = await DraftVideo(url: url, recordsURl: recordsURl)
+                await MainActor.run {
+                    self.draftVideo = video
+                    isExporting = false
+                    completion()
+                }
+                
             }catch{
                 print("Merge video error", error.localizedDescription)
-                isExporting = false
-            }
-        }
-    }
-    
-    private func setDraftVideo(_ url: URL){
-        Task{
-            let video = await DraftVideo(url: url, recordsURl: recordsURl)
-            await MainActor.run {
-                self.draftVideo = video
                 isExporting = false
             }
         }
@@ -344,10 +318,6 @@ extension CameraManager{
     }
 }
 
-extension CameraManager{
-    enum StopInitiator: Int{
-        case user, auto, onSwitch, empty
-    }
-}
+
 
 
