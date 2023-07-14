@@ -97,7 +97,8 @@ extension VideoFeedView{
                 isShowComments: viewModel.showComments,
                 onTapComment: { viewModel.openComments() },
                 onTapLike: { viewModel.likeAction($0, userId: userManager.user?.id) },
-                onTapUser: {mainRouter.navigate(to: .userProfile(id: video.owner.id))})
+                onTapUser: {mainRouter.navigate(to: .userProfile(id: video.owner.id))},
+                onRemove: {viewModel.removeVideo()})
             
             .frame(width: width)
             .rotationEffect(.degrees(-90))

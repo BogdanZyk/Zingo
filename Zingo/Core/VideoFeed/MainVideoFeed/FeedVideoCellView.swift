@@ -23,6 +23,8 @@ struct FeedVideoCellView: View {
     let onTapComment: () -> Void
     let onTapLike: (_ isLiked: Bool) -> Void
     let onTapUser: () -> Void
+    let onRemove: () -> Void
+    
     var body: some View {
         ZStack{
             
@@ -64,7 +66,7 @@ struct FeedVideoCellView: View {
 
 struct FeedVideoCellView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedVideoCellView(video: .mock, onTapComment: {}, onTapLike: {_ in}, onTapUser: {})
+        FeedVideoCellView(video: .mock, onTapComment: {}, onTapLike: {_ in}, onTapUser: {}, onRemove: {})
             .preferredColorScheme(.dark)
     }
 }
@@ -124,11 +126,17 @@ extension FeedVideoCellView{
         Group{
             let didLike = video.didLike(currentUserId)
             VideoActionButton(type: .like(video.isHiddenLikesCount ? 0 : video.likeCount, didLike), action: { onTapLike(didLike) })
-            if !video.isDisabledComments{
-                VideoActionButton(type: .comment(video.comments), action: onTapComment)
-            }
+            VideoActionButton(type: .comment(video.comments), action: onTapComment, isBlock: video.isDisabledComments)
             VideoActionButton(type: .share, action: {})
-            VideoActionButton(type: .more, action: {})
+            
+            Menu {
+                menuButtons
+            } label: {
+                Image(systemName: "ellipsis")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 16)
+            }
         }
     }
     
@@ -165,11 +173,37 @@ extension FeedVideoCellView{
             showThumbImage = false
         }
     }
+    
+    private var menuButtons: some View{
+        Group{
+            
+            Button {
+               
+            } label: {
+                Label("Share", systemImage: "arrowshape.turn.up.right.fill")
+            }
+
+            Button {
+                onTapUser()
+            } label: {
+                Label(video.owner.name, systemImage: "person.fill")
+            }
+            
+            if currentUserId == video.owner.id{
+                Button(role: .destructive) {
+                    onRemove()
+                } label: {
+                    Label("Remove", systemImage: "trash.fill")
+                }
+            }
+        }
+    }
 }
 
 struct VideoActionButton: View{
     let type: VideoAction
     let action: () -> Void
+    var isBlock: Bool = false
     var body: some View{
         Button {
             action()
@@ -180,13 +214,21 @@ struct VideoActionButton: View{
                     .aspectRatio(contentMode: .fit)
                     .frame(width: type.size)
                 
-                if let value = type.value, value > 0{
-                    Text("\(value)")
-                        .font(.subheadline.bold())
-                        .foregroundColor(.white)
+                Group{
+                    if isBlock{
+                        Text("Block")
+                    }else{
+                        if let value = type.value, value > 0{
+                            Text("\(value)")
+                        }
+                    }
                 }
+                .font(.subheadline.bold())
+                .foregroundColor(.white)
             }
         }
+        .opacity(isBlock ? 0.5 : 1)
+        .disabled(isBlock)
     }
 }
 
@@ -194,7 +236,7 @@ struct VideoActionButton: View{
 
 enum VideoAction {
     
-    case like(Int, Bool), comment(Int), share, more
+    case like(Int, Bool), comment(Int), share
     
     
     var id: Int{
@@ -202,7 +244,6 @@ enum VideoAction {
         case .like: return 0
         case .comment: return 1
         case .share: return 2
-        case .more: return 3
         }
     }
     
@@ -211,7 +252,6 @@ enum VideoAction {
         case .like(_, let isLiked): return isLiked ? "heart.fill" : "heart"
         case .comment: return "message"
         case .share: return "paperplane"
-        case .more: return "ellipsis"
         }
     }
     
@@ -219,7 +259,7 @@ enum VideoAction {
         switch self {
         case .like(let value, _): return value
         case .comment(let value): return value
-        case .share, .more: return nil
+        case .share: return nil
         }
     }
     
@@ -227,7 +267,6 @@ enum VideoAction {
         switch self {
         case .like, .comment: return 32
         case .share: return 26
-        case .more: return 16
         }
     }
 }

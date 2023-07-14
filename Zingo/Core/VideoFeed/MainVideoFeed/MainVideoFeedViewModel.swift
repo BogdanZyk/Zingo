@@ -86,6 +86,10 @@ class MainVideoFeedViewModel: ObservableObject{
         guard let index = videos.firstIndex(where: {$0.id == currentVideoId}) else {return}
         videos[index].comments = count
     }
+    
+    func removeVideo(){
+        videos.removeAll(where: {$0.id == currentVideoId})
+    }
 }
 
 
