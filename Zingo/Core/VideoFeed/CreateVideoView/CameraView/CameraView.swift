@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct CameraView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var cameraManager = CameraManager()
     @State private var showVideoEditor: Bool = false
-    @State var scale: CGFloat = 1
+    @State private var selectedPickerItem: PhotosPickerItem?
+    @State private var selectedVideo: DraftVideo?
+    @State private var showPickerLoader: Bool = false
+    @State private var scale: CGFloat = 1
     var body: some View {
         NavigationStack {
             ZStack{
@@ -41,6 +45,22 @@ struct CameraView: View {
                 if let video = cameraManager.draftVideo{
                     PlayerEditorView(video: video)
                 }
+            }
+        }
+        .fullScreenCover(item: $selectedVideo) { video in
+            VideoEditorPreview(video: video, recordTime: .full, onSave: cameraManager.setVideo)
+        }
+        .onChange(of: selectedPickerItem) { item in
+            Task{
+               await loadVideoItem(item)
+            }
+        }
+        .overlay {
+            if showPickerLoader{
+                Color.darkBlack.opacity(0.5).ignoresSafeArea()
+                ProgressView()
+                    .tint(.accentPink)
+                    .scaleEffect(1.5)
             }
         }
     }
@@ -97,8 +117,12 @@ extension CameraView{
         }
         .disabled(cameraManager.isExporting)
         .hCenter()
-        .overlay(alignment: .trailing) {
-            nextButton
+        .overlay {
+            HStack {
+                videoPickerButton
+                Spacer()
+                nextButton
+            }
         }
         .padding()
     }
@@ -133,6 +157,33 @@ extension CameraView{
                 .background(Color.white.opacity(0.3))
                 .clipShape(Circle())
                 .padding()
+        }
+    }
+    
+    @ViewBuilder
+    private var videoPickerButton: some View{
+        if !cameraManager.isRecording{
+            PhotosPicker(selection: $selectedPickerItem, matching: .videos, photoLibrary: .shared()) {
+                Image(systemName: "plus")
+                    .font(.title3)
+                    .bold()
+                    .padding(16)
+                    .background(Color.lightGray)
+                    .cornerRadius(15)
+            }
+        }
+    }
+    
+    func loadVideoItem(_ selectedItem: PhotosPickerItem?) async{
+        showPickerLoader = true
+        do {
+            if let item = try await selectedItem?.loadTransferable(type: VideoItem.self) {
+                self.selectedVideo = await .init(url: item.url, recordsURl: [])
+                showPickerLoader = false
+            }
+        } catch {
+            print(error.localizedDescription)
+            showPickerLoader = false
         }
     }
 }

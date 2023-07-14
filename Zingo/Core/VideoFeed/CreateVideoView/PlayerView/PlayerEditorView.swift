@@ -28,8 +28,7 @@ struct PlayerEditorView: View {
                         .onTapGesture {
                             playerManager.action()
                         }
-                    trimVideoSlider
-                    //timeSlider
+                    timeSlider
                 }
                 
                 bottomSection
@@ -76,16 +75,6 @@ extension PlayerEditorView{
                 .padding(20)
                 .background(Material.ultraThinMaterial, in: Circle())
         }
-    }
-    
-    @ViewBuilder
-    private var trimVideoSlider: some View{
-        if let video = playerManager.video{
-            VideoTrimBarSlider(videoURL: video.url, videoRange: video.rangeDuration, editedRange: $rangeDuration, currentTime: $playerManager.currentTime, onTapTrim: playerManager.action, seek: playerManager.seek)
-                .vBottom()
-                .padding()
-        }
-       
     }
     
     private var timeSlider: some View{

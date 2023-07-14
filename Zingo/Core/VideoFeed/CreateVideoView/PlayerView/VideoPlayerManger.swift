@@ -113,7 +113,7 @@ final class VideoPlayerManager: ObservableObject{
     /// Play for rate and durationRange
     private func play(_ rate: Float?){
         
-        AVAudioSession.sharedInstance().configurePlaybackSession()
+        //AVAudioSession.sharedInstance().configurePlaybackSession()
         
         if isReachedEndTime{
             seek(currentDurationRange?.lowerBound ?? 0)

@@ -9,7 +9,9 @@ import Foundation
 import UIKit
 import AVFoundation
 
-struct DraftVideo{
+struct DraftVideo: Identifiable{
+    
+    var id: String { url.lastPathComponent }
     
     var url: URL
     let originalDuration: Double

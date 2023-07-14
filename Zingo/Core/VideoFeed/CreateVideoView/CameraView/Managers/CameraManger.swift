@@ -296,6 +296,11 @@ extension CameraManager: AVCaptureFileOutputRecordingDelegate{
             }
         }
     }
+    
+    func setVideo(_ video: DraftVideo){
+        self.recordsURl.append(video.url)
+        self.recordedDuration += video.originalDuration
+    }
 }
 
 
@@ -311,11 +316,9 @@ enum CameraError: Error{
     case outputError(Error)
 }
 
-extension CameraManager{
-    enum RecordTime: Int{
-        case half = 30
-        case full = 15
-    }
+enum RecordTime: Int{
+    case half = 30
+    case full = 15
 }
 
 

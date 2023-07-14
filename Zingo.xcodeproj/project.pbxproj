@@ -123,6 +123,8 @@
 		5AA2FF3F2A49D5B20005D8D2 /* FeedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA2FF3E2A49D5B20005D8D2 /* FeedVideo.swift */; };
 		5AA2FF412A49D6600005D8D2 /* FeedVideoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA2FF402A49D6600005D8D2 /* FeedVideoService.swift */; };
 		5AA2FF442A49DDB30005D8D2 /* VideoUploaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA2FF432A49DDB30005D8D2 /* VideoUploaderManager.swift */; };
+		5ABC9DC12A6139BE00637BAB /* VideoEditorPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC9DC02A6139BE00637BAB /* VideoEditorPreview.swift */; };
+		5ABC9DC32A6142A700637BAB /* VideoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC9DC22A6142A700637BAB /* VideoItem.swift */; };
 		5AC5CD442A3077AC00E901A2 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5CD432A3077AC00E901A2 /* Double.swift */; };
 		5ADD382F2A580F0100383B33 /* FbConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD382E2A580F0100383B33 /* FbConstants.swift */; };
 		5ADD38312A58123400383B33 /* FBListenerResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD38302A58123400383B33 /* FBListenerResult.swift */; };
@@ -240,6 +242,8 @@
 		5AA2FF3E2A49D5B20005D8D2 /* FeedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVideo.swift; sourceTree = "<group>"; };
 		5AA2FF402A49D6600005D8D2 /* FeedVideoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVideoService.swift; sourceTree = "<group>"; };
 		5AA2FF432A49DDB30005D8D2 /* VideoUploaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoUploaderManager.swift; sourceTree = "<group>"; };
+		5ABC9DC02A6139BE00637BAB /* VideoEditorPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditorPreview.swift; sourceTree = "<group>"; };
+		5ABC9DC22A6142A700637BAB /* VideoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoItem.swift; sourceTree = "<group>"; };
 		5AC5CD432A3077AC00E901A2 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		5ADD382E2A580F0100383B33 /* FbConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FbConstants.swift; sourceTree = "<group>"; };
 		5ADD38302A58123400383B33 /* FBListenerResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBListenerResult.swift; sourceTree = "<group>"; };
@@ -402,6 +406,7 @@
 				5A74182B2A263810004EBDDD /* Story.swift */,
 				5A398EEA2A3E5120003FE261 /* DraftVideo.swift */,
 				5AA2FF3E2A49D5B20005D8D2 /* FeedVideo.swift */,
+				5ABC9DC22A6142A700637BAB /* VideoItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -633,6 +638,7 @@
 		5A5B574D2A2F31A50042A072 /* CreateVideoView */ = {
 			isa = PBXGroup;
 			children = (
+				5ABC9DBF2A6139A100637BAB /* VideoPreview */,
 				5A23A2A52A4AE2C3009C9462 /* FeedCreatorView */,
 				5A5B573F2A2E15430042A072 /* CameraView */,
 				5A5B574C2A2F31990042A072 /* PlayerView */,
@@ -759,6 +765,14 @@
 				5A8A67602A602CE4001942BD /* VideoTrimBarSlider.swift */,
 			);
 			path = Sliders;
+			sourceTree = "<group>";
+		};
+		5ABC9DBF2A6139A100637BAB /* VideoPreview */ = {
+			isa = PBXGroup;
+			children = (
+				5ABC9DC02A6139BE00637BAB /* VideoEditorPreview.swift */,
+			);
+			path = VideoPreview;
 			sourceTree = "<group>";
 		};
 		5AFB55C02A28918800242F02 /* FollowingsFollowers */ = {
@@ -922,6 +936,7 @@
 				5A28FFF52A17B7A00068D3FD /* View.swift in Sources */,
 				5A4BADDB2A1BBE090009CD12 /* ProfileContentViewComponent.swift in Sources */,
 				5AA2FF3D2A49CA250005D8D2 /* FeedVideoCellView.swift in Sources */,
+				5ABC9DC32A6142A700637BAB /* VideoItem.swift in Sources */,
 				5A28FFD32A17A9040068D3FD /* ContentView.swift in Sources */,
 				5A80C45A2A1E5FE400C42FC0 /* Chat.swift in Sources */,
 				5A4BADC02A1B8B6F0009CD12 /* AuthenticationManager.swift in Sources */,
@@ -962,6 +977,7 @@
 				5A4BADD22A1BB1E70009CD12 /* Query.swift in Sources */,
 				5A80C4692A1FA9FD00C42FC0 /* MessageBubbleView.swift in Sources */,
 				5A4BAD9E2A1B62C50009CD12 /* PostView.swift in Sources */,
+				5ABC9DC12A6139BE00637BAB /* VideoEditorPreview.swift in Sources */,
 				5A5B574A2A2E27540042A072 /* RecordButton.swift in Sources */,
 				5A3B9C752A2735260080F9DA /* StoryService.swift in Sources */,
 				5A4BADC62A1B98B70009CD12 /* CancelBag.swift in Sources */,

@@ -53,5 +53,27 @@ class VideoEditorHelper{
             throw error
         }
     }
+    
+    
+    func trimAndRotateVideo(_ url: URL, timeRange: ClosedRange<Double>) async throws -> URL {
+        do{
+            let render = try await VideoRender(videoURL: url)
+            let outputURL = URL.documentsDirectory.appending(path: "draft_\(Date().ISO8601Format()).mp4")
+            
+            let startTime = CMTime(seconds: timeRange.lowerBound, preferredTimescale: 1000)
+            let endTime = CMTime(seconds: timeRange.upperBound, preferredTimescale: 1000)
+            let timeRange = CMTimeRange(start: startTime, end: endTime)
+            
+            render.cropTime(timeRange: timeRange)
+            render.rotate(rotateDegree: .rotateDegree270)
+    
+            
+            let _ = try await render.export(exportURL: outputURL, presetName: .exportPreset1280x720, optimizeForNetworkUse: true, frameRate: .fps30, outputFileType: .mp4)
+            return outputURL
+            
+        }catch{
+            throw error
+        }
+    }
 }
 
