@@ -90,15 +90,17 @@ extension VideoFeedView{
     
     
     private func videosSection(width: CGFloat) -> some View{
+        
         ForEach(viewModel.videos) { video in
             FeedVideoCellView(
                 video: video,
                 currentUserId: userManager.user?.id,
+                isShowCamera: mainRouter.fullScreen?.id == 3,
                 isShowComments: viewModel.showComments,
                 onTapComment: { viewModel.openComments() },
                 onTapLike: { viewModel.likeAction($0, userId: userManager.user?.id) },
                 onTapUser: {mainRouter.navigate(to: .userProfile(id: video.owner.id))},
-                onRemove: {viewModel.removeVideo()})
+                onRemove: {viewModel.removeVideo($0)})
             
             .frame(width: width)
             .rotationEffect(.degrees(-90))

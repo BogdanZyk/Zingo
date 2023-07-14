@@ -21,6 +21,7 @@ struct CommentsView: View {
          onUpdateCounter: ((Int) -> Void)? = nil){
         self._viewModel = StateObject(wrappedValue: CommentViewModel(parentId: parentId, type: type))
         self.type = type
+        self.onUpdateCounter = onUpdateCounter
     }
     
     var body: some View {

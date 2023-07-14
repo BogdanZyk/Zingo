@@ -10,7 +10,7 @@ import SwiftUI
 import VideoPlayer
 
 struct FeedVideoCellView: View {
-    let video: FeedVideo
+    var video: FeedVideo
     var currentUserId: String?
     @State var isOpacity: Bool = false
     @State private var time: CMTime = .zero
@@ -19,11 +19,12 @@ struct FeedVideoCellView: View {
     @State private var isDisappear: Bool = false
     @State var showThumbImage: Bool = false
     
+    var isShowCamera: Bool
     var isShowComments: Bool = false
     let onTapComment: () -> Void
     let onTapLike: (_ isLiked: Bool) -> Void
     let onTapUser: () -> Void
-    let onRemove: () -> Void
+    let onRemove: (FeedVideo) -> Void
     
     var body: some View {
         ZStack{
@@ -66,7 +67,7 @@ struct FeedVideoCellView: View {
 
 struct FeedVideoCellView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedVideoCellView(video: .mock, onTapComment: {}, onTapLike: {_ in}, onTapUser: {}, onRemove: {})
+        FeedVideoCellView(video: .mock, isShowCamera: false, onTapComment: {}, onTapLike: {_ in}, onTapUser: {}, onRemove: {_ in})
             .preferredColorScheme(.dark)
     }
 }
@@ -81,7 +82,7 @@ extension FeedVideoCellView{
                 videoInfoSection
             }
             Spacer()
-            VStack(spacing: 30){
+            VStack(spacing: 25){
                 actionButtons
             }
             .padding(.bottom, 50)
@@ -136,6 +137,7 @@ extension FeedVideoCellView{
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 16)
+                    .padding(.vertical, 10)
             }
         }
     }
@@ -146,7 +148,7 @@ extension FeedVideoCellView{
             DispatchQueue.main.async {
                 isOpacity = abs(minY) > 1
                 
-                isPlay = -minY < proxy.size.height && minY < 1 && !isShowComments && !isDisappear && !isShowPlay
+                isPlay = -minY < proxy.size.height && minY < 1 && !isShowComments && !isDisappear && !isShowPlay && !isShowCamera
             }
             return Color.clear
         }
@@ -191,7 +193,7 @@ extension FeedVideoCellView{
             
             if currentUserId == video.owner.id{
                 Button(role: .destructive) {
-                    onRemove()
+                    onRemove(video)
                 } label: {
                     Label("Remove", systemImage: "trash.fill")
                 }

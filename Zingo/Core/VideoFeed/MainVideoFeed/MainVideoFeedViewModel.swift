@@ -87,8 +87,13 @@ class MainVideoFeedViewModel: ObservableObject{
         videos[index].comments = count
     }
     
-    func removeVideo(){
-        videos.removeAll(where: {$0.id == currentVideoId})
+    func removeVideo(_ video: FeedVideo){
+        Task{
+            await feedVideoService.removeVideo(feedVideo: video)
+            await MainActor.run{
+                videos.removeAll(where: {$0.id == video.id})
+            }
+        }
     }
 }
 
