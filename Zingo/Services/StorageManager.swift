@@ -79,9 +79,6 @@ final class StorageManager{
     
     
     func downloadFile(from path: String, to localURL: URL) -> StorageDownloadTask{
-        print("path", path)
-        print("localURL", localURL)
-        
         return storage.child(path).write(toFile: localURL)
     }
     

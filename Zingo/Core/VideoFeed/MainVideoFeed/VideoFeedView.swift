@@ -11,12 +11,12 @@ struct VideoFeedView: View {
     @ObservedObject var userManager: CurrentUserManager
     @EnvironmentObject var mainRouter: MainRouter
     @StateObject private var viewModel = MainVideoFeedViewModel()
-    @StateObject private var uploaderManager: VideoFileManager
+    @StateObject private var videoFileManager: VideoFileManager
     
     
     init(userManager: CurrentUserManager){
         self._userManager = ObservedObject(wrappedValue: userManager)
-        self._uploaderManager = StateObject(wrappedValue: VideoFileManager(user: userManager.user))
+        self._videoFileManager = StateObject(wrappedValue: VideoFileManager(user: userManager.user))
     }
     
     var body: some View {
@@ -55,10 +55,10 @@ struct VideoFeedView: View {
             }
         }
         .overlay(alignment: .top) {
-            if uploaderManager.showUploaderView{
-                UploaderView(uploader: uploaderManager)
+            if videoFileManager.showUploaderView{
+                UploaderView(uploader: videoFileManager)
             }
-            if uploaderManager.downloadState == .loading{
+            if videoFileManager.downloadState == .loading{
                 downloadVideoLoader
             }
         }
@@ -82,13 +82,14 @@ extension VideoFeedView{
                 .font(.title2.bold())
             Spacer()
             Button {
-                mainRouter.setFullScreen(.feedCameraView(uploaderManager))
+                mainRouter.setFullScreen(.feedCameraView(videoFileManager))
             } label: {
                 Image(systemName: "camera.fill")
+                    .padding(.horizontal)
             }
         }
         .foregroundColor(.white)
-        .padding(.horizontal)
+        .padding(.leading)
     }
     
     
@@ -104,7 +105,7 @@ extension VideoFeedView{
                 onTapLike: { viewModel.likeAction($0, userId: userManager.user?.id) },
                 onTapUser: {mainRouter.navigate(to: .userProfile(id: video.owner.id))},
                 onRemove: {viewModel.removeVideo($0)},
-                onTapSave: uploaderManager.downloadVideo)
+                onTapSave: videoFileManager.downloadVideo)
             
             .frame(width: width)
             .rotationEffect(.degrees(-90))
