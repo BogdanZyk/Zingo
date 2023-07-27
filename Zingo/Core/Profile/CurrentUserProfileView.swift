@@ -53,7 +53,12 @@ struct CurrentUserProfileView: View {
             case .followerFollowing(let user, let tab):
                 FollowingsFollowersView(user: user, tab: tab)
                     .environmentObject(userManager)
-            default: EmptyView()
+            case .chats:
+                ChatView()
+            case .dialog(let conversation):
+                DialogView(participant: conversation.conversationUser, chatId: conversation.id)
+            case .dialogForId(let id):
+                DialogView(participantId: id)
             }
         }
     }
@@ -73,8 +78,10 @@ extension CurrentUserProfileView{
     @ViewBuilder
     private var profileActionButton: some View{
             VStack(spacing: 20){
-                IconButton(icon: .letter) {}
-                IconButton(icon: .bookmark) {}
+                IconButton(icon: .gear) {}
+                IconButton(icon: .letter) {
+                    router.navigate(to: .chats)
+                }
             }
             .padding(.trailing)
     }

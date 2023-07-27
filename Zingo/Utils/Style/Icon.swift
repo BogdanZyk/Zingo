@@ -24,6 +24,7 @@ enum Icon: String{
     case share = "share"
     case videoFeed = "videoIcon"
     case xmark = "xmark"
+    case gear = "gearshape"
     
     
 }
