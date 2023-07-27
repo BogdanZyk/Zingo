@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UploaderView: View {
     @Environment(\.scenePhase) var scenePhase
-    @ObservedObject var uploader: VideoUploaderManager
+    @ObservedObject var uploader: VideoFileManager
     @State var showAlert: Bool = false
     var body: some View {
         HStack{
@@ -62,7 +62,7 @@ struct UploaderView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.darkBlack
-            UploaderView(uploader: VideoUploaderManager(user: .mock))
+            UploaderView(uploader: VideoFileManager(user: .mock))
         }
     }
 }

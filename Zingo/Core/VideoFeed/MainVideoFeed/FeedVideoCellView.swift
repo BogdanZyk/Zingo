@@ -25,6 +25,7 @@ struct FeedVideoCellView: View {
     let onTapLike: (_ isLiked: Bool) -> Void
     let onTapUser: () -> Void
     let onRemove: (FeedVideo) -> Void
+    let onTapSave: (String) -> Void
     
     var body: some View {
         ZStack{
@@ -67,7 +68,7 @@ struct FeedVideoCellView: View {
 
 struct FeedVideoCellView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedVideoCellView(video: .mock, isShowCamera: false, onTapComment: {}, onTapLike: {_ in}, onTapUser: {}, onRemove: {_ in})
+        FeedVideoCellView(video: .mock, isShowCamera: false, onTapComment: {}, onTapLike: {_ in}, onTapUser: {}, onRemove: {_ in}, onTapSave: {_ in})
             .preferredColorScheme(.dark)
     }
 }
@@ -183,6 +184,12 @@ extension FeedVideoCellView{
                
             } label: {
                 Label("Share", systemImage: "arrowshape.turn.up.right.fill")
+            }
+            
+            Button {
+                onTapSave(video.video.path)
+            } label: {
+                Label("Save", systemImage: "square.and.arrow.down")
             }
 
             Button {

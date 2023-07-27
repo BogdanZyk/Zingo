@@ -11,12 +11,12 @@ struct VideoFeedView: View {
     @ObservedObject var userManager: CurrentUserManager
     @EnvironmentObject var mainRouter: MainRouter
     @StateObject private var viewModel = MainVideoFeedViewModel()
-    @StateObject private var uploaderManager: VideoUploaderManager
+    @StateObject private var uploaderManager: VideoFileManager
     
     
     init(userManager: CurrentUserManager){
         self._userManager = ObservedObject(wrappedValue: userManager)
-        self._uploaderManager = StateObject(wrappedValue: VideoUploaderManager(user: userManager.user))
+        self._uploaderManager = StateObject(wrappedValue: VideoFileManager(user: userManager.user))
     }
     
     var body: some View {
@@ -57,6 +57,9 @@ struct VideoFeedView: View {
         .overlay(alignment: .top) {
             if uploaderManager.showUploaderView{
                 UploaderView(uploader: uploaderManager)
+            }
+            if uploaderManager.downloadState == .loading{
+                downloadVideoLoader
             }
         }
     }
@@ -100,7 +103,8 @@ extension VideoFeedView{
                 onTapComment: { viewModel.openComments() },
                 onTapLike: { viewModel.likeAction($0, userId: userManager.user?.id) },
                 onTapUser: {mainRouter.navigate(to: .userProfile(id: video.owner.id))},
-                onRemove: {viewModel.removeVideo($0)})
+                onRemove: {viewModel.removeVideo($0)},
+                onTapSave: uploaderManager.downloadVideo)
             
             .frame(width: width)
             .rotationEffect(.degrees(-90))
@@ -113,6 +117,16 @@ extension VideoFeedView{
         ProgressView()
             .tint(.accentPink)
             .scaleEffect(1.5)
+    }
+    
+    private var downloadVideoLoader: some View{
+        HStack{
+            ProgressView()
+                .tint(.white)
+            Text("Saving")
+                .font(.body.bold())
+                .foregroundColor(.white)
+        }
     }
 }
 

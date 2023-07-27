@@ -78,6 +78,13 @@ final class StorageManager{
     }
     
     
+    func downloadFile(from path: String, to localURL: URL) -> StorageDownloadTask{
+        print("path", path)
+        print("localURL", localURL)
+        
+        return storage.child(path).write(toFile: localURL)
+    }
+    
     func saveImage(image: UIImage, type: ImageType, userId: String) async throws -> StoreImage{
         let resizeImage = image.aspectFittedToHeight(type.size)
         guard let data = resizeImage.jpegData(compressionQuality: type.quality) else {

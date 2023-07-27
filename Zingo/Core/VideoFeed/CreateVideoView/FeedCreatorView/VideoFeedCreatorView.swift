@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct VideoFeedCreatorView: View {
-    @EnvironmentObject var uploaderManager: VideoUploaderManager
+    @EnvironmentObject var uploaderManager: VideoFileManager
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var mainRouter: MainRouter
     @State private var draftVideo: DraftVideo
@@ -38,7 +38,7 @@ struct VideoFeedCreatorView_Previews: PreviewProvider {
     static var previews: some View {
         VideoFeedCreatorView( draftVideo: .mock)
             .environmentObject(MainRouter())
-            .environmentObject(VideoUploaderManager(user: .mock))
+            .environmentObject(VideoFileManager(user: .mock))
     }
 }
 

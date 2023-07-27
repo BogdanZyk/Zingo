@@ -7,20 +7,26 @@
 
 import Foundation
 import FirebaseStorage
+import Photos
 
 
-class VideoUploaderManager: ObservableObject{
+class VideoFileManager: ObservableObject{
     
     var video: DraftVideo?
     @Published var error: Error?
     @Published private(set) var progress: Double = 0
     @Published private(set) var loadState: LoadState = .empty
+    @Published private(set) var downloadState: LoadState = .empty
     
     private let feedVideoService = FeedVideoService.shared
     private let storage = StorageManager.shared
     private var uploadTask: StorageUploadTask?
+    private var downloadTask: StorageDownloadTask?
     private var user: User?
     
+    private let photoLibrary = PHPhotoLibrary.shared()
+    private let fileManager = FileManager.default
+    private var downloadVideoFileUrl: URL?
     
     init(user: User?) {
         self.user = user
@@ -40,7 +46,7 @@ class VideoUploaderManager: ObservableObject{
         loadState = .loading
         uploadTask = storage.createUploadVideoTask(videoUrl: video.url, for: user.id)
         
-        addObservers()
+        startUploadObservers()
     }
     
     
@@ -80,7 +86,7 @@ class VideoUploaderManager: ObservableObject{
         }
     }
     
-    private func addObservers(){
+    private func startUploadObservers(){
         guard let uploadTask else {return}
         
         uploadTask.observe(.success) { snapshot in
@@ -133,5 +139,55 @@ class VideoUploaderManager: ObservableObject{
     
     enum LoadState: Int{
         case empty, loading, load, pause, error
+    }
+}
+
+
+//MARK: - Save in lib
+
+extension VideoFileManager{
+    
+    
+    func startDownloadObservers(){
+        guard let downloadTask else {return}
+        
+        downloadTask.observe(.success){ snapshot in
+            self.saveVideoToGallery()
+        }
+//        downloadTask.observe(.progress) { snapshot in
+//
+//            print( (Double(snapshot.progress?.completedUnitCount ?? 1) / Double(snapshot.progress?.totalUnitCount ?? 1)) * 100.0)
+//
+//        }
+    }
+    
+    func downloadVideo(videoURL: String) {
+        downloadState = .loading
+        self.downloadTask?.cancel()
+        let localURL = fileManager.temporaryDirectory.appendingPathComponent("\(UUID().uuidString).mp4")
+        downloadVideoFileUrl = localURL
+        downloadTask = StorageManager.shared.downloadFile(from: videoURL, to: localURL)
+        startDownloadObservers()
+    }
+    
+    private func saveVideoToGallery(){
+        guard let downloadVideoFileUrl else { return }
+        self.photoLibrary.performChanges({
+            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: downloadVideoFileUrl)
+        }) { completed, error in
+            if completed {
+                print("Saved to gallery!")
+                self.downloadTask = nil
+                DispatchQueue.main.async {
+                    self.downloadState = .empty
+                }
+                self.fileManager.removeFileIfExists(for: downloadVideoFileUrl)
+            } else if let error = error {
+                print("photoLibrary error", error)
+                DispatchQueue.main.async {
+                    self.downloadState = .empty
+                }
+            }
+        }
     }
 }

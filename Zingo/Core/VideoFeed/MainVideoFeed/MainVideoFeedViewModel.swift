@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AVFAudio
 
 
 @MainActor
@@ -23,6 +24,7 @@ class MainVideoFeedViewModel: ObservableObject{
         fetchVideo()
         startVideoPreLoader()
         setupNcPublisher()
+        AVAudioSession.sharedInstance().configurePlaybackSession()
     }
     
     
