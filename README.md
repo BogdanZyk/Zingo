@@ -9,6 +9,7 @@ A social app for publishing posts and videos.
 - Registration by phone number
 - Create user profile
 - Update user profile
+- Follow and followers
 - Create a post with images
 - Post likes and comments
 - Messenger
