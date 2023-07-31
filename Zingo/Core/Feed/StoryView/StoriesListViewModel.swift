@@ -32,7 +32,7 @@ class StoriesListViewModel: ObservableObject{
                 let userStory = mergedStories.first(where: {currentUserId == $0.creator.id})
                 await MainActor.run{
                     self.userStory = userStory
-                    self.stories = stories
+                    self.stories = mergedStories
                 }
             }catch{
                 print(error.localizedDescription)
