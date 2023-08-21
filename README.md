@@ -35,13 +35,10 @@ iOS 16+, Swift, SwiftUI, Combine, Firebase, NukeUI, async/await
 
 ## 📷 Screenshots 
 
-## Screenshots 📷
-
-
  <div align="center">
    <img src="screenshots/feed-main.png" height="350" alt="Screenshot"/>
+  <img src="screenshots/post-coments.png" height="350" alt="Screenshot"/>
    <img src="screenshots/dialog.png" height="350" alt="Screenshot"/>
-   <img src="screenshots/post-coments.png" height="350" alt="Screenshot"/>
    <img src="screenshots/messager-chats.png" height="350" alt="Screenshot"/>
    <img src="screenshots/post-editor.png" height="350" alt="Screenshot"/>
    <img src="screenshots/feed.png" height="350" alt="Screenshot"/>
